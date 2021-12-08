@@ -1,0 +1,126 @@
+Table User {
+  id serial [pk]
+  username varchar
+  password varchar
+  email varchar
+  imageId integer
+}
+
+Table Image {
+  id serial [pk]
+  url url
+}
+
+Table Recipe {
+  id serial [pk]
+  name varchar
+  userId integer
+  steps text
+  imageId integer
+  createdAt datetime
+  updatedAt datetime
+}
+
+Table Ingredient {
+  id serial [pk]
+  name varchar
+}
+
+Table Measurement {
+  id serial [pk]
+  type varchar
+
+}
+
+Table RecipeIngredient {
+  recipeId integer
+  ingredientId integer
+  quantity numeric
+  measurementId integer
+}
+
+Table RecipeCollection {
+  id serial [pk]
+  name varchar
+  userId integer
+}
+
+Table Collection {
+  recipeId integer
+  collectionId integer
+}
+
+Table StatusType {
+  id serial [pk]
+  type varchar
+}
+
+Table RecipeStatus {
+  recipeId integer
+  statusId integer
+  userId integer
+}
+
+Table Review {
+  id serial [pk]
+  userId integer
+  recipeId integer
+  review text
+  imageId integer
+  rating integer
+}
+
+Table TagCategory {
+  id serial [pk]
+  name varchar
+}
+
+Table Tag {
+  id serial [pk]
+  name varchar
+  categoryId integer
+}
+
+Table RecipeTag {
+  tagId integer
+  recipeId integer
+}
+
+
+
+
+Ref: "Recipe"."userId" > "User"."id"
+
+Ref: "Ingredient"."id" < "RecipeIngredient"."ingredientId"
+
+Ref: "Measurement"."id" < "RecipeIngredient"."measurementId"
+
+Ref: "Recipe"."id" < "RecipeIngredient"."recipeId"
+
+Ref: "Collection"."collectionId" < "RecipeCollection"."id"
+
+Ref: "Recipe"."id" < "Collection"."recipeId"
+
+Ref: "User"."id" < "RecipeStatus"."userId"
+
+Ref: "Recipe"."id" < "RecipeStatus"."recipeId"
+
+Ref: "RecipeStatus"."statusId" > "StatusType"."id"
+
+Ref: "User"."id" < "Review"."userId"
+
+Ref: "Recipe"."id" < "Review"."recipeId"
+
+Ref: "Tag"."id" < "RecipeTag"."tagId"
+
+Ref: "Recipe"."id" < "RecipeTag"."recipeId"
+
+Ref: "TagCategory"."id" < "Tag"."categoryId"
+
+Ref: "Image"."id" < "Review"."imageId"
+
+Ref: "Image"."id" < "Recipe"."imageId"
+
+Ref: "User"."imageId" < "Image"."id"
+
+Ref: "User"."id" < "RecipeCollection"."userId"
