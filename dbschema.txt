@@ -1,0 +1,146 @@
+# **Database Schema**
+## `roles`
+| column name | data type | details                   |
+|-------------|-----------|---------------------------|
+| id          | integer   | not null, primary key     |
+| name        | string    | not null, unique          |
+
+
+## `images`
+| column name | data type | details               |
+|-------------|-----------|-----------------------|
+| id          | integer   | not null, primary key |
+| url         | url       | not null              |
+
+
+## `tagcategories`
+| column name   | data type | details               |
+|---------------|-----------|-----------------------|
+| id            | integer   | not null, primary key |
+| name          | string    | not null, unique      |
+
+
+## `tags`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| name          | string    | not null, unique               |
+| tagCategoryId | integer   | not null                       |
+
+* tagCategoryId references `tagcategories` table
+
+## `statustypes`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| type          | string    | not null, unique               |
+
+
+## `ingredients`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| name          | string    | not null, unique               |
+
+
+## `measurements`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| type          | string    | not null, unique               |
+
+
+## `userroles`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+|uuserId        | integer   | not null, unique               |
+| roleId        | integer   | not null                       |
+
+* userId references `users` table
+* roleId references `roles` table
+
+## `users`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| userName      | string    | not null, unique               |
+| password      | string    | not null                       |
+| email         | string    | not null, unique               |
+| imageId       | integer   |                                |
+
+* imageId references `images` table
+
+## `collections`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| name          | string    | not null, unique               |
+| userId        | integer   | not null                       |
+
+* userId references `users` table
+
+## `Recipes`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| name          | string    | not null                       |
+| userId        | integer   | not null                       |
+| steps         | string    | not null                       |
+| imageId       | integer   |                                |
+
+* userId references `users` table
+* imageId references `images` table
+
+## `recipecollections`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| recipeId      | integer   | not null                       |
+| collectionId  | integer   | not null                       |
+
+* recipeId references `recipes` table
+* collectionId references `collections` table
+
+## `reviews`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| id            | integer   | not null, primary key          |
+| userId        | integer   | not null                       |
+| recipeId      | integer   | not null                       |
+| review        | string    | not null                       |
+| imageId       | integer   |                                |
+| rating        | integer   | not null                       |
+
+* userId references `users` table
+* recipeId references `recipes` table
+* imageId references `images` table
+
+## `recipetags`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| tagId         | integer   | not null                       |
+| recipeId      | integer   | not null                       |
+
+* tagId references `tags` table
+
+## `recipeStatus`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| userId        | integer   | not null                       |
+| recipeId      | integer   | not null                       |
+| statusId      | integer   | not null                       |
+
+* userId references `users` table
+* recipeId references `recipes` table
+* statusId references `statuses` table
+
+## `recipeingredients`
+| column name   | data type | details                        |
+|---------------|-----------|--------------------------------|
+| recipeId      | integer   | not null                       |
+| ingredientId  | integer   | not null                       |
+| quantity      | numeric   | not null                       |
+| measurementId | integer   | not null                       |
+
+* recipeId references `recipes` table
+* ingredientId references `ingredients` table
+* measurementId references `measurements` table

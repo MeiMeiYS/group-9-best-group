@@ -1,4 +1,4 @@
-Table User {
+Table Users {
   id serial [pk]
   username varchar
   password varchar
@@ -6,12 +6,22 @@ Table User {
   imageId integer
 }
 
-Table Image {
+Table Images {
   id serial [pk]
   url url
 }
 
-Table Recipe {
+Table Roles {
+  id serial [pk]
+  name varchar
+}
+
+Table UserRoles {
+  userId integer
+  roleId integer
+}
+
+Table Recipes {
   id serial [pk]
   name varchar
   userId integer
@@ -21,47 +31,47 @@ Table Recipe {
   updatedAt datetime
 }
 
-Table Ingredient {
+Table Ingredients {
   id serial [pk]
   name varchar
 }
 
-Table Measurement {
+Table Measurements {
   id serial [pk]
   type varchar
 
 }
 
-Table RecipeIngredient {
+Table RecipeIngredients {
   recipeId integer
   ingredientId integer
   quantity numeric
   measurementId integer
 }
 
-Table RecipeCollection {
+Table Collections {
   id serial [pk]
   name varchar
   userId integer
 }
 
-Table Collection {
+Table RecipeCollections {
   recipeId integer
   collectionId integer
 }
 
-Table StatusType {
+Table StatusTypes {
   id serial [pk]
   type varchar
 }
 
-Table RecipeStatus {
+Table RecipeStatuses {
   recipeId integer
   statusId integer
   userId integer
 }
 
-Table Review {
+Table Reviews {
   id serial [pk]
   userId integer
   recipeId integer
@@ -70,57 +80,59 @@ Table Review {
   rating integer
 }
 
-Table TagCategory {
+Table TagCategories {
   id serial [pk]
   name varchar
 }
 
-Table Tag {
+Table Tags {
   id serial [pk]
   name varchar
   categoryId integer
 }
 
-Table RecipeTag {
+Table RecipeTags {
   tagId integer
   recipeId integer
 }
 
 
+Ref: "Recipes"."userId" > "Users"."id"
 
+Ref: "Ingredients"."id" < "RecipeIngredients"."ingredientId"
 
-Ref: "Recipe"."userId" > "User"."id"
+Ref: "Measurements"."id" < "RecipeIngredients"."measurementId"
 
-Ref: "Ingredient"."id" < "RecipeIngredient"."ingredientId"
+Ref: "Recipes"."id" < "RecipeIngredients"."recipeId"
 
-Ref: "Measurement"."id" < "RecipeIngredient"."measurementId"
+Ref: "RecipeCollections"."collectionId" < "Collections"."id"
 
-Ref: "Recipe"."id" < "RecipeIngredient"."recipeId"
+Ref: "Recipes"."id" < "RecipeCollections"."recipeId"
 
-Ref: "Collection"."collectionId" < "RecipeCollection"."id"
+Ref: "Users"."id" < "RecipeStatuses"."userId"
 
-Ref: "Recipe"."id" < "Collection"."recipeId"
+Ref: "Recipes"."id" < "RecipeStatuses"."recipeId"
 
-Ref: "User"."id" < "RecipeStatus"."userId"
+Ref: "RecipeStatuses"."statusId" > "StatusTypes"."id"
 
-Ref: "Recipe"."id" < "RecipeStatus"."recipeId"
+Ref: "Users"."id" < "Reviews"."userId"
 
-Ref: "RecipeStatus"."statusId" > "StatusType"."id"
+Ref: "Recipes"."id" < "Reviews"."recipeId"
 
-Ref: "User"."id" < "Review"."userId"
+Ref: "Tags"."id" < "RecipeTags"."tagId"
 
-Ref: "Recipe"."id" < "Review"."recipeId"
+Ref: "Recipes"."id" < "RecipeTags"."recipeId"
 
-Ref: "Tag"."id" < "RecipeTag"."tagId"
+Ref: "TagCategories"."id" < "Tags"."categoryId"
 
-Ref: "Recipe"."id" < "RecipeTag"."recipeId"
+Ref: "Images"."id" < "Reviews"."imageId"
 
-Ref: "TagCategory"."id" < "Tag"."categoryId"
+Ref: "Images"."id" < "Recipes"."imageId"
 
-Ref: "Image"."id" < "Review"."imageId"
+Ref: "Users"."imageId" < "Images"."id"
 
-Ref: "Image"."id" < "Recipe"."imageId"
+Ref: "Users"."id" < "Collections"."userId"
 
-Ref: "User"."imageId" < "Image"."id"
+Ref: "Roles"."id" < "UserRoles"."roleId"
 
-Ref: "User"."id" < "RecipeCollection"."userId"
+Ref: "UserRoles"."userId" < "Users"."id"
