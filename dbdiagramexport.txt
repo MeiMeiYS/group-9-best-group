@@ -25,6 +25,7 @@ Table Recipes {
   id serial [pk]
   name varchar
   userId integer
+  description text
   steps text
   imageId integer
   createdAt datetime
@@ -95,6 +96,8 @@ Table RecipeTags {
   tagId integer
   recipeId integer
 }
+
+
 
 
 Ref: "Recipes"."userId" > "Users"."id"

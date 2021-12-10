@@ -79,13 +79,14 @@
 
 * userId references `users` table
 
-## `Recipes`
+## `recipes`
 | column name   | data type | details                        |
 |---------------|-----------|--------------------------------|
 | id            | integer   | not null, primary key          |
 | name          | string    | not null                       |
+| description   | text      | not null                       |
 | userId        | integer   | not null                       |
-| steps         | string    | not null                       |
+| steps         | text      | not null                       |
 | imageId       | integer   |                                |
 
 * userId references `users` table
@@ -122,7 +123,7 @@
 
 * tagId references `tags` table
 
-## `recipeStatus`
+## `recipestatuses`
 | column name   | data type | details                        |
 |---------------|-----------|--------------------------------|
 | userId        | integer   | not null                       |
