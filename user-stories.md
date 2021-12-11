@@ -168,7 +168,47 @@
 - [ ] A user cannot delete a collection they they have not created.
 - [ ] A user will be able to create a new collection with the same name as the collection that they have deleted.
 
-### Feature
+## Recipe Reviews
+
+### Creating a Review for a Recipe
+* As a logged in user, when I am viewing a recipe on the `/recipes/:recipeId` page, I can leave a review on any recipe
+    * so that all users can see my rating and review.
+* I will be able to see a `Leave a Review` button.
+* When I click the `Leave a Review` button, I will see a form where I can enter my recipe rating and reviews.
+* I will be able to upload an optional image for the review.
+* When I enter invalid data on the `Leave a Review` form, the page will inform me of the failed validations and repopulate the form with the valid entries
+    * so that I can try again without needing to refill every input field.
+* I will see a `Submit` button for my review.
+* When I click on the `Submit` button, my review will appear on the page
+    * If I have uploaded an image, it will also appear on the page.
+
+#### Acceptance Criteria
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a `Leave a Review` button.
+- [ ] When logged in users click on the `Leave a Review` button, they will see a form in which to enter a review.
+- [ ] When users enter invalid data on the `Leave a Review` form, the page will inform them of the failed validations and repopulate the form with the valid entries.
+- [ ] Users will see a `Submit` button for their review.
+- [ ] Users will be able to upload an image.
+- [ ] When the user submits their review, the review will appear on the page.
+
+### Viewing Reviews of a Recipe
+* story
+    * follow up/sub story
+
+#### Acceptance Criteria
+- [ ]
+- [ ]
+- [ ]
+
+### Editing a Review of a Recipe
+* story
+    * follow up/sub story
+
+#### Acceptance Criteria
+- [ ]
+- [ ]
+- [ ]
+
+### Deleting a Review of a Recipe
 * story
     * follow up/sub story
 
