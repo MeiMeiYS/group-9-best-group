@@ -24,3 +24,5 @@ npx sequelize model:generate --name RecipeIngredient --attributes "recipeId:inte
 npx dotenv sequelize db:migrate
 
 npm install express-validator
+
+npm install bcryptjs

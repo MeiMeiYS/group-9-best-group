@@ -3,6 +3,7 @@ const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
 const { User } = db;
+const bcrypt = require('bcryptjs');
 
 const router = express.Router();
 
@@ -47,7 +48,18 @@ const userValidators = [
       .isLength({ max: 20 })
       .withMessage('Password must not be more than 20 characters long')
       .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
-      .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")')
+      .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
+    check('confirmPassword')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide a value for Confirm Password')
+      .isLength({ max: 20 })
+      .withMessage('Confirm Password must not be more than 20 characters long')
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error('Confirm Password does not match Password');
+        }
+        return true;
+      })
 ];
 
 
@@ -56,18 +68,19 @@ router.post('/signup', csrfProtection, userValidators, asyncHandler( async (req,
   const {
     email,
     userName,
-    hashedPassword,
+    password,
+
   } = req.body;
 
   const user = User.build({
     email,
     userName,
-    hashedPassword,
-    imageId
   })
 
   const validatorErrors = validationResult(req);
   if (validatorErrors.isEmpty()){
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.hashedPassword = hashedPassword;
     await user.save();
     res.redirect('/');
   } else {
@@ -79,8 +92,6 @@ router.post('/signup', csrfProtection, userValidators, asyncHandler( async (req,
       csrfToken: req.csrfToken()
     })
   }
-
-
 
 }))
 
