@@ -82,7 +82,7 @@
 - [ ] Form has inputs where the user can fill out the name of the recipe, directions, ingredients, ingredient amounts, and an optional picture.
 - [ ] When user enters invalid data on the login form, the page will inform user of the failed validations and repopulate the form with the valid entries (except password), so that the user can try again without needing to refill every input field.
 - [ ] A button to submit the recipe
-- [ ] When a user submits the recipe, the user will be redirected to `recipes/:recipesId`, where it can be viewed by other users.
+- [ ] When a user submits the recipe, the user will be redirected to `/recipes/:recipesId`, where it can be viewed by other users.
 
 ### Viewing Recipes
 * As a logged in or logged out user, I can view the most recently posted recipes.
@@ -130,14 +130,14 @@
 - [ ] A user can also create a collection if they don’t have any collections when viewing a recipe. A create collection button will appear instead of the option to add to collection.
 
 ### Adding Recipes to a Collection
-* As a logged in user, and I am viewing the recipe on the `recipes/recipeId` page, I can add recipes to a collection
+* As a logged in user, and I am viewing the recipe on the `/recipes/recipeId` page, I can add recipes to a collection
     * so that I have the recipes that I want in a collection.
 * When I am viewing a recipe, I have the option to use a dropdown menu to add the recipe to an existing collection of mine.
     * I should be able to see an `Add to Collection` button.
 * When I click the `Add to Collection` button, the recipe will be saved to the collection that I selected.
 
 #### Acceptance Criteria
-- [ ] When viewing a recipe on the `recipes/recipeId` page, the user has the option to use a dropdown to select an existing collection of theirs.
+- [ ] When viewing a recipe on the `/recipes/recipeId` page, the user has the option to use a dropdown to select an existing collection of theirs.
 - [ ] When the user clicks an `Add` button, the recipe will be added to the selected collection.
 
 ### Removing Recipes from a Collection
@@ -191,28 +191,96 @@
 - [ ] When the user submits their review, the review will appear on the page.
 
 ### Viewing Reviews of a Recipe
-* story
-    * follow up/sub story
+* As a logged in or logged out user, when I am on a recipe’s (`/recipes/:recipeId`) page, I can view all reviews of the recipe
+    * to determine whether I'd like to add it to a collection.
+* As a logged-in user, when I am viewing my user page (`users/:userId`), I can view my 9 most recent reviews for any recipe.
 
 #### Acceptance Criteria
-- [ ]
-- [ ]
-- [ ]
+- [ ] An authenticated or unauthenticated user can view all reivews on any recipe when viewing the `/recipes/:recipeId` page.
+- [ ] When an authenticated user is viewing their user page (`users/:userId`), they can view their 9 most recent reviews for any recipe.
 
 ### Editing a Review of a Recipe
-* story
-    * follow up/sub story
+* As an authenticated user, when I am viewing the recipe reviews on the `/recipes/:recipeId` page, I can edit the reviews that I created
+    * so that I can fix any errors or make changes to a review that I had written prior.
+* I will see an interactable `Edit Review` button next to reviews that I created.
+* I will not be able to edit a review that I did not create.
+* When I clicked the `Edit Review` button, a form will pop up that will have the review in its current state in an editable text box.
+* When I enter invalid data on the `Edit Review` form, the page will inform me of the failed validations and repopulate the form with the valid entries
+    * so that I can try again without needing to refill every input field.
+* I will see a `Submit` button for my review.
+* When I click on the `Submit` button, my review will appear on the page
+    * If I have uploaded an image, it will also appear on the page.
 
 #### Acceptance Criteria
-- [ ]
-- [ ]
-- [ ]
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see an interactable `Edit Review` button next to reviews that they have created.
+- [ ] After pressing the button, they will see a form that is pre-filled with their review’s information. They can then change any review fields and re-submit if all required fields are provided.
+- [ ] Only the user who has left the review will be authorized to edit the review.
+- [ ] When the authorized user clicks the `Edit Review` button, a form will pop up that will have the review in its current state in an editable text box.
+- [ ] When users enter invalid data on the `Edit Review` form, the page will inform them of the failed validations and repopulate the form with the valid entries.
+- [ ] Users will see a `Submit` button for their review.
+- [ ] Users will be able to upload an image.
+- [ ] When the user submits their edited review, the review will appear on the page.
 
 ### Deleting a Review of a Recipe
-* story
-    * follow up/sub story
+* As a logged in user, when I am viewing reviews of a recipe on the `/recipes/:recipeId` page, I can delete the reviews that I have added,
+    * so that when I no longer want my review to be displayed publicly, I can remove it from the site.
+* I will be able to see an interactable `Delete Review` button next to the reviews that I have created.
+* If I click the `Delete Review` button, my review will be deleted and will not appear on the page.
+* I will not be able to delete another user's review.
+* I will be able to leave another review for the same recipe without any issues.
 
 #### Acceptance Criteria
-- [ ]
-- [ ]
-- [ ]
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see an interactable `Delete Review` button next to reviews that they have created.
+- [ ] After pressing the `Delete Review` button, the review will disappear.
+- [ ] Only the user who has left the review will be authorized to delete the review.
+- [ ] The user will be able to leave another review for the same recipe.
+
+## Interactivity:  "Cooked" vs. "Will Cook"
+### Assign a Recipe as “Cooked”
+* As a logged in user, I can mark a recipe as “cooked” so that I know that I have tried making this recipe before.
+* When I am viewing a recipe, I will see a `Cooked` button that I can click to indicate that I have cooked the recipe.
+* If I see that recipe again, the recipe will have a small icon next to it indicating “cooked”.
+* I can view all of the recipes that I have marked as "cooked" in a collection named "cooked." I can view this collection from my user page (`/users/:userId`) when I am logged in.
+#### Acceptance Criteria
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Cooked” button.
+- [ ] When logged in users click the “Cooked” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will indicate they have indicated it as “cooked”.
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will see a small icon next to the recipe indicating “cooked”.
+
+### Unassign a Recipe as “Cooked”
+* As a logged in user, when I am viewing a recipe on the `/recipes/:recipeId` page, I can unmark a recipe as “cooked” in case I mistakenly marked it as cooked.
+* When I am viewing a recipe, I see a button that indicates “cooked” and I may click it to undo its “cooked” status.
+* If I see that recipe again, the recipe will no longer have a small icon next to it indicating “cooked”.
+* Also, if a recipe currently has the "cooked" status, if I click on "will cook," the recipe will now have the "will cook" status and no longer have the "cooked" status.
+* I can mark the same recipe as "cooked" if I had previously unmarked it as "cooked."
+* Recipes that are no longer marked as "cooked" will disappear from my "cooked" collection.
+
+#### Acceptance Criteria
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Cooked” button with a color that indicates “cooked”.
+- [ ] When logged in users click the “Cooked” button it will change to the original color so that it is no longer marked as “cooked”.
+- [ ] When users toggle off from from the "Cooked" status, the recipe will no longer appear in their "cooked" collection.
+- [ ] Users can mark the same recipe as "cooked" if they had previously marked and unmarked it as "cooked."
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will no longer see the small icon next to the recipe indicating “cooked.
+
+### Assign a Recipe as “Will Cook”
+* As a logged in user, when I am viewing a recipe on the `/recipes/:recipeId` page, I can mark a recipe as “will cook” so that I can mark that I would like to try it in the future.
+* When I am viewing a recipe, I will see a `Will Cook` button that I can click to indicate that I want to cook the recipe.
+* If I see that recipe again, the recipe will have a small icon next to it indicating its `will cook` status.
+* I can view all of the recipes that I have marked as "will cook" in a collection named "will cook." I can view this collection from my user page (`/users/:userId`) when I am logged in.
+#### Acceptance Criteria
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Will Cook” button.
+- [ ] When logged in users click the “Will Cook” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will indicate they have indicated it as “Will Cook”.
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will see a small icon next to the recipe indicating "will cook".
+- [ ] Logged-in users can view recipes that they have marked as "will cook" in a collection when they naviate to their user page (`/users/:userId`).
+
+### Unassign a Recipe as “Will Cook”
+* As a logged in user, I can unmark a recipe as “will cook” in case I mistakenly mark something as “will cook” or have cooked a recipe that was previously marked as “will cook”.
+* When I am viewing a recipe, I see a “will cook” button that I can click that is the color indicating it has been clicked before.
+* I can click “will cook” so that it changes to its original unclicked color or I can click the “cooked” button which will also change the “will cook” button to its original unclicked color.
+* I can mark the same recipe as "will cook" if I had previously unmarked it as "will cook."
+
+### Acceptance Criteria
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Will Cook” button that is colored to indicate it has been clicked before.
+- [ ] When logged in users click the colored “Will Cook” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will the button has not been clicked.
+- [ ] When logged in users click click the "cooked" button on a recipe currently marked as "will cook," the “will cook” button to its original unclicked color.
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will no longer see a small icon next to the recipe indicating “will cook”.
+- [ ] Logged in users can mark the same recipe as "will cook" if they had previously marked and unmarked it as "will cook."
