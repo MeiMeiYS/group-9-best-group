@@ -242,45 +242,45 @@
 * If I see that recipe again, the recipe will have a small icon next to it indicating “cooked”.
 * I can view all of the recipes that I have marked as "cooked" in a collection named "cooked." I can view this collection from my user page (`/users/:userId`) when I am logged in.
 #### Acceptance Criteria
-When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Cooked” button.
-When logged in users click the “Cooked” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will indicate they have indicated it as “cooked”.
-When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will see a small icon next to the recipe indicating “cooked”.
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Cooked” button.
+- [ ] When logged in users click the “Cooked” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will indicate they have indicated it as “cooked”.
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will see a small icon next to the recipe indicating “cooked”.
 
 ### Unassign a Recipe as “Cooked”
-As a logged in user, when I am viewing a recipe on the `/recipes/:recipeId` page, I can unmark a recipe as “cooked” in case I mistakenly marked it as cooked.
-When I am viewing a recipe, I see a button that indicates “cooked” and I may click it to undo its “cooked” status.
-If I see that recipe again, the recipe will no longer have a small icon next to it indicating “cooked”.
-Also, if a recipe currently has the "cooked" status, if I click on "will cook," the recipe will now have the "will cook" status and no longer have the "cooked" status.
-I can mark the same recipe as "cooked" if I had previously unmarked it as "cooked."
-Recipes that are no longer marked as "cooked" will disappear from my "cooked" collection.
+* As a logged in user, when I am viewing a recipe on the `/recipes/:recipeId` page, I can unmark a recipe as “cooked” in case I mistakenly marked it as cooked.
+* When I am viewing a recipe, I see a button that indicates “cooked” and I may click it to undo its “cooked” status.
+* If I see that recipe again, the recipe will no longer have a small icon next to it indicating “cooked”.
+* Also, if a recipe currently has the "cooked" status, if I click on "will cook," the recipe will now have the "will cook" status and no longer have the "cooked" status.
+* I can mark the same recipe as "cooked" if I had previously unmarked it as "cooked."
+* Recipes that are no longer marked as "cooked" will disappear from my "cooked" collection.
 
 #### Acceptance Criteria
-When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Cooked” button with a color that indicates “cooked”.
-When logged in users click the “Cooked” button it will change to the original color so that it is no longer marked as “cooked”.
-When users toggle off from from the "Cooked" status, the recipe will no longer appear in their "cooked" collection.
-Users can mark the same recipe as "cooked" if they had previously marked and unmarked it as "cooked."
-When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will no longer see the small icon next to the recipe indicating “cooked.
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Cooked” button with a color that indicates “cooked”.
+- [ ] When logged in users click the “Cooked” button it will change to the original color so that it is no longer marked as “cooked”.
+- [ ] When users toggle off from from the "Cooked" status, the recipe will no longer appear in their "cooked" collection.
+- [ ] Users can mark the same recipe as "cooked" if they had previously marked and unmarked it as "cooked."
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will no longer see the small icon next to the recipe indicating “cooked.
 
 ### Assign a Recipe as “Will Cook”
-As a logged in user, when I am viewing a recipe on the `/recipes/:recipeId` page, I can mark a recipe as “will cook” so that I can mark that I would like to try it in the future.
+* As a logged in user, when I am viewing a recipe on the `/recipes/:recipeId` page, I can mark a recipe as “will cook” so that I can mark that I would like to try it in the future.
 * When I am viewing a recipe, I will see a `Will Cook` button that I can click to indicate that I want to cook the recipe.
 * If I see that recipe again, the recipe will have a small icon next to it indicating its `will cook` status.
 * I can view all of the recipes that I have marked as "will cook" in a collection named "will cook." I can view this collection from my user page (`/users/:userId`) when I am logged in.
 #### Acceptance Criteria
-When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Will Cook” button.
-When logged in users click the “Will Cook” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will indicate they have indicated it as “Will Cook”.
-When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will see a small icon next to the recipe indicating "will cook".
-Logged-in users can view recipes that they have marked as "will cook" in a collection when they naviate to their user page (`/users/:userId`).
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Will Cook” button.
+- [ ] When logged in users click the “Will Cook” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will indicate they have indicated it as “Will Cook”.
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will see a small icon next to the recipe indicating "will cook".
+- [ ] Logged-in users can view recipes that they have marked as "will cook" in a collection when they naviate to their user page (`/users/:userId`).
 
 ### Unassign a Recipe as “Will Cook”
-As a logged in user, I can unmark a recipe as “will cook” in case I mistakenly mark something as “will cook” or have cooked a recipe that was previously marked as “will cook”.
-When I am viewing a recipe, I see a “will cook” button that I can click that is the color indicating it has been clicked before.
-I can click “will cook” so that it changes to its original unclicked color or I can click the “cooked” button which will also change the “will cook” button to its original unclicked color.
-I can mark the same recipe as "will cook" if I had previously unmarked it as "will cook."
+* As a logged in user, I can unmark a recipe as “will cook” in case I mistakenly mark something as “will cook” or have cooked a recipe that was previously marked as “will cook”.
+* When I am viewing a recipe, I see a “will cook” button that I can click that is the color indicating it has been clicked before.
+* I can click “will cook” so that it changes to its original unclicked color or I can click the “cooked” button which will also change the “will cook” button to its original unclicked color.
+* I can mark the same recipe as "will cook" if I had previously unmarked it as "will cook."
 
 ### Acceptance Criteria
-When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Will Cook” button that is colored to indicate it has been clicked before.
-When logged in users click the colored “Will Cook” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will the button has not been clicked.
-When logged in users click click the "cooked" button on a recipe currently marked as "will cook," the “will cook” button to its original unclicked color.
-When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will no longer see a small icon next to the recipe indicating “will cook”.
-Logged in users can mark the same recipe as "will cook" if they had previously marked and unmarked it as "will cook."
+- [ ] When logged in users are viewing a recipe on the `/recipes/:recipeId` page, they will see a “Will Cook” button that is colored to indicate it has been clicked before.
+- [ ] When logged in users click the colored “Will Cook” button it will change color so that whenever they are on the `/recipes/:recipeId` page, that color will the button has not been clicked.
+- [ ] When logged in users click click the "cooked" button on a recipe currently marked as "will cook," the “will cook” button to its original unclicked color.
+- [ ] When logged in users are looking at a list of recipes such as on the homepage that shows the most recent 9 recipes or a collection, the user will no longer see a small icon next to the recipe indicating “will cook”.
+- [ ] Logged in users can mark the same recipe as "will cook" if they had previously marked and unmarked it as "will cook."
