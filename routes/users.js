@@ -1,9 +1,15 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const { csrfProtection, asyncHandler } = require('./utils');
+const { check, validationResult } = require('express-validator');
+const db = require('../db/models');
+const { User } = db;
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+const router = express.Router();
+
+/* GET signup. */
+router.get('/signup', csrfProtection, function (req, res, next) {
+  const user = User.build();
+  res.render('respond with a resource');
 });
 
 module.exports = router;

@@ -20,3 +20,7 @@ npx sequelize model:generate --name Review --attributes "userId:integer, recipeI
 npx sequelize model:generate --name RecipeTag --attributes "tagId:integer, recipeId:integer"
 npx sequelize model:generate --name RecipeStatus --attributes "userId:integer, recipeId:integer, statusId:integer"
 npx sequelize model:generate --name RecipeIngredient --attributes "recipeId:integer, ingredientId:integer, quantity:numeric, measurementId:integer"
+
+npx dotenv sequelize db:migrate
+
+npm install express-validator
