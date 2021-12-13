@@ -4,19 +4,19 @@ module.exports = (sequelize, DataTypes) => {
     userName: {
       allowNull: false,
       unique: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     hashedPassword: {
       allowNull: false,
-      type: Sequelize.STRING.BINARY
+      type: DataTypes.STRING.BINARY
     },
     email: {
       allowNull: false,
       unique: true,
-      type: Sequelize.STRING
+      type: DataTypes.STRING
     },
     imageId: {
-      type: Sequelize.INTEGER
+      type: DataTypes.INTEGER
     }
   }, {});
   User.associate = function(models) {
