@@ -27,3 +27,5 @@ npx dotenv sequelize db:migrate:undo:all
 npm install express-validator
 
 npm install bcryptjs
+
+npm install express-session
