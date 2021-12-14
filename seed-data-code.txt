@@ -1,0 +1,17 @@
+TABLES THAT NEED SEEDS (and in this order)
+Roles - two: admin and normal
+Images - at least 7, at most 14: 2 per user, 4 for recipe, 8 for reviews (images are optional; can save and then DPL will upload to site for easier URL purposes)
+TagCategories - at least 2
+Tags - at least 4?
+StatusTypes - cooked / will cook
+Ingredients - at least 4
+Measurements -- refactor from RecipeBox
+UserRoles
+Users -- make at least two
+Collections - make at least two per user
+Recipes - at least 4??? --reconsider if very effort-intensive
+RecipeCollections - match recipes with collections; recipes can belong to multiple collections
+Reviews - at least 2 per recipe and one per user, with at least two different users leaving a review
+RecipeTags - join table
+RecipeStatuses - assign at least 
+RecipeIngredients -
