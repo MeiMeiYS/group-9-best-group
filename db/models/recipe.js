@@ -11,16 +11,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      references: { model: 'Users' }
     },
     steps: {
       allowNull: false,
       type: DataTypes.TEXT
     },
-    imageId: DataTypes.INTEGER
+    imageId: {
+      type: DataTypes.INTEGER,
+      references: { model: 'Images' }
+    }
   }, {});
-  Recipe.associate = function(models) {
-    Recipe.belongsTo(models.User, {foreignKey: 'userId'});
+  Recipe.associate = function (models) {
+    Recipe.belongsTo(models.User, { foreignKey: 'userId' });
     Recipe.belongsTo(models.Image, { foreignKey: 'imageId' });
     Recipe.hasMany(models.Review, { foreignKey: 'recipeId' });
 
@@ -61,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
     Recipe.belongsToMany(models.Tag, tagMapping)
 
 
-    Recipe.hasMany(models.RecipeIngredient, {foreignKey: 'recipeId'})
+    Recipe.hasMany(models.RecipeIngredient, { foreignKey: 'recipeId' })
 
 
   };

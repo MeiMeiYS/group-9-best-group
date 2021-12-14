@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      references: {model: 'Users'}
     }
   }, {});
   Collection.associate = function (models) {

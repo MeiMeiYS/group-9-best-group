@@ -12,7 +12,6 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {model: 'Users'}
-
       },
       recipeId: {
         type: Sequelize.INTEGER,
@@ -29,7 +28,7 @@ module.exports = {
       },
       rating: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
