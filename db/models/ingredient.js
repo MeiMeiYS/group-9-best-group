@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Ingredient.associate = function(models) {
     // associations can be defined here
+    Ingredient.hasMany(models.RecipeIngredient, {foreignKey: 'ingredientId'})
   };
   return Ingredient;
 };

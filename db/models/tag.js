@@ -8,12 +8,22 @@ module.exports = (sequelize, DataTypes) => {
     },
     tagCategoryId: {
       type: DataTypes.INTEGER,
-      reference: { model: TagCategories }
+      references: { model: 'TagCategories' }
     }
   }, {});
   Tag.associate = function(models) {
     // associations can be defined here
-    Tag.belongsTo(models.tagCategory, { foreignKey: 'tagCategoryId'})
+    const recipeMapping = {
+      through: 'RecipeTag',
+      otherKey: 'recipeId',
+      foreignKey: 'tagId'
+    }
+
+    Tag.belongsToMany(models.Recipe, recipeMapping);
+
+
+
+    Tag.belongsTo(models.TagCategory, { foreignKey: 'tagCategoryId'})
   };
   return Tag;
 };
