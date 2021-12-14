@@ -13,7 +13,8 @@ const { loginUser, restoreUser, requireAuth } = require('./auth');
 //import routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const recipesRouter = require('./routes/recipes')
+const recipesRouter = require('./routes/recipes');
+const reviewsRouter = require('./routes/api/reviews');
 
 const app = express();
 
@@ -45,7 +46,8 @@ app.use(restoreUser);
 //setting routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/recipes', recipesRouter)
+app.use('/recipes', recipesRouter);
+app.use('/api/reviews', reviewsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
