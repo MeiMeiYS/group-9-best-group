@@ -9,9 +9,13 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Role.associate = function(models) {
     // associations can be defined here
-    const columnMapping = { through: "UserRole", otherKey: "userId", foreignKey: "roleId" }
+    const userRolesMapping = { through: "UserRole", otherKey: "userId", foreignKey: "roleId" }
 
+<<<<<<< HEAD
+    Role.belongsToMany(models.User, userRolesMapping);
+=======
     Role.belongsToMany(models.user, columnMapping);
+>>>>>>> main
   };
   return Role;
 };

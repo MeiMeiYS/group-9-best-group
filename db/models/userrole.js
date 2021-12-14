@@ -4,13 +4,13 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       allowNull: false,
       unique: true,
-      type: Sequelize.INTEGER,
-      reference: { model: Users }
+      type: DataTypes.INTEGER,
+      references: { model: 'Users' }
     },
     roleId: {
       allowNull: false,
-      type: Sequelize.INTEGER,
-      reference: { model: Roles }
+      type: DataTypes.INTEGER,
+      references: { model: 'Roles' }
     }
   }, {});
   UserRole.associate = function(models) {
