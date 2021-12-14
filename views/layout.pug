@@ -2,7 +2,7 @@ doctype html
 html
   head
       block head
-        title="Express Starter App"
+        title=`Recipeople - ${title}`
         link(rel='stylesheet' href='/stylesheets/reset.css')
   body
     nav
@@ -12,12 +12,12 @@ html
       li.nav-item
         if locals.authenticated
           a(href=`/users/${user.userId}`) Welcome #{user.userName}!
-          form(action='/user/logout' method='post')
+          form(action='/users/logout' method='post')
             button(type='submit') Logout
         else
           span
-            a(href='/login') Login
-            a(href='/signup') Register
+            a(href='/users/login') Login
+            a(href='/users/signup') Register
     .container
       h2 #{title}
       block content

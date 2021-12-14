@@ -1,0 +1,31 @@
+CREATE USER recipeople_admin WITH PASSWORD 'ACOOKINGPASSWORD' CREATEDB;
+
+CREATE DATABASE recipeople WITH OWNER recipeople_admin;
+
+npx dotenv sequelize db:create -- needs config/config.json
+
+npx sequelize model:generate --name Role --attributes "name:string"
+npx sequelize model:generate --name Image --attributes "url:string"
+npx sequelize model:generate --name TagCategory --attributes "name:string"
+npx sequelize model:generate --name Tag --attributes "name:string, tagCategoryId:integer"
+npx sequelize model:generate --name StatusType --attributes "type:string"
+npx sequelize model:generate --name Ingredient --attributes "name:string"
+npx sequelize model:generate --name Measurement --attributes "type:string"
+npx sequelize model:generate --name UserRole --attributes "userId:integer, roleId:integer"
+npx sequelize model:generate --name User --attributes "userName:string, hashedPassword:string, email:string, imageId:integer"
+npx sequelize model:generate --name Collection --attributes "name:string, userId:integer"
+npx sequelize model:generate --name Recipe --attributes "name:string, description:text, userId:integer, steps:text, imageId:integer"
+npx sequelize model:generate --name RecipeCollection --attributes "recipeId:integer, collectionId:integer"
+npx sequelize model:generate --name Review --attributes "userId:integer, recipeId:integer, review:string, imageId:integer, rating:integer"
+npx sequelize model:generate --name RecipeTag --attributes "tagId:integer, recipeId:integer"
+npx sequelize model:generate --name RecipeStatus --attributes "userId:integer, recipeId:integer, statusId:integer"
+npx sequelize model:generate --name RecipeIngredient --attributes "recipeId:integer, ingredientId:integer, quantity:numeric, measurementId:integer"
+
+npx dotenv sequelize db:migrate
+npx dotenv sequelize db:migrate:undo:all
+
+npm install express-validator
+
+npm install bcryptjs
+
+npm install express-session
