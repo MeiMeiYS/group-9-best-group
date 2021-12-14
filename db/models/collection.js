@@ -1,11 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Collection = sequelize.define('Collection', {
-    name: DataTypes.STRING,
-    userId: DataTypes.INTEGER
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      unique: true
+    },
+    userId: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    }
   }, {});
-  Collection.associate = function(models) {
-    // associations can be defined here
+  Collection.associate = function (models) {
+    Collection.belongsTo(model.User, {foreignKey: 'userId'});
   };
   return Collection;
 };
