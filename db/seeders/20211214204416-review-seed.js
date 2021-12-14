@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.bulkInsert('Reviews', [
+   return queryInterface.bulkInsert('Reviews', [
       {
         userId: 1,
         recipeId: 1,
@@ -31,7 +31,7 @@ module.exports = {
       },
       {
         userId: 1,
-        recipeId: 5,
+        recipeId: 4,
         review: `Smelled so good that wild hyenas started swarming my kitchen. I don't know where they came from. I live in Cleveland. We don't even have a zoo here, I don't think.`,
         rating: 5,
         createdAt: new Date(),
