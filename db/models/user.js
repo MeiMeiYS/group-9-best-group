@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     userName: {
       allowNull: false,
       unique: true,
-      type: DataTypes.STRING
+      type: DataTypes.STRING(50)
     },
     hashedPassword: {
       allowNull: false,
@@ -16,11 +16,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     imageId: {
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
+      references: { model: 'Images'}
     }
   }, {});
   User.associate = function(models) {
     // associations can be defined here
+    const columnMapping = { through: "UserRole", otherKey: "roleId", foreignKey: "userId" }
+
+    User.belongsToMany(models.Role, columnMapping);
+    User.belongsTo(models.Image, {foreignKey: 'imageId'});
+    User.hasMany(models.Collection, {foreignKey: 'userId'});
+    User.hasMany(models.Recipe, {foreignKey: 'userId'});
+    // roles
   };
   return User;
 };

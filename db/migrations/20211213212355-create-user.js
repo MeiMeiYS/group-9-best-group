@@ -23,7 +23,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       imageId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: 'Images'}
       },
       createdAt: {
         allowNull: false,

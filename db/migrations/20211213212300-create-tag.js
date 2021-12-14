@@ -9,10 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        allowNull: false,
+        unique: true,
+        type: Sequelize.STRING(50)
       },
       tagCategoryId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        reference: { model: TagCategories }
       },
       createdAt: {
         allowNull: false,
