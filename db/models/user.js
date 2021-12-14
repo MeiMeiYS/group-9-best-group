@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   User.associate = function(models) {
-    const columnMapping = { through: "UserRole", otherKey: "roleId", foreignKey: "userId" }
+    const userRolesMapping = { through: "UserRole", otherKey: "roleId", foreignKey: "userId" }
 
-    User.belongsToMany(models.Role, columnMapping);
+    User.belongsToMany(models.Role, userRolesMapping);
     User.belongsTo(models.Image, {foreignKey: 'imageId'});
     User.hasMany(models.Collection, {foreignKey: 'userId'});
     User.hasMany(models.Recipe, {foreignKey: 'userId'});

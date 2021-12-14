@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
 
     Tag.belongsToMany(models.Recipe, recipeMapping);
 
-    
 
-    Tag.belongsTo(models.tagCategory, { foreignKey: 'tagCategoryId'})
+
+    Tag.belongsTo(models.TagCategory, { foreignKey: 'tagCategoryId'})
   };
   return Tag;
 };
