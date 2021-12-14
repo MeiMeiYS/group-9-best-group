@@ -20,7 +20,7 @@ module.exports = {
       },
       quantity: {
         allowNull: false,
-        type: Sequelize.NUMERIC
+        type: Sequelize.NUMERIC(4, 2)
       },
       measurementId: {
         allowNull: false,
