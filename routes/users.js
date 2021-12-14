@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
 const { User } = db;
 const bcrypt = require('bcryptjs');
-const { loginUser, restoreUser, userLogout } = require('../auth');
+const { loginUser, restoreUser, userLogout, requireAuth } = require('../auth');
 
 const router = express.Router();
 
