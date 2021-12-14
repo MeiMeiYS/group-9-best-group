@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     quantity: {
       allowNull: false,
-      type: DataTypes.NUMERIC
+      type: DataTypes.NUMERIC(4, 2)
     },
     measurementId: {
       allowNull: false,
