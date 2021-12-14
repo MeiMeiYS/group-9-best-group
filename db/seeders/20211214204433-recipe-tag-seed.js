@@ -19,6 +19,6 @@ module.exports = {
       return queryInterface.bulkDelete('People', null, {});
     */
 
-      return queryInterface.bulkDelete('Delete', null, {});
+      return queryInterface.bulkDelete('RecipeTags', null, {});
   }
 };
