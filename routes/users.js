@@ -5,6 +5,7 @@ const db = require('../db/models');
 const { User } = db;
 const bcrypt = require('bcryptjs');
 const { loginUser, restoreUser, userLogout, requireAuth } = require('../auth');
+const { Router } = require('express');
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/signup', csrfProtection, function (req, res, next) {
   res.render('../views/users-signup', {user, csrfToken: req.csrfToken(), title: "Sign up!"});
 });
 
-const userValidators = [ 
+const userValidators = [
   check('userName')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a username.')
@@ -144,5 +145,30 @@ router.post('/logout', (req, res) => {
   userLogout(req, res);
   res.redirect('/');
 });
+
+
+///users/:id/edit
+// A logged in user can upload, update, and/or delete their own user icon image at this page.
+
+router.get('/:id/edit', (req, res) => {
+  res.send('You have reach the /users/:id/edit route.')
+})
+
+// /users/:id
+// A logged in user can view their own profile image and
+// collections at this page, user can also manage their own collection here.
+
+router.get('/:id', (req, res) => {
+  res.send('You have reach the /users/:id route.')
+})
+
+
+
+
+
+
+
+
+
 
 module.exports = router;
