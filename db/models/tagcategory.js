@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   TagCategory.associate = function(models) {
     // associations can be defined here
-    TagCategory.hasMany(models.tag, { foreignKey: 'tagCategoryId'})
+    TagCategory.hasMany(models.Tag, { foreignKey: 'tagCategoryId'})
   };
   return TagCategory;
 };

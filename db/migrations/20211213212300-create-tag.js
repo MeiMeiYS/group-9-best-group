@@ -15,7 +15,7 @@ module.exports = {
       },
       tagCategoryId: {
         type: Sequelize.INTEGER,
-        reference: { model: TagCategories }
+        references: { model: 'TagCategories' }
       },
       createdAt: {
         allowNull: false,
