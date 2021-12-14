@@ -29,3 +29,21 @@ npm install express-validator
 npm install bcryptjs
 
 npm install express-session
+
+
+npx sequelize seed:generate --name role-seed
+npx sequelize seed:generate --name image-seed
+npx sequelize seed:generate --name tag-category-seed
+npx sequelize seed:generate --name tag-seed
+npx sequelize seed:generate --name status-type-seed
+npx sequelize seed:generate --name ingredient-seed
+npx sequelize seed:generate --name measurement-seed
+npx sequelize seed:generate --name user-role-seed
+npx sequelize seed:generate --name user-seed
+npx sequelize seed:generate --name collection-seed
+npx sequelize seed:generate --name recipe-seed
+npx sequelize seed:generate --name recipe-collection-seed
+npx sequelize seed:generate --name review-seed
+npx sequelize seed:generate --name recipe-tag-seed
+npx sequelize seed:generate --name recipe-status-seed
+npx sequelize seed:generate --name recipe-ingredient-seed
