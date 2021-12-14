@@ -14,7 +14,7 @@ router.get('/signup', csrfProtection, function (req, res, next) {
   res.render('../views/users-signup', {user, csrfToken: req.csrfToken(), title: "Sign up!"});
 });
 
-const userValidators = [
+const userValidators = [ 
   check('userName')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a username.')
