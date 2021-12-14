@@ -14,4 +14,4 @@ C RecipeCollections - match recipes with collections; recipes can belong to mult
 C Reviews - (8) at least 2 per recipe and one per user, with at least two different users leaving a review
 C RecipeTags - join table
 C RecipeStatuses - assign at least 1 recipeStatus for User2 recipe, for User1
-C RecipeIngredients - 3 ingredients per recipe
+M RecipeIngredients - 3 ingredients per recipe
