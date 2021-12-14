@@ -28,7 +28,26 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsTo(models.Image, {foreignKey: 'imageId'});
     User.hasMany(models.Collection, {foreignKey: 'userId'});
     User.hasMany(models.Recipe, {foreignKey: 'userId'});
+    User.hasMany(models.Review, {foreignKey: 'userId'});
     // roles
+
+    const recipeMapping = {
+      through: 'RecipeStatus',
+      otherKey: 'recipeId',
+      foreignKey: 'userId'
+    }
+
+    User.belongsToMany(models.Recipe, recipeMapping)
+
+
+    const statusMapping = {
+      through: 'RecipeStatus',
+      otherKey: 'statusId',
+      foreignKey: 'userId'
+    }
+
+    User.belongsToMany(models.StatusType, statusMapping)
+
   };
   return User;
 };

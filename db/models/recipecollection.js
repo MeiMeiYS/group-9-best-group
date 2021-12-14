@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   RecipeCollection.associate = function(models) {
     // associations can be defined here
+  
   };
   return RecipeCollection;
 };

@@ -12,7 +12,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Collection.associate = function (models) {
-    Collection.belongsTo(model.User, {foreignKey: 'userId'});
+    Collection.belongsTo(models.User, {foreignKey: 'userId'});
+
+    const columnMapping = {
+      through: 'RecipeCollection',
+      otherKey: 'recipeId',
+      foreignKey: 'collectionId'
+    }
+
+    Collection.belongsToMany(models.Recipe, columnMapping)
+
   };
   return Collection;
 };
