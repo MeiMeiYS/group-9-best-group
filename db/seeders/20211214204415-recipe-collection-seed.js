@@ -12,7 +12,7 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    queryInterface.bulkInsert('RecipeCollections', [
+    return queryInterface.bulkInsert('RecipeCollections', [
       {
         recipeId: 1,
         collectionId: 1,
