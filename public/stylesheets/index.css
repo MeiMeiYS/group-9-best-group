@@ -114,9 +114,9 @@ h1 {
     margin: 10px;
   }
 
-  .rating-0 {
+  /* .rating-0 {
     filter: grayscale(100%);
-  }
+  } */
 
   .rating > input {
     display: none;
