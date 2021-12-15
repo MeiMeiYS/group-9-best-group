@@ -5,5 +5,6 @@ block content
     +validationErrorSummary(errors)
     form(action=`/users/${user.id}/image/new` method='post')
         input(type='hidden', name='_csrf', value=csrfToken)
-        +field('Image Url', 'url', user.Image.url, 'url')
+        label(for="url") Enter an https:// URL:
+        input(type="url" name="url" id="url")
         button(type='submit') Submit
