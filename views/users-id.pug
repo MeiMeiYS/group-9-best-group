@@ -8,7 +8,7 @@ block content
     div(class="recipes-container")
         h2 My Recipes
         a(class='new-recipe' href='/recipes/new' role='button') Add New Recipe
-        //- may need to replace with mixin later
+        //- replace with mixin later
         ul
             each recipe in recipes
                 li=recipe.name
