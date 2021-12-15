@@ -11,7 +11,7 @@ const router = express.Router();
 /* GET signup. */
 router.get('/signup', csrfProtection, function (req, res, next) {
   const user = User.build();
-  res.render('../views/users-signup', {user, csrfToken: req.csrfToken(), title: "Sign up!"});
+  res.render('../views/users-signup', { user, csrfToken: req.csrfToken(), title: "Sign up!" });
 });
 
 const userValidators = [
@@ -22,11 +22,11 @@ const userValidators = [
     .withMessage('Username must be no longer than 50 characters long.')
     .custom(value => {
       return User.findOne({ where: { userName: value } })
-      .then(user => {
-        if (user) {
-          return Promise.reject('This username is already being used.')
-        }
-      })
+        .then(user => {
+          if (user) {
+            return Promise.reject('This username is already being used.')
+          }
+        })
     }),
   check('email')
     .exists({ checkFalsy: true })
@@ -37,30 +37,30 @@ const userValidators = [
     .withMessage('Please enter a valid email.')
     .custom(value => {
       return User.findOne({ where: { email: value } })
-      .then(user => {
-        if (user) {
-          return Promise.reject('This email is already being used.')
-        }
-      })
+        .then(user => {
+          if (user) {
+            return Promise.reject('This email is already being used.')
+          }
+        })
     }),
-    check('password')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide a value for Password')
-      .isLength({ max: 20 })
-      .withMessage('Password must not be more than 20 characters long')
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
-      .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
-    check('confirmPassword')
-      .exists({ checkFalsy: true })
-      .withMessage('Please provide a value for Confirm Password')
-      .isLength({ max: 20 })
-      .withMessage('Confirm Password must not be more than 20 characters long')
-      .custom((value, { req }) => {
-        if (value !== req.body.password) {
-          throw new Error('Confirm Password does not match Password');
-        }
-        return true;
-      })
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Password')
+    .isLength({ max: 20 })
+    .withMessage('Password must not be more than 20 characters long')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
+    .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
+  check('confirmPassword')
+    .exists({ checkFalsy: true })
+    .withMessage('Please provide a value for Confirm Password')
+    .isLength({ max: 20 })
+    .withMessage('Confirm Password must not be more than 20 characters long')
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Confirm Password does not match Password');
+      }
+      return true;
+    })
 ];
 
 const loginValidators = [
@@ -73,7 +73,7 @@ const loginValidators = [
 ];
 
 
-router.post('/signup', csrfProtection, userValidators, asyncHandler( async (req, res, next) => {
+router.post('/signup', csrfProtection, userValidators, asyncHandler(async (req, res, next) => {
   const {
     email,
     userName,
@@ -87,7 +87,7 @@ router.post('/signup', csrfProtection, userValidators, asyncHandler( async (req,
   })
 
   const validatorErrors = validationResult(req);
-  if (validatorErrors.isEmpty()){
+  if (validatorErrors.isEmpty()) {
     const hashedPassword = await bcrypt.hash(password, 10);
     user.hashedPassword = hashedPassword;
     await user.save();
@@ -107,10 +107,10 @@ router.post('/signup', csrfProtection, userValidators, asyncHandler( async (req,
 }))
 
 router.get('/login', csrfProtection, function (req, res, next) {
-  res.render('../views/users-login', { csrfToken: req.csrfToken(), title: "Login"});
+  res.render('../views/users-login', { csrfToken: req.csrfToken(), title: "Login" });
 });
 
-router.post('/login', csrfProtection, loginValidators, asyncHandler( async (req, res, next) => {
+router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, res, next) => {
   const {
     email,
     password
@@ -118,8 +118,8 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler( async (req,
 
   let errors = [];
   const validatorErrors = validationResult(req);
-  if (validatorErrors.isEmpty()){
-    const user = await User.findOne({ where: {email} });
+  if (validatorErrors.isEmpty()) {
+    const user = await User.findOne({ where: { email } });
     if (user) {
       const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
       if (passwordMatch) {
@@ -145,40 +145,77 @@ router.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/:id', asyncHandler( async (req, res) => {
+router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
 
   const user = await User.findByPk(userId, {
     include: [
-      {
-        model: db.Recipe,
-        include: [
-          {
-            model: db.Tag
-          },
-          {
-            model: db.StatusType
-          },
-          {
+        {
+            model: db.Recipe,
+            include: [
+                {
+                    model: db.Tag
+                },
+                {
+                    model: db.StatusType
+                },
+                {
+                    model: db.Image
+                },
+                {
+                    model: db.Review
+                }
+            ]
+        },
+        {
             model: db.Image
-          },
-          {
-            model: db.Review
-          }
-        ]
-      },
-      {
-        model: db.Image
-      },
-      {
-        model: db.Collection
-      }
+        },
+        {
+            model: db.Collection,
+            include: [
+                {
+                    model: db.Recipe,
+                    include: [
+                        {
+                            model: db.Tag
+                        },
+                        {
+                            model: db.StatusType
+                        },
+                        {
+                            model: db.Image
+                        },
+                        {
+                            model: db.Review
+                        }
+                    ]
+                }
+            ]
+        }
     ]
-  });
+});
 
-  console.log('RECIPEEEEEE:  ', user.Recipes)
+console.log('RECIPEEEEEE:  ', user.Recipes)
 
-  const recipes = user.Recipes;
+const recipes = user.Recipes;
+const collections = user.Collections
+
+res.render('user-id', { user, recipes, collections })
+
+}));
+
+router.get('/:id/edit', asyncHandler(async(req, res) => {
+
+
+}));
+
+router.post('/:id/edit', asyncHandler(async(req, res) => {
+
+
+}));
+
+router.delete('/:id/edit', asyncHandler(async(req, res) => {
+
 
 }));
 
