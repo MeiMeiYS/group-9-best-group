@@ -38,7 +38,7 @@ h1 {
 
 /* UNIVERSAL BUTTON STYLES */
 
-  a {
+  a.button {
     color: var(--neutral-700);
     font-family: var(--heading-font);
     text-transform: uppercase;
@@ -51,7 +51,7 @@ h1 {
   }
 
   /* Fade in */
-  a::after {
+  a.button::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -64,8 +64,8 @@ h1 {
   }
 
 
- a:hover::after,
- a:focus::after{
+ a.button:hover::after,
+ a.button:focus::after{
     transform: translate3d(0, 0, 0);
   }
 
