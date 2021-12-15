@@ -16,11 +16,9 @@ mixin field(labelText, fieldName, fieldValue, fieldType = 'text', placeholder = 
       input(type=fieldType id=fieldName name=fieldName value=fieldValue placeholder=placeholder class='form-control')
 
 
-mixin recipeBadgeArea(recipeModel)
-  .flex-area
-    for recipe in recipeModel
+mixin recipeBadgeArea(recipe)
       .card
-        .img(src=`${recipe.Image.url}` alt="recipe-image")
+        img(src=`${recipe.Image.url}` alt="recipe-image")
         .title
           h2= recipe.name
         .username= recipe.User.userName

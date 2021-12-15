@@ -89,12 +89,16 @@ a {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 300px;
+    margin: 40px;
+
 }
 
 .card > img{
-    max-width: 250px;
-    max-height: 175px;
+    width: 250px;
+    height: 175px;
     margin: 25px;
+    object-fit: cover;
     border: var(--boxy-border)
 }
 
@@ -102,6 +106,7 @@ a {
     font-family: var(--heading-font);
     text-transform: uppercase;
     font-size: 2em;
+    text-align: center;
 }
 
 .rating {

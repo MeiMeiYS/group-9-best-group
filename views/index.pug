@@ -9,4 +9,8 @@ append head
 block content
   h1= title
   p Welcome to your Project Skeleton
-  +recipeBadgeArea(recipes)
+
+
+  .flex-area
+    for recipe in recipes
+      +recipeBadgeArea(recipe)
