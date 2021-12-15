@@ -2,7 +2,7 @@ const express = require('express');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
-const { Recipe, Image, RecipeIngredient, Measurement, Ingredient } = db;
+const { Recipe, Image, RecipeIngredient, Measurement, Ingredient, User, sequelize } = db;
 
 const router = express.Router();
 
@@ -34,7 +34,7 @@ const imageValidators = [
 
 // /recipes/new
 router.get('/new', csrfProtection, (req, res) => {
-    res.render('recipes-form', { title: "Add a New Recipe", csrfToken: req.csrfToken() })
+    res.render('recipes-form', { title: "Add a New Recipe", csrfToken: req.csrfToken() });
     // res.send('you are now on /recipes/new')
 })
 
@@ -116,7 +116,7 @@ router.post('/:id', csrfProtection, imageValidators, recipeFormValidators, async
                 image.destroy();
                 recipe.imageId = null;
                 recipe.save();
-                res.render('recipes-form', { title: 'Editing a Recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList}) // revisit when pug is done
+                res.render('recipes-form', { title: 'Editing a Recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList }) // revisit when pug is done
             }
         }
     } else {
@@ -126,15 +126,17 @@ router.post('/:id', csrfProtection, imageValidators, recipeFormValidators, async
 }));
 
 // /recipes
-router.get('/', (req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
     const recipeList = await Recipe.findAll({
-        include: [ Image, User ],
+        include: [Image, User],
         limit: 9,
-        order: ['createdAt', 'DESC']
-     })
-     // get rating here and pass it in res.render object vvvvvv
+        order: [
+            [`createdAt`, 'DESC']
+        ]
+    });
+    // get rating here and pass it in res.render object vvvvvv
     res.render('recipes', { recipeList })
-})
+}));
 
 router.post('/', csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
     // process incoming stuff
