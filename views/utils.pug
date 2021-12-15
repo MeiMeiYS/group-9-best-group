@@ -14,3 +14,26 @@ mixin field(labelText, fieldName, fieldValue, fieldType = 'text', placeholder = 
       textarea(id=fieldName name=fieldName class='form-control' rows='5')= fieldValue
     else
       input(type=fieldType id=fieldName name=fieldName value=fieldValue placeholder=placeholder class='form-control')
+
+
+mixin recipeBadgeArea(recipeModel)
+  .flex-area
+    for recipe in recipeModel
+      .card
+        .img(src=`${recipe.Image.url}` alt="recipe-image")
+        .title
+          h2= recipe.name
+        .username= recipe.User.userName
+        .rating
+            input(type="radio" name="rating" id="rating-5")
+            label(for="rating-5")
+            input(type="radio" name="rating" id="rating-4")
+            label(for="rating-4")
+            input(type="radio" name="rating" id="rating-3")
+            label(for="rating-3")
+            input(type="radio" name="rating" id="rating-2")
+            label(for="rating-2")
+            input(type="radio" name="rating" id="rating-1")
+            label(for="rating-1")
+        .view-button
+          a(href=`/recipes/${recipe.id}`) View Recipe
