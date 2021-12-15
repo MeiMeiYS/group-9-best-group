@@ -2,11 +2,11 @@ const express = require('express');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
-const { Recipe } = db;
+const { Recipe, Image } = db;
 
 const router = express.Router();
 
-const recipeValidators = [
+const recipeFormValidators = [
     check('name')
         .exists({ checkFalsy: true })
         .withMessage('Please provide a name for your recipe.')
@@ -18,6 +18,7 @@ const recipeValidators = [
     check('steps')
         .exists({ checkFalsy: true })
         .withMessage('Please provide the instructions for your recipe.'),
+
 ];
 
 const imageValidators = [
@@ -66,15 +67,25 @@ router.get('/', (req, res) => {
 
 router.post('/', csrfProtection, imageValidators, recipeValidators, asyncHandler(async (req, res) => {
     // process incoming stuff
-    const { name, description, userId, steps, imageURL } = req.body;
-    if (imageURL) {
-        const image = await Image.build('url')
+    const { name, description, userId, steps, imageURL, qmiList } = req.body;
+    //qmiList stands for quantity, measurments, and ingredient name
+
+    const recipe = Recipe.build({name, description, userId, steps});
+    //error validator
+    const validatorErrors = validationResult(req);
+    if (validatorErrors.isEmpty()){
+        if (imageURL) {
+            const image = Image.build(imageURL)
+            await image.save();
+            const imageId = await Image.findOne({ where: { url: imageURL } });
+            recipe.imageId = imageId;
+        }
+        await recipe.save();
+    } else {
+        const errors = validatorErrors.array().map(error => error.msg);
+        res.render('recipes-form', { title: 'Add a new recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList })
     }
-    const recipe = await Recipe.build()
-    // if (image passed validation) --> check if recipe also passes validation --> build image/recipe
-    // insert validation
-    res.redirect(`/${recipeId}`, { title: `${name}`, csrfToken: req.csrfToken() })
-    // res.send('you are now on /recipes POST')
+
 }))
 
 
