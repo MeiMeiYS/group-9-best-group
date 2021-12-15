@@ -200,23 +200,80 @@ console.log('RECIPEEEEEE:  ', user.Recipes)
 const recipes = user.Recipes;
 const collections = user.Collections
 
-res.render('user-id', { user, recipes, collections })
+res.render('users-id', { user, recipes, collections })
 
 }));
 
-router.get('/:id/edit', asyncHandler(async(req, res) => {
+router.get('/:id(\\d+)/edit', csrfProtection, asyncHandler(async(req, res) => {
+  const userId = parseInt(req.params.id);
 
+  const user = await User.findByPk(userId);
+
+  res.render('users-edit', { title: 'Edit User', user, csrfToken: req.csrfToken()})
 
 }));
 
-router.post('/:id/edit', asyncHandler(async(req, res) => {
+const imageValidators = [
+  check('imageURL')
+      .custom((value, {req}) => {
+          if (value) {
+              check(value)
+                  .isURL()
+                  .withMessage('If you want to upload an image, please provide a valid URL for the image.')
+          }
+      })
+];
 
+router.post('/:id(\\d+)/image/new', csrfProtection, imageValidators, asyncHandler(async(req, res) => {
+  const { url } = req.body;
+
+  //building new image from the url the user submitted
+  const image = await db.Image.build(
+    {
+      url
+    }
+  )
+
+  const userId = parseInt(req.params.id);
+
+  const user = await User.findByPk(userId);
+
+  const validatorErrors = validationResult(req);
+
+  //checking if url submitted is valid and if is, update user with the id associated with the url
+  if (validatorErrors.isEmpty()) {
+    await image.save();
+
+    await user.update(
+        {
+          imageId: image.id
+        }
+      )
+
+      res.redirect(`/users/${userId}`)
+      // res.json({ userToUpdate, image })
+      // console.log(userToUpdate, image)
+  } else {
+    const errors = validatorErrors.array().map((error) => error.msg);
+
+    res.render('users-edit', { errors, title: 'Edit User', user, csrfToken: req.csrfToken() })
+  }
 
 }));
 
-router.delete('/:id/edit', asyncHandler(async(req, res) => {
 
+router.post('/:id(\\d+)/image/delete', asyncHandler(async(req, res) => {
+  const userId = parseInt(req.params.id);
 
+  const user = await User.findByPk(userId);
+
+  await user.update(
+    {
+      imageId: null
+    }
+  )
+
+  res.redirect(`/users/${userId}`)
 }));
 
 module.exports = router;
