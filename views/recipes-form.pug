@@ -1,0 +1,14 @@
+extends layout.pug
+include utils.pug
+
+block content
+    +validationErrorSummary(errors)
+    form(action='/recipes', method='post')
+        input(type='hidden', name='_csrf', value=csrfToken)
+
+        //- need to updat all null to display fetched data for edit form
+        +field('Recipe Name', 'name', null, 'text', 'Recipe Name' )
+        +field('Description', 'description', null, 'textarea', 'Recipe description' )
+        +field('Image URL', 'imageURL', null, 'text', 'URL' )
+        +field('Cooking Steps', 'steps', null, 'textarea', 'Steps' )
+        button(type='submit') Submit
