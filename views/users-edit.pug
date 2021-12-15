@@ -1,0 +1,9 @@
+extends layout.pug
+include utils.pug
+
+block content
+    +validationErrorSummary(errors)
+    form(action=`/users/${user.id}/image/new` method='post')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        +field('Image Url', 'url', user.Image.url, 'url')
+        button(type='submit') Submit
