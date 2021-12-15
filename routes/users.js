@@ -14,7 +14,7 @@ router.get('/signup', csrfProtection, function (req, res, next) {
   res.render('../views/users-signup', {user, csrfToken: req.csrfToken(), title: "Sign up!"});
 });
 
-const userValidators = [ 
+const userValidators = [
   check('userName')
     .exists({ checkFalsy: true })
     .withMessage('Please provide a username.')
@@ -144,5 +144,42 @@ router.post('/logout', (req, res) => {
   userLogout(req, res);
   res.redirect('/');
 });
+
+router.get('/:id', asyncHandler( async (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  const user = await User.findByPk(userId, {
+    include: [
+      {
+        model: db.Recipe,
+        include: [
+          {
+            model: db.Tag
+          },
+          {
+            model: db.StatusType
+          },
+          {
+            model: db.Image
+          },
+          {
+            model: db.Review
+          }
+        ]
+      },
+      {
+        model: db.Image
+      },
+      {
+        model: db.Collection
+      }
+    ]
+  });
+
+  console.log('RECIPEEEEEE:  ', user.Recipes)
+
+  const recipes = user.Recipes;
+
+}));
 
 module.exports = router;
