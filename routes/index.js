@@ -22,12 +22,17 @@ router.get('/', asyncHandler(async function (req, res, next) {
         },
         {
           model: db.Review
-        }
+        },
+        {
+          model: db.User
+        },
       ]
     }
   )
 
-  res.render('index', { title: 'a/A Express Skeleton Home' }, recipes);
+  console.log(recipes[0])
+
+  res.render('index', { title: 'Home', recipes });
 }));
 
 module.exports = router;
