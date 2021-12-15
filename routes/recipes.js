@@ -1,4 +1,5 @@
 const express = require('express');
+const { requireAuth } = require('../auth');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
@@ -33,7 +34,7 @@ const imageValidators = [
 ];
 
 // /recipes/new
-router.get('/new', csrfProtection, (req, res) => {
+router.get('/new', requireAuth, csrfProtection, (req, res) => {
     res.render('recipes-form', { title: "Add a New Recipe", csrfToken: req.csrfToken() });
     // res.send('you are now on /recipes/new')
 })
@@ -41,7 +42,7 @@ router.get('/new', csrfProtection, (req, res) => {
 
 
 // /recipes/:id/edit
-router.get('/:id/edit', csrfProtection, asyncHandler(async (req, res) => {
+router.get('/:id/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     // res.send('you are now on /recipes/:id/edit')
     const recipeId = parseInt(req.params.id, 10);
     const recipe = await Recipe.findByPk(recipeId);
@@ -92,7 +93,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
     res.render('recipe-page', { title: recipe.name, qmiList, name, steps, description }) // revisit when pug page is completed
 }))
 
-router.post('/:id', csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
+router.post('/:id', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
     // process incoming stuff
     const { name, description, userId, steps, imageURL, qmiList } = req.body;
     const recipeId = parseInt(req.params.id, 10);
@@ -138,7 +139,7 @@ router.get('/', asyncHandler(async (req, res) => {
     res.render('recipes', { recipeList })
 }));
 
-router.post('/', csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
+router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
     // process incoming stuff
     const { name, description, userId, steps, imageURL, qmiList } = req.body;
     //qmiList stands for quantity, measurments, and ingredient name
