@@ -16,7 +16,7 @@ module.exports = {
       {
         userName: 'superchef',
         hashedPassword: '$2a$10$6mSjDaJMN0nMmm/Iikwdoub4r/nJRyT2HIcl2RJw8rtavuKRsKfpS',
-        email: 'superchef98789@gmail.com',
+        email: 'superchef@gmail.com',
         imageId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
