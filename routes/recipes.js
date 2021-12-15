@@ -2,7 +2,7 @@ const express = require('express');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
-const { Recipe, Image } = db;
+const { Recipe, Image, RecipeIngredient, Measurement, Ingredient } = db;
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ const recipeFormValidators = [
 
 const imageValidators = [
     check('imageURL')
-        .custom((value, {req}) => {
+        .custom((value, { req }) => {
             if (value) {
                 check(value)
                     .isURL()
@@ -45,7 +45,24 @@ router.get('/:id/edit', csrfProtection, asyncHandler(async (req, res) => {
     // res.send('you are now on /recipes/:id/edit')
     const recipeId = parseInt(req.params.id, 10);
     const recipe = await Recipe.findByPk(recipeId);
-    res.render('recipes-form', { title: "Edit Recipe", csrfToken: req.csrfToken(), recipe })
+    const { name, steps, description, imageId } = recipe;
+    const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
+    const qmiList = await recipeIngredients.map(async (qmiRow) => {
+        // const measurementType =
+        // const ingredientName =
+
+
+        // const ingredient = await Ingredient.findByPk(qmiRow.ingredientId);
+        return {
+            // quantity: qmiRow.quantity,
+            measurement: await Measurement.findByPk(qmiRow.measurementId).then(measurement => measurement.dataValues.type),
+            ingredient: await Ingredient.findByPk(qmiRow.ingredientId).then(ingredient => ingredient.dataValues.name)
+        }
+    }).then()
+    console.log("qmiList", qmiList);
+    // console.log('qmiList[0]', qmiList[0]);
+
+    // res.render('recipes-form', { title: "Edit Recipe", csrfToken: req.csrfToken(), qmiList })
 })
 )
 
@@ -65,15 +82,15 @@ router.get('/', (req, res) => {
     res.send('you are now on /recipes')
 })
 
-router.post('/', csrfProtection, imageValidators, recipeValidators, asyncHandler(async (req, res) => {
+router.post('/', csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
     // process incoming stuff
     const { name, description, userId, steps, imageURL, qmiList } = req.body;
     //qmiList stands for quantity, measurments, and ingredient name
 
-    const recipe = Recipe.build({name, description, userId, steps});
+    const recipe = Recipe.build({ name, description, userId, steps });
     //error validator
     const validatorErrors = validationResult(req);
-    if (validatorErrors.isEmpty()){
+    if (validatorErrors.isEmpty()) {
         if (imageURL) {
             const image = Image.build(imageURL)
             await image.save();
