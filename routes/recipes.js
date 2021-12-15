@@ -3,7 +3,7 @@ const { requireAuth } = require('../auth');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
-const { Recipe, Image, RecipeIngredient, Measurement, Ingredient, User, sequelize } = db;
+const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db;
 
 const router = express.Router();
 
@@ -162,6 +162,19 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
 
 }))
 
+//deleting a recipe
+router.post(`/:id/delete`, csrfProtection, asyncHandler(async (req, res) => {
+    const recipeId = req.params.id;
+    const tables = [RecipeStatus, RecipeCollection, Review, Recipe, RecipeTag, RecipeIngredient]
+    tables.forEach(table => {
+        if (table == Recipe) {
+            const data = await table.findByPk(recipeId);
+            data.destroy();
+        }
+        const data = await table.findAll({ where: { recipeId } });
+        data.destroy();
+    })
+}));
 
 
 //please check and add any extra needed routes
