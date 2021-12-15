@@ -41,9 +41,18 @@ const requireAuth = (req, res, next) => {
     return next();
 };
 
+const checkPermissions = (item, currentUser, idColName) => {
+    if (item[idColName] !== currentUser.id) {
+        const err = new Error('You are not authorized to perform this operation.');
+        err.status = 403;
+        throw err;
+    }
+}
+
 module.exports = {
     loginUser,
     restoreUser,
     userLogout,
-    requireAuth
+    requireAuth,
+    checkPermissions
 };
