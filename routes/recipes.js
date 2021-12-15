@@ -127,7 +127,13 @@ router.post('/:id', csrfProtection, imageValidators, recipeFormValidators, async
 
 // /recipes
 router.get('/', (req, res) => {
-    res.send('you are now on /recipes')
+    const recipeList = await Recipe.findAll({
+        include: [ Image, User ],
+        limit: 9,
+        order: ['createdAt', 'DESC']
+     })
+     // get rating here and pass it in res.render object vvvvvv
+    res.render('recipes', { recipeList })
 })
 
 router.post('/', csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
