@@ -165,7 +165,7 @@ router.post('/', csrfProtection, imageValidators, recipeFormValidators, asyncHan
 router.post(`/:id/delete`, csrfProtection, asyncHandler(async (req, res) => {
     const recipeId = req.params.id;
     const tables = [RecipeStatus, RecipeCollection, Review, Recipe, RecipeTag, RecipeIngredient]
-    tables.forEach(table => {
+    tables.forEach( async (table) => {
         if (table == Recipe) {
             const data = await table.findByPk(recipeId);
             data.destroy();
