@@ -76,10 +76,10 @@ router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, 
         await newCollection.save();
     } else {
         const errors = validationErrors.array().map(error => error.msg);
-
+        res.send('Error', { errors }); 
     }
 
-
+    res.json(newCollection)
 }));
 
 
