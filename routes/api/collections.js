@@ -10,7 +10,7 @@ const { Collection } = db;
 
 const collectionNotFound = (id) => {
     const err = Error("Collection not found");
-    err.errors = [`Collection could not be found.`];
+    err.errors = [`Collection with id of ${id} could not be found.`];
     err.title = "Collection not found.";
     err.status = 404;
     return err;
@@ -22,6 +22,18 @@ const collectionNotFound = (id) => {
 //     console.log('~~~~~~',res.locals.user.id)
 //     res.json(collectionData);
 // }));
+
+//getting collections that the user has
+router.get("/", asyncHandler(async (req, res) => {
+    const collections = await Collection.findAll({
+        where: {
+            userId: res.locals.user.id
+        }
+    });
+
+    res.json(collections);
+}))
+
 
 //getting or viewing indvidual collection
 router.get("/:id", asyncHandler(async (req, res) => {
@@ -47,8 +59,12 @@ router.get("/:id", asyncHandler(async (req, res) => {
         ]
     });
     checkPermissionsRecipesRoute(collection, res.locals.user);
-    
-    res.json(collection);
+
+    if(collection) {
+        res.json(collection);
+    } else {
+        next(collectionNotFound(collectionId))
+    }
 }));
 
 //to edit _--> js, DOM stuff
@@ -83,21 +99,18 @@ router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, 
 
 //change the collection name
 router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
-    const userId = res.locals.user.id;
     const { name } = req.body;
     const collectionId = parseInt(req.params.id);
 
-    const collection = await Collection.findByPk(collectionId, {
-        where: {
-            userId: userId
-        }
-    });
+    const collection = await Collection.findByPk(collectionId);
+
+    checkPermissionsRecipesRoute(collection, res.locals.user);
 
     if (collection) {
-        const updatedCollection = await collection.update({
+        await collection.update({
             name: name
         })
-        res.json(updatedCollection);
+        res.json(collection);
     } else {
         next(collectionNotFound(collectionId));
     };
@@ -109,11 +122,9 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
     const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id);
 
-    const collection = await Collection.findByPk(collectionId, {
-        where: {
-            userId: userId
-        }
-    });
+    const collection = await Collection.findByPk(collectionId);
+    checkPermissionsRecipesRoute(collection, res.locals.user);
+
     const recipeCollections = await db.RecipeCollection.findAll({
         where: {
             collectionId
@@ -123,11 +134,10 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
     if (collection) {
         collection.destroy();
         recipeCollections.destroy();
-        res.json(collection);
+        res.json({message: `Deleted collection`});
     } else {
         next(collectionNotFound(collectionId));
     }
-
 }));
 
 
