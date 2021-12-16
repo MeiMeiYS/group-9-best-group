@@ -239,9 +239,11 @@ router.post('/:id(\\d+)/image/new', requireAuth, csrfProtection, imageValidators
   const userId = parseInt(req.params.id);
 
   const user = await User.findByPk(userId);
+
   checkPermissionsUsersRoute(user, res.locals.user);
 
-  const validatorErrors = validationResult(req);
+  const validatorErrors = validationResult(req.body);
+
 
   //checking if url submitted is valid and if is, update user with the id associated with the url
   if (validatorErrors.isEmpty()) {
