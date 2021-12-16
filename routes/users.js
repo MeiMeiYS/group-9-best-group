@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
 const { User } = db;
 const bcrypt = require('bcryptjs');
-const { loginUser, restoreUser, userLogout, requireAuth, checkPermissions } = require('../auth');
+const { loginUser, restoreUser, userLogout, requireAuth, checkPermissionsUsersRoute } = require('../auth');
 
 const router = express.Router();
 
@@ -194,7 +194,7 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     ]
   });
 
-  checkPermissions(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user, id);
 
   const recipes = user.Recipes;
   const collections = user.Collections
@@ -206,7 +206,7 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
   const user = await User.findByPk(userId);
-  checkPermissions(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user, id);
 
   res.render('users-edit', { title: 'Edit User', user, csrfToken: req.csrfToken() })
 
@@ -236,7 +236,7 @@ router.post('/:id(\\d+)/image/new', requireAuth, csrfProtection, imageValidators
   const userId = parseInt(req.params.id);
 
   const user = await User.findByPk(userId);
-  checkPermissions(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user, id);
 
   const validatorErrors = validationResult(req);
 
@@ -266,7 +266,7 @@ router.post('/:id(\\d+)/image/delete', requireAuth, asyncHandler(async (req, res
   const userId = parseInt(req.params.id);
 
   const user = await User.findByPk(userId);
-  checkPermissions(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user);
 
   await user.update(
     {
