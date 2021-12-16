@@ -11,7 +11,7 @@
     --title-font: tomarik-display, sans-serif;
     --heading-font: tomarik-poster, sans-serif;
 
-    --heading-size: 2em;
+    --heading-size: 2.5em;
     --button-size: 1.5em;
 
     --big-desktop-min-width: 1200px;
@@ -19,7 +19,7 @@
     --tablet-min-width: 768px;
     --mobile-min-width: 576px;
 
-    --whisk-700: url("data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 311.16 449.78'%3E%3Cpath d='M298.94,8.24c-91.31-47.08-81,121.45-132,157.09-11.59,5.09-9.44,14.9-8.15,20.81C125.21,256.34-21,292.71,2.56,389.68c16.2,70.54,128.84,85.61,155,9.31,24-52.29,15.23-136.17,39.76-186.21,22.45-3,16-23.42,22.37-37.06C243.23,124.38,346.08,68.85,298.94,8.24ZM259.81,37.73c5-11.94,22.21-13.15,22.87,0C284.75,63.48,244.4,67.94,259.81,37.73ZM62.19,422.28C92.12,371.53,120.1,320,150.13,269.39,132.6,326.53,115.59,411,62.19,422.28ZM134.7,259.44c-27.29,49-61.88,104.57-89.27,153.68C27.42,362.76,94.16,303.54,134.7,259.44ZM89.8,433c37.41-14.61,69.83-148.63,68.36-122.63C150.57,358.56,146.53,428.81,89.8,433Zm12.71-165.47c-21.65,26.6-74.77,78.08-79.89,126.2C-1.62,345,55.77,302.26,102.51,267.49Z' fill='%2356423e'/%3E%3C/svg%3E");
+    --whisk-700: url("data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 311.16 449.78'%3E%3Cpath d='M298.94,8.24c-91.31-47.08-81,121.45-132,157.09-11.59,5.09-9.44,14.9-8.15,20.81C125.21,256.34-21,292.71,2.56,389.68c16.2,70.54,128.84,85.61,155,9.31,24-52.29,15.23-136.17,39.76-186.21,22.45-3,16-23.42,22.37-37.06C243.23,124.38,346.08,68.85,298.94,8.24ZM259.81,37.73c5-11.94,22.21-13.15,22.87,0C284.75,63.48,244.4,67.94,259.81,37.73ZM62.19,422.28C92.12,371.53,120.1,320,150.13,269.39,132.6,326.53,115.59,411,62.19,422.28ZM134.7,259.44c-27.29,49-61.88,104.57-89.27,153.68C27.42,362.76,94.16,303.54,134.7,259.44ZM89.8,433c37.41-14.61,69.83-148.63,68.36-122.63C150.57,358.56,146.53,428.81,89.8,433Zm12.71-165.47c-21.65,26.6-74.77,78.08-79.89,126.2C-1.62,345,55.77,302.26,102.51,267.49Z' fill='%23600B0B'/%3E%3C/svg%3E");
     --whisk-500: url("data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 311.16 449.78'%3E%3Cpath d='M298.94,8.24c-91.31-47.08-81,121.45-132,157.09-11.59,5.09-9.44,14.9-8.15,20.81C125.21,256.34-21,292.71,2.56,389.68c16.2,70.54,128.84,85.61,155,9.31,24-52.29,15.23-136.17,39.76-186.21,22.45-3,16-23.42,22.37-37.06C243.23,124.38,346.08,68.85,298.94,8.24ZM259.81,37.73c5-11.94,22.21-13.15,22.87,0C284.75,63.48,244.4,67.94,259.81,37.73ZM62.19,422.28C92.12,371.53,120.1,320,150.13,269.39,132.6,326.53,115.59,411,62.19,422.28ZM134.7,259.44c-27.29,49-61.88,104.57-89.27,153.68C27.42,362.76,94.16,303.54,134.7,259.44ZM89.8,433c37.41-14.61,69.83-148.63,68.36-122.63C150.57,358.56,146.53,428.81,89.8,433Zm12.71-165.47c-21.65,26.6-74.77,78.08-79.89,126.2C-1.62,345,55.77,302.26,102.51,267.49Z' fill='%2389726E'/%3E%3C/svg%3E");
     --whisk-300: url("data:image/svg+xml,%3Csvg id='Layer_1' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 311.16 449.78'%3E%3Cpath d='M298.94,8.24c-91.31-47.08-81,121.45-132,157.09-11.59,5.09-9.44,14.9-8.15,20.81C125.21,256.34-21,292.71,2.56,389.68c16.2,70.54,128.84,85.61,155,9.31,24-52.29,15.23-136.17,39.76-186.21,22.45-3,16-23.42,22.37-37.06C243.23,124.38,346.08,68.85,298.94,8.24ZM259.81,37.73c5-11.94,22.21-13.15,22.87,0C284.75,63.48,244.4,67.94,259.81,37.73ZM62.19,422.28C92.12,371.53,120.1,320,150.13,269.39,132.6,326.53,115.59,411,62.19,422.28ZM134.7,259.44c-27.29,49-61.88,104.57-89.27,153.68C27.42,362.76,94.16,303.54,134.7,259.44ZM89.8,433c37.41-14.61,69.83-148.63,68.36-122.63C150.57,358.56,146.53,428.81,89.8,433Zm12.71-165.47c-21.65,26.6-74.77,78.08-79.89,126.2C-1.62,345,55.77,302.26,102.51,267.49Z' fill='%23bea6a1'/%3E%3C/svg%3E");
 
@@ -76,12 +76,13 @@
     align-items: center;
     justify-content: space-between;
     background-color: var(--primary-500);
-    padding: 20px 200px 20px 200px;
+    padding: 20px 150px 20px 150px;
     transition: 0.2s;
 	top: 0;
     width: 100%;
     top: 0;
     position: sticky;
+    z-index: 100;
   }
 
   .nav-links{
@@ -106,7 +107,9 @@
 
 
   #logo{
-    height: 35px;
+    height: 50px;
+    position: relative;
+    top: -5px;
 }
 
 button.button{
@@ -119,6 +122,11 @@ button.button{
 /* RECIPE BADGES */
 .flex-area{
     display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 1200px;
+    margin: 0 auto;
 }
 
 .card{
@@ -194,4 +202,118 @@ button.button{
     border: var(--boxy-border);
     padding: 10px;
     margin: 10px 0px 20px;
+    }
+
+    /* SPLASH PAGE */
+    .home-banner{
+        display:flex;
+        background-color: var(--primary-500);
+        z-index: 0;
+    }
+
+
+    .leftcol{
+        margin-right: 10px;
+        width: 30%;
+    }
+
+    .rightcol{
+        width: 70%;
+        height:35vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-text{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 776px;
+        z-index: 50;
+    }
+
+
+
+
+
+    .shelves-02{
+        background-image:url(../assets/illustrations/shelves.png);
+        position: absolute;
+        background-size:contain;
+        background-position: right;
+        opacity: 60%;
+        top: 100px;
+        width: 70vw;
+        height: 30vw;
+        background-repeat: no-repeat;
+        z-index: 0;;
+    }
+
+
+
+    .shelves-01{
+        background-image:url(../assets/illustrations/forward-shelves.png);
+        width: 30vw;
+        height: 700px;
+        top:100px;
+        margin-left: -10px;
+        position: absolute;
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 20;
+    }
+
+    h2.hero-tagline{
+        font-family: var(--heading-font);
+        text-transform: uppercase;
+        font-size: 2.25vw;
+        color:var(--primary-700);
+        margin: 20px;
+
+    }
+
+    .horizontal-divider{
+        background-color: var(--primary-700);
+        height: 4px;
+        width: 600px;
+        margin: 100px 0px 50px;
+    }
+
+    .hero-logo{
+        width: 45vw;
+    }
+
+
+    .cta-container{
+        border: 4px solid var(--neutral-100);
+        padding: 10px 15px 5px;
+        margin-top: 40px;
+        width: fit-content;
+    }
+
+    .cta-main{
+        font-family: var(--heading-font);
+        text-transform: uppercase;
+        background-color: transparent;
+        font-size: 2.25vw;
+        width: auto;
+        color:var(--neutral-100);
+    }
+
+
+    .recent-recipes{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .recent-recipes > h2{
+        margin-top: 60px;
+        font-family: var(--heading-font);
+        font-size: var(--heading-size);
+        text-transform: uppercase;
+        color: var(--primary-700)
     }
