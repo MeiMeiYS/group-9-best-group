@@ -15,8 +15,8 @@ module.exports = {
     return queryInterface.bulkInsert('Users', [
       {
         userName: 'superchef',
-        hashedPassword: '$2a$12$3yey1Jyop6KLDCxYHQq53e2x0U572BWykyJ2uC.pSpmOLDaMmRYQe',
-        email: 'superchef98789@gmail.com',
+        hashedPassword: '$2a$10$6mSjDaJMN0nMmm/Iikwdoub4r/nJRyT2HIcl2RJw8rtavuKRsKfpS',
+        email: 'superchef@gmail.com',
         imageId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -26,6 +26,14 @@ module.exports = {
         hashedPassword: '$2a$12$XKMrQwyISJY53XE95WKwue/i68.umzxYM5GAdMkhpuq5K18dqELtG',
         email: 'homecook123321123@gmail.com',
         imageId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        userName: 'demouser',
+        hashedPassword: '$2a$10$0ILB5FzeXNK6AM5nJ3ZpaO6kz7R7errJnpWYPYw0URmMy8QP6KfTW',
+        email: 'demouser@gmail.com',
+        imageId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }

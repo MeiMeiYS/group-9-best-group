@@ -7,5 +7,23 @@ append head
   script(src="/javascripts/index.js" type="module" defer)
 
 block content
-  h1= title
-  p Welcome to your Project Skeleton
+  .home-banner
+    .leftcol
+      .shelves-01
+    .rightcol
+      .shelves-02
+      .hero-text
+        img.hero-logo(src="assets/logos/logotype.svg")
+        if locals.authenticated
+          h2.hero-tagline It's Time To Get Cookin'
+          .cta-container: a.cta-main(href=`/users/${user.id}`) Manage Recipes
+        else
+          h2.hero-tagline Discover the Best Home-Cooked Meals
+          .cta-container: a.cta-main(href=`/users/signup`) Sign Up
+
+
+  .recent-recipes
+    h2 Explore Recent Recipes
+    .flex-area
+      for recipe in recipes
+        +recipeBadgeArea(recipe)

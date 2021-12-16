@@ -1,8 +1,9 @@
 const express = require('express');
+const { requireAuth, checkPermissionsRecipesRoute } = require('../auth');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
-const { Recipe, Image, RecipeIngredient, Measurement, Ingredient, User, sequelize } = db;
+const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db;
 
 const router = express.Router();
 
@@ -33,7 +34,7 @@ const imageValidators = [
 ];
 
 // /recipes/new
-router.get('/new', csrfProtection, (req, res) => {
+router.get('/new', requireAuth, csrfProtection, (req, res) => {
     res.render('recipes-form', { title: "Add a New Recipe", csrfToken: req.csrfToken() });
     // res.send('you are now on /recipes/new')
 })
@@ -41,10 +42,11 @@ router.get('/new', csrfProtection, (req, res) => {
 
 
 // /recipes/:id/edit
-router.get('/:id/edit', csrfProtection, asyncHandler(async (req, res) => {
+router.get('/:id/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     // res.send('you are now on /recipes/:id/edit')
     const recipeId = parseInt(req.params.id, 10);
     const recipe = await Recipe.findByPk(recipeId);
+    checkPermissionsRecipesRoute(recipe, res.locals.user);
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
     const qmiList = [];
@@ -64,8 +66,7 @@ router.get('/:id/edit', csrfProtection, asyncHandler(async (req, res) => {
         res.render('recipes-form', { title: "Edit Recipe", csrfToken: req.csrfToken(), qmiList, imageURL, name, steps, description }) // revisit when pug page is completed
     }
     res.render('recipes-form', { title: "Edit Recipe", csrfToken: req.csrfToken(), qmiList, recipe }) // revisit when pug is completed
-})
-)
+}));
 
 // /recipes/:id
 router.get('/:id', asyncHandler(async (req, res) => {
@@ -92,13 +93,14 @@ router.get('/:id', asyncHandler(async (req, res) => {
     res.render('recipe-page', { title: recipe.name, qmiList, name, steps, description }) // revisit when pug page is completed
 }))
 
-router.post('/:id', csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
+router.post('/:id', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
     // process incoming stuff
     const { name, description, userId, steps, imageURL, qmiList } = req.body;
     const recipeId = parseInt(req.params.id, 10);
     //qmiList stands for quantity, measurments, and ingredient name
     // find recipe
     const recipe = await Recipe.findByPk(recipeId);
+    checkPermissionsRecipesRoute(recipe, res.locals.user);
     const imageId = recipe.imageId;
     const validatorErrors = validationResult(req);
     if (validatorErrors.isEmpty()) {
@@ -138,12 +140,13 @@ router.get('/', asyncHandler(async (req, res) => {
     res.render('recipes', { recipeList })
 }));
 
-router.post('/', csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
+router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
     // process incoming stuff
     const { name, description, userId, steps, imageURL, qmiList } = req.body;
     //qmiList stands for quantity, measurments, and ingredient name
 
     const recipe = Recipe.build({ name, description, userId, steps });
+    checkPermissionsRecipesRoute(recipe, res.locals.user);
     //error validator
     const validatorErrors = validationResult(req);
     if (validatorErrors.isEmpty()) {
@@ -161,6 +164,22 @@ router.post('/', csrfProtection, imageValidators, recipeFormValidators, asyncHan
 
 }))
 
+//deleting a recipe
+router.post(`/:id/delete`, requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+    const recipeId = req.params.id;
+    const recipe = await Recipe.findByPk(recipeId);
+    checkPermissionsRecipesRoute(recipe, res.locals.user);
+    const tables = [RecipeStatus, RecipeCollection, Review, Recipe, RecipeTag, RecipeIngredient]
+    tables.forEach(async table => {
+
+        if (table == Recipe) {
+            const data = await table.findByPk(recipeId);
+            data.destroy();
+        }
+        const data = await table.findAll({ where: { recipeId } });
+        data.destroy();
+    });
+}));
 
 
 //please check and add any extra needed routes
