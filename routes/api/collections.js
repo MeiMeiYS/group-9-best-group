@@ -54,8 +54,11 @@ router.get("/:id", asyncHandler(async (req, res) => {
 
 //to edit _--> js, DOM stuff
 
-router.put("/:id", asyncHandler(async (req, res) => {
 
+//to create new collection
+router.post("/", requireAuth, asyncHandler(async (req, res) => {
+    const { name } = req.body;
+    
 }));
 
 
@@ -77,7 +80,7 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 
     if (collection) {
         collection.destroy();
-        recipeCollections.destroy(); 
+        recipeCollections.destroy();
     } else {
         next(collectionNotFound(collectionId))
     }
