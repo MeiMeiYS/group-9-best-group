@@ -82,6 +82,28 @@ router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, 
     res.json(newCollection)
 }));
 
+//change the collection name
+router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
+    const userId = res.locals.user.id;
+    const { name } = req.body;
+    const collectionId = parseInt(req.params.id);
+
+    const collection = await Collection.findByPk(collectionId, {
+        where: {
+            userId: userId
+        }
+    });
+
+    if (collection) {
+        const updatedCollection = await collection.update({
+            name: name
+        })
+        res.json(updatedCollection);
+    } else {
+        next(collectionNotFound(collectionId));
+    };
+
+}));
 
 //delete full collection
 router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
@@ -102,11 +124,11 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
     if (collection) {
         collection.destroy();
         recipeCollections.destroy();
+        res.json(collection);
     } else {
         next(collectionNotFound(collectionId));
     }
 
-    res.json(collection);
 }));
 
 
