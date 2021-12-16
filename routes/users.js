@@ -149,31 +149,23 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
   const user = await User.findByPk(userId, {
     include: [
-        {
-            model: db.Recipe,
-            include: [
-                {
-                    model: db.Tag
-                },
-                {
-                    model: db.StatusType
-                },
-                {
-                    model: db.Image
-                },
-                {
-                    model: db.Review
-                },
-                {
-                  model: db.User
-                }
-            ]
-        },
-        {
+      {
+        model: db.Recipe,
+        include: [
+          {
+            model: db.Tag
+          },
+          {
+            model: db.StatusType
+          },
+          {
             model: db.Image
           },
           {
             model: db.Review
+          },
+          {
+            model: db.User
           }
         ]
       },
@@ -205,7 +197,7 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     ]
   });
 
-  checkPermissionsUsersRoute(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user);
 
   const recipes = user.Recipes;
   const collections = user.Collections
