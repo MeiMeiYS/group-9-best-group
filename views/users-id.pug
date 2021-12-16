@@ -15,8 +15,11 @@ block content
         script(src='/javascripts/collections.js')
         div.new-collection-form
             button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add
-        ul
+        div.all-collections
             each collection in collections
-                li=collection.name
-                //- change later when working with api route
-                a(class='view-collection' href=`/collections/` role='button') View Collection
+                div.collectionContainer
+                    div(class='collection-header')
+                        h3=collection.name
+                        button(class='button' type='submit' onclick='editCollectionName()') Edit Name
+                        button(class='button' type='submit' onclick='deleteCollection()') Delete Collection
+                    div(class='recipe-list')

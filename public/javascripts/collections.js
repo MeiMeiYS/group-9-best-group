@@ -49,13 +49,17 @@ const constructCollection = () => {
                 let collectionContainer = document.createElement("div");
 
                 collectionContainer.innerHTML = `
-                <h3>${newCollection.name}</h3>
-                <button></button>
+                <div class='collection-header'>
+                    <h3>${newCollection.name}</h3>
+                    <button class='button' type='submit' onclick='editCollectionName()'>Edit Name</button>
+                    <button class='button' type='submit' onclick='deleteCollection()'>Delete Collection</button>
+                </div>
                 <div class='recipe-list'>
                 </div>
                 `
+
+                
             }
         })
-
     }
 }
