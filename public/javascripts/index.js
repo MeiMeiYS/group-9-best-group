@@ -3,7 +3,7 @@ window.addEventListener("load", (event)=>{
 })
 
 
-const sendData = () => {
+const searchForRecipes = () => {
     let searchTerm = document.querySelector('#recipe-search').value;
     let resultArea = document.querySelector('#search-results')
     resultArea.innerHTML=''
@@ -18,10 +18,11 @@ const sendData = () => {
         .then(data => {
             console.log(data)
             let foundRecipes = data.foundRecipes
-            if (foundRecipes.length < 1) {
+            if (searchTerm == '') {
+                resultArea.innerHTML = `<h3 class="results-header">Please enter a search term.</h3>`
+            } else if (foundRecipes.length < 1) {
                 resultArea.innerHTML = `<h3 class="results-header"> Sorry, no results found for ${searchTerm}.</h3>`
             } else {
-                resultArea.innerHTML = `<h3 class="results-header">${resultArea.length} recipe found for "${searchTerm}."</h3>`
                 for (let i = 0; i < foundRecipes.length; i++) {
                     console.log(`we got one`)
                     let foundRecipe = foundRecipes[i];

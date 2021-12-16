@@ -1,14 +1,17 @@
 extends layout.pug
 
 block content
+    .search-recipes
+        h2 Search For Recipes
+        .searchbox
+            input(type="search" id='recipe-search' placeholder="Enter Search Term")
+            button(class='button' type='submit' onclick='searchForRecipes()')
+                i(class='fas fa-search')
+        .flex-area#search-results
+
+
     .recent-recipes
         h2 Explore Recent Recipes
         .flex-area
-        for recipe in recentRecipes
-            +recipeBadgeArea(recipe)
-
-    .search-recipes
-        h2 Search For Recipes
-            input(type="search" id='recipe-search' placeholder="Chocolate Something Maybe")
-            button(type='submit' onclick='sendData()') Search
-        .flex-area#search-results
+            for recipe in recentRecipes
+                +recipeBadgeArea(recipe)
