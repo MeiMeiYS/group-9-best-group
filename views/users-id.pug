@@ -12,6 +12,9 @@ block content
             +recipeBadgeArea(recipe)
     div(class="collections-container")
         h2 My Collections
+        script(src='/javascripts/collections.js')
+        div.new-collection-form
+            button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add
         ul
             each collection in collections
                 li=collection.name

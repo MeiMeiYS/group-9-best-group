@@ -94,7 +94,7 @@ router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, 
         res.send('Error', { errors });
     }
 
-    res.json(newCollection)
+    res.json({ newCollection })
 }));
 
 //change the collection name
