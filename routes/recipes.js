@@ -170,12 +170,8 @@ router.post(`/:id/delete`, requireAuth, csrfProtection, asyncHandler(async (req,
     const recipe = await Recipe.findByPk(recipeId);
     checkPermissionsRecipesRoute(recipe, res.locals.user);
     const tables = [RecipeStatus, RecipeCollection, Review, Recipe, RecipeTag, RecipeIngredient]
-<<<<<<< HEAD
-    tables.forEach( async (table) => {
-=======
     tables.forEach(async table => {
 
->>>>>>> main
         if (table == Recipe) {
             const data = await table.findByPk(recipeId);
             data.destroy();

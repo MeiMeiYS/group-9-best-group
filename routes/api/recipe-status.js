@@ -5,19 +5,21 @@ const db = require('../../db/models');
 const { RecipeStatus } = db;
 const { asyncHandler } = require('../utils');
 const Op = Sequelize.Op;
+const { restoreUser } = require('../../auth');
 
-
-router.get('/', async (req, res) => {
-    //prepare all element needed for building data in RecipeStatus
-    const data = await RecipeStatus.findAll();
-    res.json(data);
-})
+//vvv below code is for testing or debugging, will delete for production
+// router.get('/', restoreUser, async (req, res) => {
+//     //prepare all element needed for building data in RecipeStatus
+//     const data = await RecipeStatus.findAll();
+//     console.log('~~~~~~',res.locals.user.id)
+//     res.json(data);
+// })
 
 
 // POST /api/recipes/:id/cooked
 router.post('/:id/cooked', asyncHandler( async (req, res) => {
     //prepare all element needed for building data in RecipeStatus
-    // const userId = (need to get from user cookie)
+    const userId = res.locals.user.id
     const recipeId = parseInt(req.params.id, 10);
     const statusId = 1;
 
@@ -32,7 +34,7 @@ router.post('/:id/cooked', asyncHandler( async (req, res) => {
 
 // POST /api/recipes/:id/will-cook
 router.post('/:id/will-cook', asyncHandler( async (req, res) => {
-    // const userId = (need to get from user cookie)
+    const userId = res.locals.user.id
     const recipeId = parseInt(req.params.id, 10);
     const statusId = 2;
 
@@ -47,7 +49,7 @@ router.post('/:id/will-cook', asyncHandler( async (req, res) => {
 
 // DELETE /api/recipes/:id/cooked
 router.delete('/:id/cooked', asyncHandler( async (req, res) => {
-    // const userId = (need to get from user cookie)
+    const userId = res.locals.user.id
     const recipeId = parseInt(req.params.id, 10);
     const statusId = 1;
     const recipeStatus = await RecipeStatus.findOne({
@@ -69,8 +71,7 @@ router.delete('/:id/cooked', asyncHandler( async (req, res) => {
 
 // DELETE /api/recipes/:id/will-cook
 router.delete('/:id/will-cook', asyncHandler( async (req, res) => {
-    // const userId = (need to get from user cookie)
-    const userId = 1;
+    const userId = res.locals.user.id
     const recipeId = parseInt(req.params.id, 10);
     const statusId = 2;
     const recipeStatus = await RecipeStatus.findOne({
