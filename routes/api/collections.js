@@ -76,7 +76,7 @@ router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, 
         await newCollection.save();
     } else {
         const errors = validationErrors.array().map(error => error.msg);
-        res.send('Error', { errors }); 
+        res.send('Error', { errors });
     }
 
     res.json(newCollection)
@@ -103,7 +103,7 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
         collection.destroy();
         recipeCollections.destroy();
     } else {
-        next(collectionNotFound(collectionId))
+        next(collectionNotFound(collectionId));
     }
 
     res.json(collection);
