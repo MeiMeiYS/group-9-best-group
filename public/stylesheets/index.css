@@ -11,7 +11,7 @@
     --title-font: tomarik-display, sans-serif;
     --heading-font: tomarik-poster, sans-serif;
 
-    --heading-size: 2em;
+    --heading-size: 2.5em;
     --button-size: 1.5em;
 
     --big-desktop-min-width: 1200px;
@@ -301,4 +301,19 @@ button.button{
         font-size: 2.25vw;
         width: auto;
         color:var(--neutral-100);
+    }
+
+
+    .recent-recipes{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .recent-recipes h2{
+        margin-top: 60px;
+        font-family: var(--heading-font);
+        font-size: var(--heading-size);
+        text-transform: uppercase;
+        color: var(--primary-700)
     }
