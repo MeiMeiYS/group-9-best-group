@@ -32,11 +32,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: var(--neutral-700)
-}
-
-h1 {
-    color: #555555;
+    color: var(--neutral-700);
 }
 
 /* UNIVERSAL BUTTON STYLES */
@@ -71,6 +67,52 @@ h1 {
  a.button:focus::after{
     transform: translate3d(0, 0, 0);
   }
+
+/*
+  NAV MENU */
+
+  navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--primary-500);
+    padding: 20px 200px 20px 200px;
+    transition: 0.2s;
+	top: 0;
+    width: 100%;
+    top: 0;
+    position: sticky;
+  }
+
+  .nav-links{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      list-style: none;
+  }
+
+  .nav-item .button{
+      text-decoration: none;
+      text-transform: uppercase;
+      list-style-type: none;
+      font-family: var(--heading-font);
+      font-size: 25px;
+      color: var(--neutral-100);
+      width: auto;
+      margin: 0px 40px;
+      background-color: transparent;
+      border: none;
+  }
+
+
+  #logo{
+    height: 35px;
+}
+
+button.button{
+    cursor: pointer;
+}
+
 
 
 

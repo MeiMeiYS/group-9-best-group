@@ -5,22 +5,22 @@ html
   head
       block head
         title=`Recipeople - ${title}`
+        link(rel='shortcut icon' type='image/png' href='/assets/logos/favicon.png')
         link(rel='stylesheet' href='/stylesheets/index.css')
         link(rel="stylesheet" href="https://use.typekit.net/leo2why.css")
   body
-    nav
-    ul.navbar
-      li.nav-item: a(href="/") Home
-      li.nav-item: a(href="/recipes") Find Recipes
-      li.nav-item
+    navbar
+      img(id ='logo' src="/assets/logos/logotype.svg" alt="Recipeople Main Logo")
+      ul.nav-links
+        li.nav-item: a.button(href="/") Home
+        li.nav-item: a.button(href="/recipes") Find Recipes
+
         if locals.authenticated
-          a(href=`/users/${user.userId}`) Welcome #{user.userName}!
-          form(action='/users/logout' method='post')
-            button(type='submit') Logout
+          li.nav-item:  a.button(href=`users/${user.id}`) Welcome #{user.userName}!
+          li.nav-item
+            form(action='/users/logout' method='post')
+              button.button(type='submit') Logout
         else
-          span
-            a(href='/users/login') Login
-            a(href='/users/signup') Register
-    .container
-      h2 #{title}
-      block content
+          li.nav-item: a.button(href='/users/login') Login
+          li.nav-item: a.button(href='/users/signup') Register
+    block content
