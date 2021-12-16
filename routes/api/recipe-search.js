@@ -9,10 +9,7 @@ const { Image, Recipe,  User, } = db;
 
 
 router.post('/', asyncHandler(async (req, res) => {
-    console.log('this is happening')
-    //prepare all element needed for building data in RecipeStatus
     let searchTerm = req.body.searchTerm
-    console.log({ searchTerm });
 
     const foundRecipes = await Recipe.findAll({
         include: [Image, User],
