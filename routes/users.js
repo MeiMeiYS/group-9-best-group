@@ -164,6 +164,9 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
                 },
                 {
                     model: db.Review
+                },
+                {
+                  model: db.User
                 }
             ]
         },

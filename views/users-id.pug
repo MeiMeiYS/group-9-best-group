@@ -8,11 +8,8 @@ block content
     div(class="recipes-container")
         h2 My Recipes
         a(class='new-recipe' href='/recipes/new' role='button') Add New Recipe
-        //- replace with mixin later
-        ul
-            each recipe in recipes
-                li=recipe.name
-                a(href=`/recipes/${recipe.id}`) View
+        each recipe in recipes
+            +recipeBadgeArea(recipe)
     div(class="collections-container")
         h2 My Collections
         ul
