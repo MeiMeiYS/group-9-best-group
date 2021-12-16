@@ -41,9 +41,30 @@ const requireAuth = (req, res, next) => {
     return next();
 };
 
+const checkPermissionsUsersRoute = (item, currentUser) => {
+    if (item.id !== currentUser.id) {
+        console.log("will it work");
+        const err = new Error('You are not authorized to perform this operation.');
+        err.status = 403;
+        throw err;
+    }
+}
+
+const checkPermissionsRecipesRoute = (item, currentUser) => {
+    console.log("item.userId", item.userId);
+    console.log("currentUser.id", currentUser.id);
+    if (item.userId !== currentUser.id) {
+        const err = new Error('You are not authorized to perform this operation.');
+        err.status = 403;
+        throw err;
+    }
+}
+
 module.exports = {
     loginUser,
     restoreUser,
     userLogout,
-    requireAuth
+    requireAuth,
+    checkPermissionsUsersRoute,
+    checkPermissionsRecipesRoute
 };

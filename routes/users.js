@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
 const { User } = db;
 const bcrypt = require('bcryptjs');
-const { loginUser, restoreUser, userLogout, requireAuth } = require('../auth');
+const { loginUser, restoreUser, userLogout, requireAuth, checkPermissionsUsersRoute } = require('../auth');
 
 const router = express.Router();
 
@@ -145,9 +145,8 @@ router.post('/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
-
   const user = await User.findByPk(userId, {
     include: [
         {
@@ -172,62 +171,70 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         },
         {
             model: db.Image
-        },
-        {
-            model: db.Collection,
+          },
+          {
+            model: db.Review
+          }
+        ]
+      },
+      {
+        model: db.Image
+      },
+      {
+        model: db.Collection,
+        include: [
+          {
+            model: db.Recipe,
             include: [
-                {
-                    model: db.Recipe,
-                    include: [
-                        {
-                            model: db.Tag
-                        },
-                        {
-                            model: db.StatusType
-                        },
-                        {
-                            model: db.Image
-                        },
-                        {
-                            model: db.Review
-                        }
-                    ]
-                }
+              {
+                model: db.Tag
+              },
+              {
+                model: db.StatusType
+              },
+              {
+                model: db.Image
+              },
+              {
+                model: db.Review
+              }
             ]
-        }
+          }
+        ]
+      }
     ]
-});
+  });
 
-console.log('RECIPEEEEEE:  ', user.Recipes)
+  checkPermissionsUsersRoute(user, res.locals.user, id);
 
-const recipes = user.Recipes;
-const collections = user.Collections
+  const recipes = user.Recipes;
+  const collections = user.Collections
 
-res.render('users-id', { user, recipes, collections })
+  res.render('users-id', { user, recipes, collections })
 
 }));
 
-router.get('/:id(\\d+)/edit', csrfProtection, asyncHandler(async(req, res) => {
+router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
-
   const user = await User.findByPk(userId);
+  checkPermissionsUsersRoute(user, res.locals.user, id);
 
-  res.render('users-edit', { title: 'Edit User', user, csrfToken: req.csrfToken()})
+  res.render('users-edit', { title: 'Edit User', user, csrfToken: req.csrfToken() })
 
 }));
 
 const imageValidators = [
   check('imageURL')
-      .custom((value, {req}) => {
-          if (value) {
-              check(value)
-                  .isURL()
-                  .withMessage('If you want to upload an image, please provide a valid URL for the image.')
-          }
-      })
+    .custom((value, { req }) => {
+      if (value) {
+        check(value)
+          .isURL()
+          .withMessage('If you want to upload an image, please provide a valid URL for the image.')
+      }
+    })
 ];
 
-router.post('/:id(\\d+)/image/new', csrfProtection, imageValidators, asyncHandler(async(req, res) => {
+router.post('/:id(\\d+)/image/new', requireAuth, csrfProtection, imageValidators, asyncHandler(async (req, res) => {
   const { url } = req.body;
 
   //building new image from the url the user submitted
@@ -240,6 +247,7 @@ router.post('/:id(\\d+)/image/new', csrfProtection, imageValidators, asyncHandle
   const userId = parseInt(req.params.id);
 
   const user = await User.findByPk(userId);
+  checkPermissionsUsersRoute(user, res.locals.user, id);
 
   const validatorErrors = validationResult(req);
 
@@ -248,14 +256,14 @@ router.post('/:id(\\d+)/image/new', csrfProtection, imageValidators, asyncHandle
     await image.save();
 
     await user.update(
-        {
-          imageId: image.id
-        }
-      )
+      {
+        imageId: image.id
+      }
+    )
 
-      res.redirect(`/users/${userId}`)
-      // res.json({ userToUpdate, image })
-      // console.log(userToUpdate, image)
+    res.redirect(`/users/${userId}`)
+    // res.json({ userToUpdate, image })
+    // console.log(userToUpdate, image)
   } else {
     const errors = validatorErrors.array().map((error) => error.msg);
 
@@ -265,10 +273,11 @@ router.post('/:id(\\d+)/image/new', csrfProtection, imageValidators, asyncHandle
 }));
 
 
-router.post('/:id(\\d+)/image/delete', asyncHandler(async(req, res) => {
+router.post('/:id(\\d+)/image/delete', requireAuth, asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
 
   const user = await User.findByPk(userId);
+  checkPermissionsUsersRoute(user, res.locals.user);
 
   await user.update(
     {
