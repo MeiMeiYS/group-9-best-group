@@ -34,10 +34,15 @@ const imageValidators = [
 ];
 
 // /recipes/new
-router.get('/new', requireAuth, csrfProtection, (req, res) => {
-    res.render('recipes-form', { title: "Add a New Recipe", csrfToken: req.csrfToken() });
-    // res.send('you are now on /recipes/new')
-})
+router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+    //If user is logged in, display form for adding new recipe
+    if (res.locals.authenticated){
+        const measurements = await Measurement.findAll();
+        res.render('recipes-form', { title: "Add a New Recipe", measurements, csrfToken: req.csrfToken() });
+    } else {
+        res.redirect('/login');
+    }
+}))
 
 
 
@@ -146,7 +151,6 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
     //qmiList stands for quantity, measurments, and ingredient name
 
     const recipe = Recipe.build({ name, description, userId, steps });
-    checkPermissionsRecipesRoute(recipe, res.locals.user);
     //error validator
     const validatorErrors = validationResult(req);
     if (validatorErrors.isEmpty()) {
@@ -157,6 +161,7 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
             recipe.imageId = imageId;
         }
         await recipe.save();
+        res.redirect('/')
     } else {
         const errors = validatorErrors.array().map(error => error.msg);
         res.render('recipes-form', { title: 'Add a new recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList })
