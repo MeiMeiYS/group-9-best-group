@@ -17,17 +17,17 @@ block content
 
                 div
                     label(for='quantity-1') Quantity
-                    input(type=number id='quantity-1' name='quantity-1' class='form-control')
+                    input(type='number' id='quantity-1' name='quantity-1' class='form-control' required)
 
                 div
                     label(for='measurement-1') Measurement
                     select(name='measurement-1' id='measurement-1')
                         each measurement in measurements
-                            option(value=measurement.type) #{measurement.type}
+                            option(value=measurement.id) #{measurement.type}
 
                 div
                     label(for='ingredient-1') Ingredient
-                    input(type=text id='ingredient-1' name='ingredient-1' class='form-control')
+                    input(type=text id='ingredient-1' name='ingredient-1' class='form-control' required)
 
                 button(type='button' class='delete-row') Delete this ingredient
 
