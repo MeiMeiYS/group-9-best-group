@@ -7,7 +7,7 @@ module.exports = {
         userId: 1,
         recipeId: 1,
         review: `Overall could have used more crushed up Doritos and way less of everything else.`,
-        imageId: 5,
+        // imageId: 5,
         rating: 4,
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -16,7 +16,7 @@ module.exports = {
         userId: 1,
         recipeId: 2,
         review: `I was hoping this would help me grow my hair back \n but it just made my head really sticky. Do not recommend.`,
-        imageId: 6,
+        // imageId: 6,
         rating: 1,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -41,7 +41,7 @@ module.exports = {
         userId: 2,
         recipeId: 3,
         review: `It didn't make me a million dollars richer, and it didn't stop global warming. Wouldn't elect it president but not bad for a little snack.`,
-        imageId: 7,
+        // imageId: 7,
         rating: 3,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -50,7 +50,7 @@ module.exports = {
         userId: 2,
         recipeId: 4,
         review: `I wanted to love it, but I haven't been able to truly love anything ever since Lynette and Tom split up on Desperate Housewives`,
-        imageId: 8,
+        // imageId: 8,
         rating: 4,
         createdAt: new Date(),
         updatedAt: new Date()

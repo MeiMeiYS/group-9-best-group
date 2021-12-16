@@ -33,7 +33,15 @@ module.exports = {
         userName: 'demouser',
         hashedPassword: '$2a$10$0ILB5FzeXNK6AM5nJ3ZpaO6kz7R7errJnpWYPYw0URmMy8QP6KfTW',
         email: 'demouser@gmail.com',
-        imageId: 1,
+        // imageId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        userName: 'demouser2',
+        hashedPassword: '$2a$10$0ILB5FzeXNK6AM5nJ3ZpaO6kz7R7errJnpWYPYw0URmMy8QP6KfTW',
+        email: 'demouser2@gmail.com',
+        // imageId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       }
