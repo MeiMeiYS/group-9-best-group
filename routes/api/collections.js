@@ -2,7 +2,7 @@ const express = require('express');
 const { asyncHandler } = require('../utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../../db/models');
-const { requireAuth } = require('../../auth')
+const { requireAuth, checkPermissionsRecipesRoute } = require('../../auth')
 
 const router = express.Router();
 
@@ -25,30 +25,29 @@ const collectionNotFound = (id) => {
 
 //getting or viewing indvidual collection
 router.get("/:id", asyncHandler(async (req, res) => {
-    const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id)
+
     const collection = await Collection.findByPk(collectionId, {
-        where: {
-            userId: userId
-        },
         include: [
             {
                 model: db.Recipe,
                 include: [
                     {
-                      model: db.Tag
+                        model: db.Tag
                     },
                     {
-                      model: db.StatusType
+                        model: db.StatusType
                     },
                     {
-                      model: db.Image
+                        model: db.Image
                     }
 
                 ]
             }
         ]
     });
+    checkPermissionsRecipesRoute(collection, res.locals.user);
+    
     res.json(collection);
 }));
 
