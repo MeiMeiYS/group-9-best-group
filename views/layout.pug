@@ -8,19 +8,21 @@ html
         link(rel='shortcut icon' type='image/png' href='/assets/logos/favicon.png')
         link(rel='stylesheet' href='/stylesheets/index.css')
         link(rel="stylesheet" href="https://use.typekit.net/leo2why.css")
+        script(src='/javascripts/index.js')
+
   body
     navbar
-      img(id ='logo' src="/assets/logos/main-logo-2.svg" alt="Recipeople Main Logo")
+      a(href='/'): img(id ='logo' src="/assets/logos/main-logo-2.svg" alt="Recipeople Main Logo")
       ul.nav-links
-        li.nav-item: a.button(href="/") Home
-        li.nav-item: a.button(href="/recipes") Find Recipes
-
         if locals.authenticated
           li.nav-item:  a.button(href=`users/${user.id}`) Welcome #{user.userName}!
+          li.nav-item: a.button(href="/") Create A Recipe
+          li.nav-item: a.button(href="/recipes") View Recipes
           li.nav-item
             form(action='/users/logout' method='post')
               button.button(type='submit') Logout
         else
-          li.nav-item: a.button(href='/users/login') Login
-          li.nav-item: a.button(href='/users/signup') Register
+          li.nav-item: a.button(href="/recipes") Explore Recipes
+            li.nav-item: a.button(href='/users/login') Login
+            li.nav-item: a.button(href='/users/signup') Register
     block content
