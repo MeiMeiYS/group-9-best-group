@@ -176,7 +176,6 @@ router.post(`/:id/delete`, requireAuth, csrfProtection, asyncHandler(async (req,
     checkPermissionsRecipesRoute(recipe, res.locals.user);
     const tables = [RecipeStatus, RecipeCollection, Review, Recipe, RecipeTag, RecipeIngredient]
     tables.forEach(async table => {
-
         if (table == Recipe) {
             const data = await table.findByPk(recipeId);
             data.destroy();
