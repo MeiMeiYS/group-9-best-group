@@ -194,7 +194,7 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     ]
   });
 
-  checkPermissionsUsersRoute(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user);
 
   const recipes = user.Recipes;
   const collections = user.Collections
@@ -206,7 +206,7 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
   const user = await User.findByPk(userId);
-  checkPermissionsUsersRoute(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user);
 
   res.render('users-edit', { title: 'Edit User', user, csrfToken: req.csrfToken() })
 
@@ -236,7 +236,7 @@ router.post('/:id(\\d+)/image/new', requireAuth, csrfProtection, imageValidators
   const userId = parseInt(req.params.id);
 
   const user = await User.findByPk(userId);
-  checkPermissionsUsersRoute(user, res.locals.user, id);
+  checkPermissionsUsersRoute(user, res.locals.user);
 
   const validatorErrors = validationResult(req);
 
