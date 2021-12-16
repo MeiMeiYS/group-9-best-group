@@ -55,10 +55,31 @@ router.get("/:id", asyncHandler(async (req, res) => {
 //to edit _--> js, DOM stuff
 
 
+const collectionFormValidator = [
+    check('collection')
+    .exists({checkFalsy: true})
+    .withMessage('Please provide a name for your new collection.')
+]
+
 //to create new collection
-router.post("/", requireAuth, asyncHandler(async (req, res) => {
+router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, res) => {
     const { name } = req.body;
-    
+    const userId = res.local.user.id;
+
+    const newCollection = await Collection.build({
+        name: name,
+        userId: userId
+    })
+    const validationErrors = validationResult(req);
+
+    if (validationErrors.isEmpty()) {
+        await newCollection.save();
+    } else {
+        const errors = validationErrors.array().map(error => error.msg);
+
+    }
+
+
 }));
 
 
