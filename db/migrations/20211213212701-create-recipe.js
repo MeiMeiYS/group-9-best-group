@@ -33,7 +33,8 @@ module.exports = {
       imageId: {
         type: Sequelize.INTEGER,
         references: { model: 'Images' },
-        defaultValue: randomRecipeImage()
+        defaultValue: randomRecipeImage(),
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

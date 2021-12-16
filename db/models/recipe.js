@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     imageId: {
       type: DataTypes.INTEGER,
       references: { model: 'Images' },
-      defaultValue: randomRecipeImage()
+      defaultValue: randomRecipeImage(),
+      allowNull: false
     }
   }, {});
   Recipe.associate = function (models) {

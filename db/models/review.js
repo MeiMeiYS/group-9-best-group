@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     imageId: {
       type: DataTypes.INTEGER,
       references: { model: 'Images' },
-      defaultValue: randomReviewImage()
+      defaultValue: randomReviewImage(),
+      allowNull: false
     },
     rating: {
       type: DataTypes.INTEGER,

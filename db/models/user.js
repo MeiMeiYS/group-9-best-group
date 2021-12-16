@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     imageId: {
       type: DataTypes.INTEGER,
       references: { model: 'Images' },
-      defaultValue: randomUserImage()
+      defaultValue: randomUserImage(),
+      allowNull: false
     }
   }, {});
   User.associate = function(models) {
