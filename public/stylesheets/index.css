@@ -310,7 +310,7 @@ button.button{
         align-items: center;
     }
 
-    .recent-recipes h2{
+    .recent-recipes > h2{
         margin-top: 60px;
         font-family: var(--heading-font);
         font-size: var(--heading-size);
