@@ -16,17 +16,21 @@ const collectionNotFound = (id) => {
     return err;
   };
 
-//v for testing or debugging
-router.get("/", asyncHandler(async (req, res) => {
-    const collectionData = await Collection.findAll();
-    console.log('~~~~~~',res.locals.user.id)
-    res.json(data);
-}));
+// //v for testing or debugging
+// router.get("/", asyncHandler(async (req, res) => {
+//     const collectionData = await Collection.findAll();
+//     console.log('~~~~~~',res.locals.user.id)
+//     res.json(collectionData);
+// }));
 
 //getting or viewing indvidual collection
 router.get("/:id", asyncHandler(async (req, res) => {
+    const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id)
     const collection = await Collection.findByPk(collectionId, {
+        where: {
+            userId: userId
+        },
         include: [
             {
                 model: db.Recipe,
@@ -56,17 +60,24 @@ router.put("/:id", asyncHandler(async (req, res) => {
 
 
 //delete full collection
-router.delete("/:id", asyncHandler(async (req, res, next) => {
+router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
     const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id);
+
     const collection = await Collection.findByPk(collectionId, {
-        // where: {
-        //     userId: userId
-        // }
+        where: {
+            userId: userId
+        }
+    });
+    const recipeCollections = await db.RecipeCollection.findAll({
+        where: {
+            collectionId
+        }
     });
 
     if (collection) {
         collection.destroy();
+        recipeCollections.destroy(); 
     } else {
         next(collectionNotFound(collectionId))
     }
