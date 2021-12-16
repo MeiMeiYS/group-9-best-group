@@ -1,14 +1,7 @@
+//- need to pass in isNewFrom in router object
+
 extends layout.pug
 include utils.pug
-
-//- need to pass in isNewFrom in router object
-- const name = null;
-- const description = null;
-- const steps = null;
-unless isNewForm
-    - const name = recipe.name;
-    - const description = recipe.description;
-    - const steps = recipe.steps;
 
 
 block content
@@ -28,16 +21,8 @@ block content
             select(name='measurement' id='measurement')
                 //- need to pass in measurements in router object
                 each measurement in measurements
-                    option(value=measurement.type) measurement.type
+                    option(value=measurement.type) #{measurement.type}
             +field('Ingredient', 'ingredient', null, 'text', 'Ingredient' )
 
         +field('Cooking Steps', 'steps', null, 'textarea', 'Steps' )
         button(type='submit') Submit
-
-mixin field(labelText, fieldName, fieldValue, fieldType = 'text', placeholder = null)
-  div
-    label(for=fieldName)= labelText
-    if fieldType === 'textarea'
-      textarea(id=fieldName name=fieldName class='form-control' rows='5')= fieldValue
-    else
-      input(type=fieldType id=fieldName name=fieldName value=fieldValue placeholder=placeholder class='form-control')
