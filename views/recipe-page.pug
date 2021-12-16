@@ -1,0 +1,15 @@
+extends layout.pug
+
+block content
+    //- for now just list everything we need here
+    //- need to go back to route and fix the pass in object
+    div(class= 'recipe_details')
+        p recipe name: #{recipe.name}
+        p user name: #{recipe.User.name}
+        p description: #{recipe.description}
+        img(src=imageURL width="500" height="600")
+        p steps: #{recipe.steps}
+        p ingredients:
+        ul
+            each qmi in qmiList
+                li #{qmi.quantity} #{measurement} of #{ingredient}
