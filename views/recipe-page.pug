@@ -22,7 +22,9 @@ block content
                         button.add-review Add Review
                         button.add-collection(onclick='getCollectionForm()') Add To Collection
                         div#collection-choices(style="display: none")
-                            
+                            select(name='collections' id='collection-select')
+                                for collection in collections
+                                    option(value=collection.id)=collection.name
                         button.add-status Add Status
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
