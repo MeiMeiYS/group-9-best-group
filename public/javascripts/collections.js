@@ -67,9 +67,74 @@ const constructCollection = () => {
 }
 
 const editCollectionName = (target) => {
+    const collectionArea = target.parentElement;
+
+    collectionArea.innerHTML = '';
+
+    collectionArea.innerHTML = `
+    <input type="text" id='updateCollection' placeholder="Enter New Collection Name"></input>
+    <button class='button' type='submit' onclick='changeCollectionName(this)'><i class="fas fa-plus-circle"></i>
+    </button>
+    <button class='button cancel' type='submit' onclick='cancelEdit(this)'><i class="fas fa-times-circle"></i>
+    </button>`
+}
+
+const cancelEdit = (target) => {
+    const collectionArea = target.parentElement;
+
+    collectionArea.innerHTML = `<button class='button' id='editCollection' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
+}
+
+
+const changeCollectionName = (target) => {
     //grabbed the previous sibling in pug file (h3) and its text content
-    let collectionId = target.previousElementSibling.textContent;
+    let collectionId = target.parentElement.previousElementSibling.textContent;
     console.log(collectionId);
+
+    let name = document.getElementById('updateCollection').value;
+
+    const collectionArea = target.parentElement;
+
+    console.log(name)
+    if (!name.length) {
+        collectionArea.innerHTML = `<input type="text" id='updateCollection' placeholder="Please Enter New Collection Name"></input>
+        <button class='button' type='submit' onclick='changeCollectionName(this)'><i class="fas fa-plus-circle"></i>
+        </button>
+        <button class='button cancel' type='submit' onclick='cancelEdit(this)'><i class="fas fa-times-circle"></i>
+        </button>`
+    } else {
+        fetch(`/api/collections/${collectionId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({name})
+        })
+        .then(res => {
+            console.log({res})
+            return res.json()
+        })
+        // .then(data => {
+        //     // console.log(data)
+        //     let newCollection = data.newCollection;
+
+        //     if (newCollection) {
+        //         let collectionContainer = document.querySelector('.all-collections');
+
+        //         collectionContainer.innerHTML += `
+        //         <div class='collection-header'>
+        //             <h3>${newCollection.name}</h3>
+        //             <button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
+        //             <button class='button' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
+        //         </div>
+        //         <div class='recipe-list'>
+        //         </div>
+        //         `
+        //     }
+        // })
+
+    }
+
 
 };
 
@@ -82,6 +147,12 @@ const deleteCollection = async (target) => {
     fetch(`/api/collections/${collectionId}`, {
         method: "DELETE",
     })
+    .then(res => {
+        console.log(res)
 
+        let collectionContainer = document.querySelector('.all-collections');
+
+        collectionContainer.innerHTML += ``
+    })
 
 };

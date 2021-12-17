@@ -111,7 +111,8 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
         await collection.update({
             name: name
         })
-        res.json(collection);
+        console.log(collection)
+        res.json({ collection });
     } else {
         next(collectionNotFound(collectionId));
     };
@@ -140,6 +141,7 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
     if (collection) {
         collection.destroy();
         recipeCollections.destroy();
+        console.log('deletion successsssssssssssssss')
         res.json({message: `Deleted collection`});
     } else {
         next(collectionNotFound(collectionId));
