@@ -16,10 +16,13 @@ block content
                     p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
                     p.update-date updated on #{recipe.updatedAt.toDateString().slice(3)}
                 p.description #{recipe.description}
+                script(src='/javascripts/recipeCollections.js')
                 if locals.authenticated
                     .log-in-buttons
                         button.add-review Add Review
-                        button.add-collection Add To Collection
+                        button.add-collection(onclick='getCollectionForm()') Add To Collection
+                        div#collection-choices(style="display: none")
+                            
                         button.add-status Add Status
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
