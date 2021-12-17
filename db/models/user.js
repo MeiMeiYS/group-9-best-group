@@ -1,5 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+
+  const randomUserImage = () => {
+    return (Math.floor(Math.random()*9) + 19).toString()
+  }
+
   const User = sequelize.define('User', {
     userName: {
       allowNull: false,
@@ -17,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageId: {
       type: DataTypes.INTEGER,
-      references: { model: 'Images'}
+      references: { model: 'Images' },
+      defaultValue: randomUserImage(),
+      allowNull: false
     }
   }, {});
   User.associate = function(models) {

@@ -81,9 +81,16 @@ router.post('/signup', csrfProtection, userValidators, asyncHandler(async (req, 
 
   } = req.body;
 
+  const randomUserImage = () => {
+    return (Math.floor(Math.random()*9) + 19).toString()
+  }
+
+  const imageId = randomUserImage()
+
   const user = User.build({
     email,
     userName,
+    imageId
   })
 
   const validatorErrors = validationResult(req);
@@ -208,7 +215,7 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
 router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
   const userId = parseInt(req.params.id);
-  const user = await User.findByPk(userId);
+  const user = await User.findByPk(userId, {include: db.Image});
   checkPermissionsUsersRoute(user, res.locals.user);
 
   res.render('users-edit', { title: 'Edit User', user, csrfToken: req.csrfToken() })
@@ -230,28 +237,36 @@ router.post('/:id(\\d+)/image/new', requireAuth, csrfProtection, imageValidators
   const { url } = req.body;
 
   //building new image from the url the user submitted
-  const image = await db.Image.build(
-    {
-      url
-    }
-  )
+  // const image = await db.Image.build(
+  //   {
+  //     url
+  //   }
+  // )
 
   const userId = parseInt(req.params.id);
-
-  const user = await User.findByPk(userId);
+  const user = await User.findByPk(userId)
 
   checkPermissionsUsersRoute(user, res.locals.user);
 
   const validatorErrors = validationResult(req.body);
 
-
   //checking if url submitted is valid and if is, update user with the id associated with the url
   if (validatorErrors.isEmpty()) {
-    await image.save();
+    let imageId
+    if (url) {
+      const image = await db.Image.build({ url })
+      await image.save();
+      imageId = image.id
+    } else {
+      const randomUserImage = () => {
+        return (Math.floor(Math.random()*9) + 19).toString()
+      }
 
+      imageId = randomUserImage()
+    }
     await user.update(
       {
-        imageId: image.id
+        imageId
       }
     )
 
@@ -273,9 +288,15 @@ router.post('/:id(\\d+)/image/delete', requireAuth, asyncHandler(async (req, res
   const user = await User.findByPk(userId);
   checkPermissionsUsersRoute(user, res.locals.user);
 
+  const randomUserImage = () => {
+    return (Math.floor(Math.random()*9) + 19).toString()
+  }
+
+  const imageId = randomUserImage()
+
   await user.update(
     {
-      imageId: null
+      imageId
     }
   )
 
