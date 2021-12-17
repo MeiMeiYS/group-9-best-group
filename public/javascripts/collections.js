@@ -18,7 +18,7 @@ const cancelAdd = () => {
 }
 
 
-const constructCollection = () => {
+const constructCollection = async () => {
     let name = document.getElementById('newCollection').value;
     const collectionArea = document.querySelector('.new-collection-form');
 
@@ -33,25 +33,21 @@ const constructCollection = () => {
         </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
         </button>`;
 
-        fetch("/api/collections", {
+        const res = await fetch("/api/collections", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({name})
+            body: JSON.stringify({ name })
         })
-        .then(res => {
-            // console.log({res})
-            return res.json()
-        })
-        .then(data => {
-            // console.log(data)
-            let newCollection = data.newCollection;
+        const data = await res.json()
 
-            if (newCollection) {
-                let collectionContainer = document.querySelector('.all-collections');
+        let newCollection = data.newCollection;
 
-                collectionContainer.innerHTML += `
+        if (newCollection) {
+            let collectionContainer = document.querySelector('.all-collections');
+
+            collectionContainer.innerHTML += `
                 <div class=collectionContainer>
                     <div class='collection-header'>
                         <h3>${newCollection.name}</h3>
@@ -62,17 +58,14 @@ const constructCollection = () => {
                         <div class='deleteCollection'>
                             <button class='button' id='deleteCollection' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
                         </div>
-                    </div>
-                    <div class='recipe-list'>
-                        <div class='viewCollection'>
-                            <h3 hidden>${newCollection.id}</h3>
+                        <div class='recipe-list' id=${newCollection.id}>
                             <button class='button' id='viewCollection' type='submit' onclick='viewCollection(this)'>View Recipes</button>
+                            <div id='recipe-view-${newCollection.id}' style='display:none'>
                         </div>
                     </div>
                 </div>
                 `
-            }
-        })
+        }
     }
 }
 
@@ -120,107 +113,103 @@ const changeCollectionName = (target) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({name})
+            body: JSON.stringify({ name })
         })
-        .then(res => {
-            //console.log({res})
-            return res.json()
-        })
-        .then(data => {
-            //console.log(data)
-            let updatedCollection = data.collection;
-            console.log(updatedCollection)
+            .then(res => {
+                //console.log({res})
+                return res.json()
+            })
+            .then(data => {
+                //console.log(data)
+                let updatedCollection = data.collection;
+                console.log(updatedCollection)
 
-            if (updatedCollection) {
-                collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
-                console.log(collectionArea.previousElementSibling.previousElementSibling)
+                if (updatedCollection) {
+                    collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
+                    console.log(collectionArea.previousElementSibling.previousElementSibling)
 
-                collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;
-            }
-        })
+                    collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;
+                }
+            })
 
     }
 
 };
 
-const viewCollection = async (target) => {
-    let collectionId = target.parentElement.id;
 
-    console.log(collectionId)
-
-    const recipeView = document.getElementById('recipe-view');
-    if (recipeView.style.display === 'none') {
-        recipeView.style.display = 'block';
-    } else {
-        recipeView.style.display = 'none';
-        recipeView.innerHTML = ''
-    }
-
-
-    fetch(`/api/collections/${collectionId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
-    .then(res => {
-        return res.json()
-    })
-    .then(data => {
-        const recipesInCollection = data.recipes;
-
-       //console.log(recipesInCollection)
-        if (recipeView.innerHTML === '' ) {
-            for (let i = 0; i < recipesInCollection.length; i++) {
-            let recipe = recipesInCollection[i]
-            recipeView.innerHTML += `
-            <div class="card">
-            <img src="${recipe.Image.url}" alt="recipe-image">
-                    <div class="title">
-                        <h1>${recipe.name}</h1>
-                    </div>
-                    <div class="view-button">
-                    <a class="button" href="/recipes/${recipe.id}">View Recipe</a>
-                </div>
-                `
-            }
-        }
-
-    })
-
-
-    // will need to use loop to show all the recipes:
-    // for (let i = 0; i < foundRecipes.length; i++) {
-    //     console.log(`we got one`)
-    //     let foundRecipe = foundRecipes[i];
-    //     resultArea.innerHTML += `
-    //     <div class="card">
-    //     <img src="${foundRecipe.Image.url}" alt="recipe-image">
-    //     <div class="title">
-    //       <h2>${foundRecipe.name}</h2>
-    //     </div>
-    //     <div class="username"> ${foundRecipe.User.userName}</div>
-    //     <div class="view-button">
-    //         <a class="button" href="/recipes/${foundRecipe.id}">View Recipe</a>
-    //     </div>
-    //     `
-    // }
-}
 
 const deleteCollection = async (target) => {
     //grabbed the previous, previous sibling (h3) and got the text content to get collection name
     let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
     console.log(collectionId);
 
-    const collectionContainer = target.parentElement.parentElement
+    const collectionContainer = target.parentElement.parentElement.parentElement
     console.log(collectionContainer);
 
     fetch(`/api/collections/${collectionId}`, {
         method: "DELETE",
     })
-    .then(res => {
-        collectionContainer.innerHTML = '';
-    })
+        .then(res => {
+            collectionContainer.innerHTML = '';
+        })
 
 };
+
+
+
+
+
+const viewCollection = async (target) => {
+    let collectionId = target.parentElement.id;
+
+    console.log(collectionId);
+
+    const button = document.querySelector("#viewCollection");
+
+    const recipeView = document.getElementById(`recipe-view-${collectionId}`);
+    if (recipeView.style.display === 'none') {
+        recipeView.style.display = 'block';
+        button.innerHTML = 'Hide Recipes'
+    } else {
+        recipeView.style.display = 'none';
+        button.innerHTML = 'View Recipes'
+    }
+
+
+    const res = await fetch(`/api/collections/${collectionId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+
+    const data = await res.json()
+    const recipesInCollection = data.recipes;
+    console.log(recipesInCollection);
+
+    //console.log(recipesInCollection)
+    if (recipeView.innerHTML === '') {
+        if (recipesInCollection.length > 0) {
+            for (let i = 0; i < recipesInCollection.length; i++) {
+                let recipe = recipesInCollection[i];
+                recipeView.innerHTML += `
+                <div class="card">
+                <img src="${recipe.Image.url}" alt="recipe-image">
+                        <div class="title">
+                            <h3>${recipe.name}</h3>
+                        </div>
+                        <div class="view-button">
+                        <a class="button" href="/recipes/${recipe.id}">View Recipe</a>
+                    </div>
+                    `
+            }
+        } else {
+            recipeView.innerHTML = `
+                <p>No recipes have been added yet!</p>
+                `
+        }
+    }
+
+}
+
 
