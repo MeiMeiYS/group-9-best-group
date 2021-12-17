@@ -54,8 +54,8 @@ const constructCollection = () => {
                 collectionContainer.innerHTML += `
                 <div class='collection-header'>
                     <h3>${newCollection.name}</h3>
-                    <button class='button' type='submit' onclick='editCollectionName()'>Edit Name</button>
-                    <button class='button' type='submit' onclick='deleteCollection()'>Delete Collection</button>
+                    <button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
+                    <button class='button' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
                 </div>
                 <div class='recipe-list'>
                 </div>
@@ -66,12 +66,24 @@ const constructCollection = () => {
     }
 }
 
-const editCollectionName = () => {
+const editCollectionName = (target) => {
+    //grabbed the previous sibling in pug file (h3) and its text content
+    let collectionName = target.previousElementSibling.textContent;
 
 };
 
-const deleteCollection = () => {
-    const name = document.querySelector('.collection-name');
+const deleteCollection = async (target) => {
+    //grabbed the previous, previous sibling (h3) and got the text content to get collection name
+    let collectionName = target.previousElementSibling.previousElementSibling.textContent;
+    console.log(collectionName)
 
-    console.log(name); 
+    fetch('/api/collections/delete', {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({collectionName})
+    })
+
+
 };

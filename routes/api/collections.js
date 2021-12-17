@@ -90,7 +90,7 @@ router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, 
 
     if (validationErrors.isEmpty()) {
         await newCollection.save();
-        
+
         res.json({ newCollection })
     } else {
         const errors = validationErrors.array().map(error => error.msg);
@@ -119,16 +119,27 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 }));
 
 //delete full collection
-router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
+router.delete("/delete", requireAuth, asyncHandler(async (req, res, next) => {
     const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id);
 
     const collection = await Collection.findByPk(collectionId);
+
+    // const { collectionName } = req.body;
+
+    // const collection = await Collection.findAll({
+    //     where: {
+    //         name: collectionName
+    //     }
+    // })
+
+    console.log(collection);
+
     checkPermissionsRecipesRoute(collection, res.locals.user);
 
     const recipeCollections = await db.RecipeCollection.findAll({
         where: {
-            collectionId
+            collectionId: collection.id
         }
     });
 
