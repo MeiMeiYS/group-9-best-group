@@ -39,18 +39,21 @@ router.get('/', (req, res) => { // for testing, can see all reviews but in produ
 //  --> needs validator
 router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandler(async (req, res) => {
     const { recipeId, review, imageURL, userId } = req.body;
+    console.log("recipeId", recipeId);
     console.log("imageURL", imageURL);
-    // res.body.newReview = await Review.build({ recipeId, review, userId })
+    // const newReview = await Review.create({ recipeId, review, userId })
+    // req.body.newReview = newReview;
+    console.log("newReview",newReview);
     const validatorErrors = validationResult(req.body);
     if (validatorErrors.isEmpty()) {
         console.log("no errors");
+
         if (imageURL) {
-            // await Image.create({ url: imageURL });
-            // const imageId = await Image.findOne({ where: { url: imageURL } });
-            console.log("truthy???");
-            return;
+            // const image = await Image.create({ url: imageURL });
+            console.log(`imageId #${image.id} created` );
+            res.send()
         }
-        res.send("hi");
+        console.log("hi");
     }
     else {
         const errors = validatorErrors.array().map(error => error.msg);

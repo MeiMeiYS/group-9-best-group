@@ -46,21 +46,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
     //     currUser.id = res.locals.user.id;
     // }
     // `Add a Review` button
-    const addAReview = document.getElementById('addAReview');
-    addAReview.addEventListener("click", event => {
-        event.stopPropagation();
-        addAReview.replaceWith(reviewFormDiv);
-    });
-    //`Submit` button
-    submitButton.addEventListener("click", async (event) => {
-        event.stopPropagation();
-        const body = {
-            userId: 1, //this will be res.locals.user
-            review: reviewText.value,
-            imageURL: imageURL.value
-        }
-        newReview(body)
-    });
+    console.log("recipeId", document);
+    // const addAReview = document.getElementById('addAReview');
+    // addAReview.addEventListener("click", event => {
+    //     event.stopPropagation();
+    //     addAReview.replaceWith(reviewFormDiv);
+    // });
+    // //`Submit` button
+    // submitButton.addEventListener("click", async (event) => {
+    //     event.stopPropagation();
+    //     const body = {
+    //         userId: 1, //this will be res.locals.user
+    //         review: reviewText.value,
+    //         imageURL: imageURL.value
+    //     }
+    //     newReview(body)
+    // });
 
     // `Cancel` Button
     cancelButton.addEventListener("click", (event) => {
