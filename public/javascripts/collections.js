@@ -71,5 +71,7 @@ const editCollectionName = () => {
 };
 
 const deleteCollection = () => {
-    
+    const name = document.querySelector('.collection-name');
+
+    console.log(name); 
 };
