@@ -14,7 +14,7 @@ block content
                 //- need to updat all null to display fetched data for edit form
                 +field('Recipe Name', 'name', recipe.name, 'text')
                 +field('Description', 'description', recipe.description, 'textarea')
-                +field('Image URL', 'imageURL', imageURL, 'text', 'URL')
+                +field('Image URL', 'imageURL', imageURL, 'url', 'URL')
                 div(id='qmi-list')
                     each qmi, index in qmiList
                         div(class='qmi-row')
