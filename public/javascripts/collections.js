@@ -144,8 +144,17 @@ const changeCollectionName = (target) => {
 };
 
 const viewCollection = async (target) => {
-    let collectionId = target.previousElementSibling.textContent;
+    const recipeView = document.getElementById('recipe-view');
+    if (recipeView.style.display === 'none') {
+        recipeView.style.display = 'block';
+    } else {
+        recipeView.style.display = 'none'
+    }
 
+
+
+
+    let collectionId = target.previousElementSibling.textContent;
     fetch(`/api/collections/${collectionId}`, {
         method: "GET",
         headers: {
@@ -156,17 +165,28 @@ const viewCollection = async (target) => {
         return res.json()
     })
     .then(data => {
-        const recipesInCollection = data.collection.Recipe
+        const recipesInCollection = data.recipes;
+
+        console.log(recipesInCollection)
+        for (let i = 0; i < recipesInCollection.length; i++) {
+            let recipe = recipesInCollection[i]
+            recipeView.innerHTML += `
+            <div class="card">
+                <img src="${recipe.Image.url}" alt="recipe-image">
+                <div class="title">
+                    <h2>${recipe.name}</h2>
+                </div>
+                <div class="username"> ${foundRecipe.User.userName}</div>
+                <div class="view-button">
+                <a class="button" href="/recipes/${foundRecipe.id}">View Recipe</a>
+            </div>
+            `
+        }
+
     })
 
-    // const recipeView = document.getElementsByClassName('recipe-view');
-    // if (recipeView.style.display === 'none') {
-    //     recipeView.style.display = 'block';
-    // } else {
-    //     recipeView.style.display = 'none'
-    // }
 
-    // will need to use loop to show all the recipes: 
+    // will need to use loop to show all the recipes:
     // for (let i = 0; i < foundRecipes.length; i++) {
     //     console.log(`we got one`)
     //     let foundRecipe = foundRecipes[i];

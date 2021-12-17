@@ -44,4 +44,5 @@ block content
                                         div.viewCollection
                                             h3(hidden)=collection.id
                                             button(class='button' id='viewCollection' type='submit' onclick='viewCollection(this)') View Recipes
-                                            div.recipe-view
+                                            div#recipe-view(style="display: none")
+                                                p hello there
