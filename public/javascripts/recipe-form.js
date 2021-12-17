@@ -1,9 +1,7 @@
 window.addEventListener("load", (event) => {
 
     const qmiList = document.querySelector('#qmi-list');
-    qmiList.style.backgroundColor = 'green';
     const qmiRow = document.querySelector('.qmi-row');
-    qmiRow.style.backgroundColor = 'red';
 
     const qmiCountInput = document.querySelector('#qmiCount');
 
