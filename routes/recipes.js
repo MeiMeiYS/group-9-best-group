@@ -71,8 +71,8 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
             ingredient
         });
     }
-    console.log(qmiList)
-    res.render('recipe-edit', { title: `Edit Recipe - ${recipe.name}`, csrfToken: req.csrfToken(), recipe, measurements, imageUrl, qmiList }) // revisit when pug is completed
+    const qmiCount = qmiList.length;
+    res.render('recipe-edit', { title: `Edit Recipe - ${recipe.name}`, csrfToken: req.csrfToken(), recipe, measurements, imageUrl, qmiList, qmiCount }) // revisit when pug is completed
 
 }));
 

@@ -11,7 +11,7 @@ block content
         +field('Recipe Name', 'name', recipe.name, 'text')
         +field('Description', 'description', recipe.description, 'textarea')
         +field('Image URL', 'imageURL', imageUrl, 'text', 'URL')
-        input(type='hidden', id='qmiCount', name='qmiCount', value='1')
+        input(type='hidden', id='qmiCount', name='qmiCount', value=qmiCount)
         div(id='qmi-list')
             each qmi, index in qmiList
                 div(class='qmi-row')
