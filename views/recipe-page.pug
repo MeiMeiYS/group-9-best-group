@@ -5,11 +5,14 @@ block content
     //- need to go back to route and fix the pass in object
     div(class= 'recipe_details')
         p recipe name: #{recipe.name}
-        p user name: #{recipe.User.name}
+        p user name: #{recipe.User.userName}
         p description: #{recipe.description}
-        img(src=imageURL width="500" height="600")
+        if imageUrl
+            img(src=recipe.Image.url width="500" height="600")
+        else
+            img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
         p steps: #{recipe.steps}
         p ingredients:
         ul
             each qmi in qmiList
-                li #{qmi.quantity} #{measurement} of #{ingredient}
+                li #{qmi.quantity} #{qmi.measurement} of #{qmi.ingredient}
