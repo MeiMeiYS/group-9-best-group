@@ -60,8 +60,14 @@ router.get("/:id", asyncHandler(async (req, res) => {
     });
     checkPermissionsRecipesRoute(collection, res.locals.user);
 
+    const recipes = await db.Recipe.findByPk({
+        where: {
+            
+        }
+    })
+
     if(collection) {
-        res.json(collection);
+        res.json({collection});
     } else {
         next(collectionNotFound(collectionId))
     }
