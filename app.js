@@ -16,6 +16,8 @@ const usersRouter = require('./routes/users');
 const recipesRouter = require('./routes/recipes');
 const reviewsRouter = require('./routes/api/reviews');
 const recipeStatusRouter = require('./routes/api/recipe-status');
+const collectionsRouter = require('./routes/api/collections');
+const recipeCollectionsRouter = require('./routes/api/recipecollections');
 const recipeSearchRouter = require('./routes/api/recipe-search');
 
 const app = express();
@@ -52,6 +54,8 @@ app.use('/recipes', recipesRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/recipes/search', recipeSearchRouter);
 app.use('/api/recipes', recipeStatusRouter);
+app.use('/api/collections', collectionsRouter);
+app.use('/api/recipecollections', recipeCollectionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -12,8 +12,17 @@ block content
             +recipeBadgeArea(recipe)
     div(class="collections-container")
         h2 My Collections
-        ul
+        script(src='/javascripts/collections.js')
+        div.new-collection-form
+            button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add
+        div.all-collections
             each collection in collections
-                li=collection.name
-                //- change later when working with api route
-                a(class='view-collection' href=`/collections/` role='button') View Collection
+                div.collectionContainer
+                    div(class='collection-header')
+                        h3=collection.name
+                        h3(hidden)=collection.id
+                        div.editCollection
+                            button(class='button' id='editCollection' type='submit' onclick='editCollectionName(this)') Edit Name
+                        div.deleteCollection
+                            button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
+                    div(class='recipe-list')
