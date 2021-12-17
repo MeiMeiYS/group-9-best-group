@@ -3,40 +3,47 @@ include utils.pug
 
 
 block content
-    +validationErrorSummary(errors)
-    form(action='/recipes', method='post')
-        input(type='hidden', name='_csrf', value=csrfToken)
 
-        //- need to updat all null to display fetched data for edit form
-        +field('Recipe Name', 'name', null, 'text', value=name)
-        +field('Description', 'description', null, 'textarea', value=description)
-        +field('Image URL', 'imageURL', null, 'text', 'URL', value=imageURL )
-        input(type='hidden', id='qmiCount', name='qmiCount', value='1')
-        div(id='qmi-list')
-            div(class='qmi-row')
+    main.form-area
+        h1 Add A Recipe
+        .new-recipe-form
+            +validationErrorSummary(errors)
+            form(action='/recipes', method='post')
+                input(type='hidden', id='qmiCount', name='qmiCount', value='1')
+                input(type='hidden', name='_csrf', value=csrfToken)
+
+                //- need to update all null to display fetched data for edit form
+                +field('Recipe Name', 'name', null, 'text')
+                +field('Description', 'description', null, 'textarea')
+                +field('Image URL', 'imageURL', null, 'text', 'URL' )
+                div(id='qmi-list')
+                    div(class='qmi-row')
+
+                        div
+                            label(for='quantity-1') Quantity
+                            input(type='number' id='quantity-1' name='quantity-1' class='form-control' required placeholder='Qty')
+
+                        div
+                            label(for='measurement-1') Measurement
+                            select(name='measurement-1' id='measurement-1' selected=' ')
+                                each measurement in measurements
+                                    option(value=measurement.id) #{measurement.type}
+
+                        div
+                            label(for='ingredient-1') Ingredient
+                            input(type=text id='ingredient-1' name='ingredient-1' class='form-control' required placeholder='Ingredient')
+
+                        button(type='button' class='delete-row delete-button') Remove
+                            i(class="fas fa-trash-alt")
+
+                button(type='button' id='new-qmi-row' class='add-button') Add New Ingredient
+                    i(class="fas fa-plus-circle")
 
                 div
-                    label(for='quantity-1') Quantity
-                    input(type='number' id='quantity-1' name='quantity-1' class='form-control' required)
-
-                div
-                    label(for='measurement-1') Measurement
-                    select(name='measurement-1' id='measurement-1')
-                        each measurement in measurements
-                            option(value=measurement.id) #{measurement.type}
-
-                div
-                    label(for='ingredient-1') Ingredient
-                    input(type=text id='ingredient-1' name='ingredient-1' class='form-control' required)
-
-                button(type='button' class='delete-row') Delete this ingredient
-
-        button(type='button' id='new-qmi-row') Add a new ingredient
-
-        div
-                    label(for='steps') Cooking Steps
+                    label(for='steps') Instructions
                     textarea(id='steps' name='steps' class='form-control' rows='5')
 
-        button(type='submit') Submit
+                div.submit
+                    button(type='submit' class='submit') Submit
 
-    script(src='/javascripts/recipe-form.js')
+            script(src='/javascripts/recipe-form.js')

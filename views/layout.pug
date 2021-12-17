@@ -17,7 +17,7 @@ html
       ul.nav-links
         if locals.authenticated
           li.nav-item:  a.button(href=`users/${user.id}`) Welcome #{user.userName}!
-          li.nav-item: a.button(href="/") Create A Recipe
+          li.nav-item: a.button(href="/recipes/new") Create A Recipe
           li.nav-item: a.button(href="/recipes") View Recipes
           li.nav-item
             form(action='/users/logout' method='post')
