@@ -54,8 +54,13 @@ const constructCollection = () => {
                 collectionContainer.innerHTML += `
                 <div class='collection-header'>
                     <h3>${newCollection.name}</h3>
+                    <h3 hidden>${newCollection.id}</h3>
+                    <div class='editCollection'>
                     <button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
+                    </div>
+                    <div class='deleteCollection'>
                     <button class='button' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
+                    </div>
                 </div>
                 <div class='recipe-list'>
                 </div>
@@ -125,30 +130,28 @@ const changeCollectionName = (target) => {
                 collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
                 console.log(collectionArea.previousElementSibling.previousElementSibling)
 
-                collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name; 
+                collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;
             }
         })
 
     }
 
-
 };
 
 const deleteCollection = async (target) => {
     //grabbed the previous, previous sibling (h3) and got the text content to get collection name
-    let collectionId = target.previousElementSibling.previousElementSibling.textContent;
+    let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
     console.log(collectionId);
-
 
     fetch(`/api/collections/${collectionId}`, {
         method: "DELETE",
     })
-    .then(res => {
-        console.log(res)
+    // .then(res => {
+    //     console.log(res)
 
-        let collectionContainer = document.querySelector('.all-collections');
+    //     let collectionContainer = document.querySelector('.all-collections');
 
-        collectionContainer.innerHTML += ``
-    })
+    //     collectionContainer.innerHTML += ``
+    // })
 
 };

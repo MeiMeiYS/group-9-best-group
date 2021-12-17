@@ -121,7 +121,7 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 
 //delete full collection
 router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
-    // console.log('MADE IT TO THE ROUTTTTEEEE')
+    console.log('MADE IT TO THE ROUTTTTEEEE')
     const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id);
     console.log(collectionId);
@@ -132,6 +132,7 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 
     checkPermissionsRecipesRoute(collection, res.locals.user);
 
+    //array of all recipeCollections associated with the collection
     const recipeCollections = await db.RecipeCollection.findAll({
         where: {
             collectionId: collection.id
@@ -140,8 +141,9 @@ router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 
     if (collection) {
         collection.destroy();
-        recipeCollections.destroy();
-        console.log('deletion successsssssssssssssss')
+        if (recipeCollections.length > 0) {
+            recipeCollections.forEach(recipeCollection => recipeCollection.destroy());
+        }
         res.json({message: `Deleted collection`});
     } else {
         next(collectionNotFound(collectionId));
