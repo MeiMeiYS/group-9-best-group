@@ -1,18 +1,23 @@
 extends layout.pug
 
 block content
-    //- for now just list everything we need here
-    //- need to go back to route and fix the pass in object
-    div(class= 'recipe_details')
-        p recipe name: #{recipe.name}
-        p user name: #{recipe.User.userName}
-        p description: #{recipe.description}
-        if imageUrl
-            img(src=recipe.Image.url width="500" height="600")
-        else
-            img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
-        p steps: #{recipe.steps}
-        p ingredients:
-        ul
-            each qmi in qmiList
-                li #{qmi.quantity} #{qmi.measurement} of #{qmi.ingredient}
+    main.recipe-page-content
+        .recipe_details
+            h1.recipe-name #{recipe.name}
+            .date-metadata
+                p.author by #{recipe.User.userName}
+                p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
+                p.update-date updated on #{recipe.updatedAt.toDateString().slice(3)}
+            .recipe-image-container
+                if imageUrl
+                    img(src=recipe.Image.url)
+                else
+                    img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
+            .recipe-info
+                p.description #{recipe.description}
+                .line-divider
+                ul.ingredient-list
+                    each qmi in qmiList
+                        li #{qmi.quantity} #{qmi.measurement} #{qmi.ingredient}
+                .line-divider
+                p.steps #{recipe.steps}
