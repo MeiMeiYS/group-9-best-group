@@ -3,6 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
       return queryInterface.bulkInsert('Measurements', [
+      { type: '', createdAt: new Date(), updatedAt: new Date() },
       { type: 'cups', createdAt: new Date(), updatedAt: new Date() },
       { type: 'fluid ounces', createdAt: new Date(), updatedAt: new Date() },
       { type: 'gallons', createdAt: new Date(), updatedAt: new Date() },
@@ -16,7 +17,6 @@ module.exports = {
       { type: 'quarts', createdAt: new Date(), updatedAt: new Date() },
       { type: 'tablespoons', createdAt: new Date(), updatedAt: new Date() },
       { type: 'teaspoons', createdAt: new Date(), updatedAt: new Date() },
-      { type: '', createdAt: new Date(), updatedAt: new Date() },
       { type: 'cans', createdAt: new Date(), updatedAt: new Date() },
       { type: 'slices', createdAt: new Date(), updatedAt: new Date() },
       { type: 'splash', createdAt: new Date(), updatedAt: new Date() },
@@ -24,6 +24,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Measurements', null, {}); 
+    return queryInterface.bulkDelete('Measurements', null, {});
   }
 };

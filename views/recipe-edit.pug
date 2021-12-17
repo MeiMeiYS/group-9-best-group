@@ -5,24 +5,24 @@ include utils.pug
 
 
 block content
-    +validationErrorSummary(errors)
-    form(action='/recipes', method='post')
-        input(type='hidden', name='_csrf', value=csrfToken)
+        +validationErrorSummary(errors)
+        form(action='/recipes', method='post', class='recipe-form')
+            input(type='hidden', name='_csrf', value=csrfToken)
 
-        //- need to updat all null to display fetched data for edit form
-        +field('Recipe Name', 'name', null, 'text', 'Recipe Name' )
-        +field('Description', 'description', null, 'textarea', 'Recipe description' )
-        +field('Image URL', 'imageURL', null, 'text', 'URL' )
+            //- need to updat all null to display fetched data for edit form
+            +field('Recipe Name', 'name', null, 'text', 'Recipe Name' )
+            +field('Description', 'description', null, 'textarea', 'Recipe description' )
+            +field('Image URL', 'imageURL', null, 'text', 'URL' )
 
-        div(class='qmi-list')
-            div(class='qmi-row')
-            +field('Quantity', 'quantity', null, 'number', 'Quantity' )
-            label(for='measurement')= measurement
-            select(name='measurement' id='measurement')
-                //- need to pass in measurements in router object
-                each measurement in measurements
-                    option(value=measurement.type) #{measurement.type}
-            +field('Ingredient', 'ingredient', null, 'text', 'Ingredient' )
+            div(class='qmi-list')
+                div(class='qmi-row')
+                +field('Quantity', 'quantity', null, 'number', 'Quantity' )
+                label(for='measurement')= measurement
+                select(name='measurement' id='measurement')
+                    //- need to pass in measurements in router object
+                    each measurement in measurements
+                        option(value=measurement.type) #{measurement.type}
+                +field('Ingredient', 'ingredient', null, 'text', 'Ingredient' )
 
-        +field('Cooking Steps', 'steps', null, 'textarea', 'Steps' )
-        button(type='submit') Submit
+            +field('Cooking Steps', 'steps', null, 'textarea', 'Steps' )
+            button(type='submit') Submit
