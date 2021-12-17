@@ -123,7 +123,15 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         });
     }
 
-    res.render('recipe-page', { title: recipe.name, recipe, imageUrl, qmiList, averageReview, reviews })
+    //would like users collections to be able to render on recipe page as well
+    const userId = res.locals.user.id;
+    const collections = await db.Collection.findAll({
+        where: {
+            userId
+        }
+    });
+
+    res.render('recipe-page', { title: recipe.name, recipe, imageUrl, qmiList, averageReview, reviews, collections })
 
 }))
 
