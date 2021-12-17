@@ -3,7 +3,6 @@ const { requireAuth, checkPermissionsRecipesRoute } = require('../auth');
 const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const { Sequelize } = require('../db/models');
-const Op = Sequelize.Op;
 const db = require('../db/models');
 const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db;
 const router = express.Router();
@@ -54,9 +53,10 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
     const recipeId = parseInt(req.params.id, 10);
     const recipe = await Recipe.findByPk(recipeId, { include: [RecipeIngredient, User, Image] });
     const measurements = await Measurement.findAll();
-    let imageUrl = null;
+    let imageURL = null;
     if(recipe.imageId){
-        imageUrl = recipe.Image.url;
+        imageURL = recipe.Image.url;
+        console.log('!!!!!!!!!!',imageURL)
     }
     checkPermissionsRecipesRoute(recipe, res.locals.user);
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
@@ -72,7 +72,7 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
         });
     }
     const qmiCount = qmiList.length;
-    res.render('recipe-edit', { title: `Edit Recipe - ${recipe.name}`, csrfToken: req.csrfToken(), recipe, measurements, imageUrl, qmiList, qmiCount }) // revisit when pug is completed
+    res.render('recipe-edit', { title: `Edit Recipe - ${recipe.name}`, csrfToken: req.csrfToken(), recipe, measurements, imageURL, qmiList, qmiCount }) // revisit when pug is completed
 
 }));
 
@@ -84,9 +84,10 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
 
-    let imageUrl = null;
+    let imageURL = null;
     if(recipe.imageId){
-        imageUrl = recipe.Image.url;
+        imageURL = recipe.Image.url;
+        console.log('~~~~~~~~', imageURL)
     }
 
     const qmiList = [];
@@ -101,7 +102,7 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         });
     }
 
-    res.render('recipe-page', { title: recipe.name, recipe, imageUrl, qmiList })
+    res.render('recipe-page', { title: recipe.name, recipe, imageURL, qmiList })
 
 }))
 
@@ -130,11 +131,7 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
             await recipe.update({ name, description, steps });
 
             //delete all old ingredients
-            const oldRecipeIngredients = await RecipeIngredient.findAll({ where: {
-                recipeId: {
-                    [Op.eq]: recipeId
-                }
-            }})
+            const oldRecipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } })
 
             // oldRecipeIngredients.destroy
             for (let i = 0; i < oldRecipeIngredients.length; i++ ){
@@ -144,11 +141,7 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
             //checking each ingredients
             for (let i = 0; i < qmiCount; i++){
                 const ingredientName = req.body[`ingredient-${i+1}`];
-                const ingredient = await Ingredient.findOne({ where: {
-                    name: {
-                        [Op.eq]: ingredientName
-                    }
-                }})
+                const ingredient = await Ingredient.findOne({ where: { name: ingredientName } })
 
                 if (!ingredient){
                     //if ingredient does not exit
@@ -214,10 +207,15 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
         const validatorErrors = validationResult(req.body);
         if (validatorErrors.isEmpty()) {
             if (imageURL) {
-                const image = Image.build(imageURL)
-                await image.save();
+                const imageRes = await Image.create({url: imageURL})
+                console.log({ imageRes })
+
                 const imageId = await Image.findOne({ where: { url: imageURL } });
-                recipe.imageId = imageId;
+
+                recipe.imageId = imageRes.dataValues.id ;
+
+                // console.log({ imageRes, imageId, imageURL, msg: 'DB RESULTS', newImgId: imageRes.dataValues.id })
+
             }
 
             await recipe.save();
@@ -225,11 +223,7 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
             //checking each ingredients
             for (let i = 0; i < qmiCount; i++){
                 const ingredientName = req.body[`ingredient-${i+1}`];
-                const ingredient = await Ingredient.findOne({ where: {
-                    name: {
-                        [Op.eq]: ingredientName
-                    }
-                }})
+                const ingredient = await Ingredient.findOne({ where: { name: ingredientName } })
 
                 if (!ingredient){
                     //if ingredient does not exit
@@ -258,7 +252,7 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
 
             const measurements = await Measurement.findAll();
             const errors = validatorErrors.array().map(error => error.msg);
-            res.render('recipe-new', { title: 'Add a New Recipe', measurements, errors, name, description, steps, imageURL, csrfToken: req.csrfToken()})
+            res.render('recipe-new', { title: 'Add a New Recipe', validatorErrors, measurements, errors, name, description, steps, imageURL, csrfToken: req.csrfToken()})
 
         }
     } else {
@@ -269,18 +263,31 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
 
 //deleting a recipe
 router.post(`/:id(\\d+)/delete`, requireAuth, csrfProtection, asyncHandler(async (req, res) => {
-    const recipeId = req.params.id;
-    const recipe = await Recipe.findByPk(recipeId);
-    checkPermissionsRecipesRoute(recipe, res.locals.user);
-    const tables = [RecipeStatus, RecipeCollection, Review, Recipe, RecipeTag, RecipeIngredient]
-    tables.forEach(async table => {
-        if (table == Recipe) {
-            const data = await table.findByPk(recipeId);
-            data.destroy();
-        }
-        const data = await table.findAll({ where: { recipeId } });
-        data.destroy();
-    });
+    if (res.locals.authenticated){
+        const userId = res.locals.user.id
+        const recipeId = req.params.id;
+        const recipe = await Recipe.findByPk(recipeId);
+        checkPermissionsRecipesRoute(recipe, res.locals.user);
+        //delete image
+        const imageId = recipe.imageId
+        if (imageId) await Image.destroy({ where: { id: imageId } })
+        //delete RecipeIngredients
+        await RecipeIngredient.destroy({ where: { recipeId } })
+        //delete RecipeStatus
+        await RecipeStatus.destroy({ where: { recipeId, userId } })
+        //delete RecipeCollections
+        await RecipeCollection.destroy({ where: { recipeId } })
+        //delete Reviews
+        await Review.destroy({ where: { recipeId } })
+        //delete RecipeTags
+        await RecipeTag.destroy({ where: { recipeId } })
+        //delete recipe
+        await Recipe.destroy({ where: { id: recipeId } })
+
+        res.redirect('/recipes')
+    } else {
+        res.redirect('/login');
+    }
 }));
 
 

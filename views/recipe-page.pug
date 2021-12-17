@@ -3,12 +3,14 @@ extends layout.pug
 block content
     //- for now just list everything we need here
     //- need to go back to route and fix the pass in object
-    div(class= 'recipe_details')
+    div
+        div
+            a(href=`http://localhost:8080/recipes/${recipe.id}/edit`) edit
         p recipe name: #{recipe.name}
         p user name: #{recipe.User.userName}
         p description: #{recipe.description}
-        if imageUrl
-            img(src=recipe.Image.url width="500" height="600")
+        if imageURL
+            img(src=imageURL width="500" height="600")
         else
             img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
         p steps: #{recipe.steps}

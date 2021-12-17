@@ -4,13 +4,15 @@ include utils.pug
 
 block content
     +validationErrorSummary(errors)
+
     form(action=`/recipes/${recipe.id}`, method='post')
         input(type='hidden', name='_csrf', value=csrfToken)
 
         //- need to updat all null to display fetched data for edit form
         +field('Recipe Name', 'name', recipe.name, 'text')
         +field('Description', 'description', recipe.description, 'textarea')
-        +field('Image URL', 'imageURL', imageUrl, 'text', 'URL')
+        +field('Image URL', 'imageURL', imageURL, 'text', 'URL')
+        p=imageURL
         input(type='hidden', id='qmiCount', name='qmiCount', value=qmiCount)
         div(id='qmi-list')
             each qmi, index in qmiList
@@ -39,5 +41,9 @@ block content
         +field('Steps', 'steps', recipe.steps, 'textarea')
 
         button(type='submit') Submit
+    div
+        form(action=`/recipes/${recipe.id}/delete`, method='post')
+            input(type='hidden', name='_csrf', value=csrfToken)
+            button(type='submit') delete this recipe
 
     script(src='/javascripts/recipe-form.js')
