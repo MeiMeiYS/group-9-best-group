@@ -119,21 +119,15 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 }));
 
 //delete full collection
-router.delete("/delete", requireAuth, asyncHandler(async (req, res, next) => {
+router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
+    // console.log('MADE IT TO THE ROUTTTTEEEE')
     const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id);
+    console.log(collectionId);
 
     const collection = await Collection.findByPk(collectionId);
 
-    // const { collectionName } = req.body;
-
-    // const collection = await Collection.findAll({
-    //     where: {
-    //         name: collectionName
-    //     }
-    // })
-
-    console.log(collection);
+    // console.log(collection);
 
     checkPermissionsRecipesRoute(collection, res.locals.user);
 

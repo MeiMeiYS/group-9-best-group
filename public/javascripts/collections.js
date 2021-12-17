@@ -49,7 +49,7 @@ const constructCollection = () => {
             let newCollection = data.newCollection;
 
             if (newCollection) {
-                let collectionContainer = document.querySelector('.collectionContainer');
+                let collectionContainer = document.querySelector('.all-collections');
 
                 collectionContainer.innerHTML += `
                 <div class='collection-header'>
@@ -68,21 +68,19 @@ const constructCollection = () => {
 
 const editCollectionName = (target) => {
     //grabbed the previous sibling in pug file (h3) and its text content
-    let collectionName = target.previousElementSibling.textContent;
+    let collectionId = target.previousElementSibling.textContent;
+    console.log(collectionId);
 
 };
 
 const deleteCollection = async (target) => {
     //grabbed the previous, previous sibling (h3) and got the text content to get collection name
-    let collectionName = target.previousElementSibling.previousElementSibling.textContent;
-    console.log(collectionName)
+    let collectionId = target.previousElementSibling.previousElementSibling.textContent;
+    console.log(collectionId);
 
-    fetch('/api/collections/delete', {
+
+    fetch(`/api/collections/${collectionId}`, {
         method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({collectionName})
     })
 
 

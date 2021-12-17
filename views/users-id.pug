@@ -20,6 +20,7 @@ block content
                 div.collectionContainer
                     div(class='collection-header')
                         h3=collection.name
+                        h3(hidden)=collection.id
                         button(class='button' id='editCollection' type='submit' onclick='editCollectionName(this)') Edit Name
                         button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
                     div(class='recipe-list')
