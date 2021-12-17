@@ -41,17 +41,17 @@ router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandle
     console.log("recipeId", recipeId);
     console.log("imageURL", imageURL);
     console.log("userId", userId);
-    console.log("review", review);
-    const newReview = await Review.create({ recipeId, review, userId, rating })
+    console.log("review", review === true);
     const validatorErrors = validationResult(req.body);
     if (validatorErrors.isEmpty()) {
         console.log("no errors");
-
         if (imageURL) {
-            // const image = await Image.create({ url: imageURL });
+            const image = await Image.create({ url: imageURL });
             console.log(`imageId #${image.id} created` );
-            res.send()
+            const newReview = await Review.create({ recipeId, review, userId, rating, imageId: image.id })
+            res.send({newReview});
         }
+        const newReview = await Review.create({ recipeId, review, userId, rating })
         res.json({newReview});
     }
     else {
