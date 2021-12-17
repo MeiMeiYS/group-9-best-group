@@ -6,7 +6,6 @@ const { Sequelize } = require('../db/models');
 const Op = Sequelize.Op;
 const db = require('../db/models');
 const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db;
-
 const router = express.Router();
 
 const recipeFormValidators = [
@@ -34,6 +33,7 @@ const imageValidators = [
             }
         })
 ];
+
 
 // /recipes/new
 router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
@@ -185,7 +185,7 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
 
 // /recipes
 router.get('/', asyncHandler(async (req, res) => {
-    const recipeList = await Recipe.findAll({
+    const recentRecipes = await Recipe.findAll({
         include: [Image, User],
         limit: 9,
         order: [
@@ -193,7 +193,7 @@ router.get('/', asyncHandler(async (req, res) => {
         ]
     });
     // get rating here and pass it in res.render object vvvvvv
-    res.render('recipes', { recipeList })
+    res.render('recipes', { recentRecipes })
 }));
 
 //-----------------------------------submitting a new recipe---------------------------------------------
@@ -272,7 +272,6 @@ router.post(`/:id(\\d+)/delete`, requireAuth, csrfProtection, asyncHandler(async
     checkPermissionsRecipesRoute(recipe, res.locals.user);
     const tables = [RecipeStatus, RecipeCollection, Review, Recipe, RecipeTag, RecipeIngredient]
     tables.forEach(async table => {
-
         if (table == Recipe) {
             const data = await table.findByPk(recipeId);
             data.destroy();
@@ -281,6 +280,8 @@ router.post(`/:id(\\d+)/delete`, requireAuth, csrfProtection, asyncHandler(async
         data.destroy();
     });
 }));
+
+
 
 
 //please check and add any extra needed routes
