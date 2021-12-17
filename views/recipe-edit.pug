@@ -22,10 +22,12 @@ block content
 
                     div
                         label(for=`measurement-${index + 1}`) Measurement
-                        select(name=`measurement-${index + 1}` id=`measurement-${index + 1}` value=qmi.measurement )
+                        select(name=`measurement-${index + 1}` id=`measurement-${index + 1}` )
                             each measurement in measurements
-                                option(value=measurement.id) #{measurement.type}
-
+                                if qmi.measurement === measurement.type
+                                    option(value=measurement.id selected) #{measurement.type}
+                                else
+                                    option(value=measurement.id) #{measurement.type}
                     div
                         label(for=`ingredient-${index + 1}`) Ingredient
                         input(class='ingredientInput' type=text id=`ingredient-${index + 1}` name=`ingredient-${index + 1}` class='form-control' value=qmi.ingredient required)
