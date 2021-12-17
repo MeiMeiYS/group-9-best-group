@@ -80,6 +80,7 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
     const recipeId = parseInt(req.params.id, 10);
     const recipe = await Recipe.findByPk(recipeId, { include: [RecipeIngredient, User, Image] });
+
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
 
@@ -207,6 +208,7 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
 
         //get total count of qmi
         const qmiCount = req.body.qmiCount;
+
 
         //error validator
         const validatorErrors = validationResult(req.body);
