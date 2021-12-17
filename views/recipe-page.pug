@@ -1,20 +1,52 @@
 extends layout.pug
 
 block content
-    //- for now just list everything we need here
-    //- need to go back to route and fix the pass in object
-    div
-        div
-            a(href=`http://localhost:8080/recipes/${recipe.id}/edit`) edit
-        p recipe name: #{recipe.name}
-        p user name: #{recipe.User.userName}
-        p description: #{recipe.description}
-        if imageURL
-            img(src=imageURL width="500" height="600")
-        else
-            img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
-        p steps: #{recipe.steps}
-        p ingredients:
-        ul
-            each qmi in qmiList
-                li #{qmi.quantity} #{qmi.measurement} of #{qmi.ingredient}
+    main.recipe-page-content
+        .recipe_details
+            .recipe-overview
+                h1.recipe-name #{recipe.name}
+                p.average-rating #{averageReview}
+                .recipe-image-container
+                    if imageURL
+                        img(src=recipe.Image.url)
+                    else
+                        img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
+                .date-metadata
+                    p.author by #{recipe.User.userName}
+                    p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
+                    p.update-date updated on #{recipe.updatedAt.toDateString().slice(3)}
+                p.description #{recipe.description}
+                if locals.authenticated
+                    .log-in-buttons
+                        button.add-review Add Review
+                        button.add-collection Add To Collection
+                        button.add-status Add Status
+                    if user.id === recipe.User.id
+                        .recipe-owner-buttons
+                            a.edit-recipe(href=`/recipes/${recipe.id}/edit`) Edit Recipe
+                            button.delete-recipe Delete Recipe
+
+            .recipe-info
+                .line-divider
+                ul.ingredient-list
+                    each qmi in qmiList
+                        li #{qmi.quantity} #{qmi.measurement} #{qmi.ingredient}
+                .line-divider
+                p.steps #{recipe.steps}
+                .line-divider
+
+
+            .reviews
+                if reviews.length
+                    p.review-header Reviews
+                    for review in reviews
+                        .review-box
+                            .review-image-container
+                                img.review-image(src=`${review.Image.url}`)
+                            .review-data
+                                p.review-rating= review.rating
+                                    span out of 5
+                                p.review-text= review.review
+                                .date-metadata
+                                    p.author= review.User.userName
+                                    p.review-date= review.createdAt.toDateString().slice(3)

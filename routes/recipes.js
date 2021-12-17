@@ -79,10 +79,32 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
 // /recipes/:id
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
     const recipeId = parseInt(req.params.id, 10);
-    const recipe = await Recipe.findByPk(recipeId, { include: [RecipeIngredient, User, Image] });
+    const recipe = await Recipe.findByPk(recipeId, {
+        include: [
+            { model: RecipeIngredient },
+            { model: User },
+            { model: Image },
+            {
+            model: Review,
+                include: [Image, User]
+            }
+        ]
+    });
 
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
+    const reviews = recipe.Reviews
+
+    console.log(recipe)
+
+    let averageReview = `No Reviews Posted`
+    if (recipe.Reviews) {
+        if (recipe.Reviews.length) {
+            averageReview = `Average Review: ${Math.ceil(recipe.Reviews.map(review => review.rating).reduce((acc, el) => acc + el) / recipe.Reviews.length)}`
+        }
+    }
+
+    console.log({ averageReview })
 
     let imageURL = null;
     if(recipe.imageId){
@@ -102,10 +124,11 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         });
     }
 
-    res.render('recipe-page', { title: recipe.name, recipe, imageURL, qmiList })
+    res.render('recipe-page', { title: recipe.name, recipe, imageURL, qmiList, averageReview, reviews })
 
 }))
 
+//submit a edit recipe
 router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
 
     if (res.locals.authenticated){
@@ -120,6 +143,8 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
 
         //error validator
         const validatorErrors = validationResult(req.body);
+
+
         if (validatorErrors.isEmpty()) {
 
 
@@ -129,17 +154,23 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
             if (imageURL && oldImageURL !== imageURL){
                 //if image is different, need to update
                 const image = await Image.findByPk(oldImageId);
-                await image.update({ url: imageURL })
+                await image.update({ url: imageURL });
             }
             //if there is no url input but has image before
             else if (!imageURL && oldImageId) {
                 //delete the old image from database
-                await Image.destroy({ where: { id: oldImageId }})
+                await Image.destroy({ where: { id: oldImageId }});
             }
             //if there was no image before and want to create one now
             else if (imageURL && !oldImageId) {
-                const newImage = await Image.create({ url: imageURL })
+                const newImage = await Image.create({ url: imageURL });
                 await recipe.update({ imageId: newImage.dataValues.id });
+            }
+            else if (!imageURL){
+                const randomRecipeImage = () => {
+                    return (Math.floor(Math.random()*9) + 1).toString();
+                }
+                await recipe.update({ imageId: randomRecipeImage() });
             }
 
 
@@ -213,26 +244,27 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
         const userId = res.locals.user.id
         const { name, description, steps, imageURL } = req.body;
         //build recipe
-        const recipe = Recipe.build({ name, description, steps, userId });
 
         //get total count of qmi
         const qmiCount = req.body.qmiCount;
 
+        let imageId;
 
         //error validator
         const validatorErrors = validationResult(req.body);
         if (validatorErrors.isEmpty()) {
+            let imageId
             if (imageURL) {
-                const imageRes = await Image.create({url: imageURL})
-                console.log({ imageRes })
-
-                const imageId = await Image.findOne({ where: { url: imageURL } });
-
-                recipe.imageId = imageRes.dataValues.id ;
-
-                // console.log({ imageRes, imageId, imageURL, msg: 'DB RESULTS', newImgId: imageRes.dataValues.id })
-
+                const newImage = await Image.create({ url: imageURL })
+                imageId = newImage.dataValues.id ;
+            } else {
+                const randomRecipeImage = () => {
+                    return (Math.floor(Math.random()*9) + 1).toString()
+                }
+                imageId = randomRecipeImage();
             }
+
+            const recipe = Recipe.build({ name, description, steps, userId, imageId });
 
             await recipe.save();
 
@@ -284,21 +316,21 @@ router.post(`/:id(\\d+)/delete`, requireAuth, csrfProtection, asyncHandler(async
         const recipeId = req.params.id;
         const recipe = await Recipe.findByPk(recipeId);
         checkPermissionsRecipesRoute(recipe, res.locals.user);
-        //delete image
-        const imageId = recipe.imageId
-        if (imageId) await Image.destroy({ where: { id: imageId } })
         //delete RecipeIngredients
         await RecipeIngredient.destroy({ where: { recipeId } })
         //delete RecipeStatus
         await RecipeStatus.destroy({ where: { recipeId, userId } })
         //delete RecipeCollections
         await RecipeCollection.destroy({ where: { recipeId } })
-        //delete Reviews
-        await Review.destroy({ where: { recipeId } })
         //delete RecipeTags
         await RecipeTag.destroy({ where: { recipeId } })
+        //delete Reviews
+        await Review.destroy({ where: { recipeId } })
         //delete recipe
         await Recipe.destroy({ where: { id: recipeId } })
+        //delete image if it is not a default image
+        const imageId = recipe.imageId
+        if (imageId && imageId > 9) await Image.destroy({ where: { id: imageId } })
 
         res.redirect('/recipes')
     } else {

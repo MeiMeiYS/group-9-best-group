@@ -1,5 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+
+  const randomReviewImage = () => {
+    return (Math.floor(Math.random()*9) + 10).toString()
+  }
+
   const Review = sequelize.define('Review', {
     userId: {
       type: DataTypes.INTEGER,
@@ -17,7 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageId: {
       type: DataTypes.INTEGER,
-      references: {model: 'Images'}
+      references: { model: 'Images' },
+      defaultValue: randomReviewImage(),
+      allowNull: false
     },
     rating: {
       type: DataTypes.INTEGER,

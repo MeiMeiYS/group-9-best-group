@@ -3,47 +3,57 @@ include utils.pug
 
 
 block content
-    +validationErrorSummary(errors)
+    main.form-area
+        h1 Edit A Recipe
+        .new-recipe-form
+            +validationErrorSummary(errors)
+            form(action=`/recipes/${recipe.id}`, method='post')
+                input(type='hidden', name='_csrf', value=csrfToken)
 
-    form(action=`/recipes/${recipe.id}`, method='post')
-        input(type='hidden', name='_csrf', value=csrfToken)
+                input(type='hidden', id='qmiCount', name='qmiCount', value=qmiCount)
+                //- need to updat all null to display fetched data for edit form
+                +field('Recipe Name', 'name', recipe.name, 'text')
+                +field('Description', 'description', recipe.description, 'textarea')
+                +field('Image URL', 'imageURL', imageURL, 'text', 'URL')
+                div(id='qmi-list')
+                    each qmi, index in qmiList
+                        div(class='qmi-row')
 
-        //- need to updat all null to display fetched data for edit form
-        +field('Recipe Name', 'name', recipe.name, 'text')
-        +field('Description', 'description', recipe.description, 'textarea')
-        +field('Image URL', 'imageURL', imageURL, 'text', 'URL')
-        p=imageURL
-        input(type='hidden', id='qmiCount', name='qmiCount', value=qmiCount)
-        div(id='qmi-list')
-            each qmi, index in qmiList
-                div(class='qmi-row')
+                            div
+                                label(for=`quantity-${index + 1}`) Quantity
+                                input(class='quantityInput' type='number' id=`quantity-${index + 1}` name=`quantity-${index + 1}` class='form-control' step='0.01' placeholder='0.00' value=qmi.quantity required)
 
-                    div
-                        label(for=`quantity-${index + 1}`) Quantity
-                        input(class='quantityInput' type='number' id=`quantity-${index + 1}` name=`quantity-${index + 1}` class='form-control' step='0.01' placeholder='0.00' value=qmi.quantity required)
+                            div
+                                label(for=`measurement-${index + 1}`) Measurement
+                                select(name=`measurement-${index + 1}` id=`measurement-${index + 1}` )
+                                    each measurement in measurements
+                                        if qmi.measurement === measurement.type
+                                            option(value=measurement.id selected) #{measurement.type}
+                                        else
+                                            option(value=measurement.id) #{measurement.type}
+                            div
+                                label(for=`ingredient-${index + 1}`) Ingredient
+                                input(class='ingredientInput' type=text id=`ingredient-${index + 1}` name=`ingredient-${index + 1}` class='form-control' value=qmi.ingredient required)
 
-                    div
-                        label(for=`measurement-${index + 1}`) Measurement
-                        select(name=`measurement-${index + 1}` id=`measurement-${index + 1}` )
-                            each measurement in measurements
-                                if qmi.measurement === measurement.type
-                                    option(value=measurement.id selected) #{measurement.type}
-                                else
-                                    option(value=measurement.id) #{measurement.type}
-                    div
-                        label(for=`ingredient-${index + 1}`) Ingredient
-                        input(class='ingredientInput' type=text id=`ingredient-${index + 1}` name=`ingredient-${index + 1}` class='form-control' value=qmi.ingredient required)
+                            //- button(type='button' class='delete-row') Delete this ingredient
+                            button(type='button' class='delete-row delete-button') Remove
+                                i(class="fas fa-trash-alt")
 
-                    button(type='button' class='delete-row') Delete this ingredient
+                //- button(type='button' id='new-qmi-row') Add a new ingredient
 
-        button(type='button' id='new-qmi-row') Add a new ingredient
+                button(type='button' id='new-qmi-row' class='add-button') Add New Ingredient
+                        i(class="fas fa-plus-circle")
 
-        +field('Steps', 'steps', recipe.steps, 'textarea')
 
-        button(type='submit') Submit
-    div
-        form(action=`/recipes/${recipe.id}/delete`, method='post')
-            input(type='hidden', name='_csrf', value=csrfToken)
-            button(type='submit') delete this recipe
+                div
+                    label(for='steps') Instructions
+                    textarea(id='steps' name='steps' class='form-control' rows='5' )=recipe.steps
 
-    script(src='/javascripts/recipe-form.js')
+                div.submit
+                    button(type='submit' class='submit') Submit
+            div(class='delete submit')
+                form(action=`/recipes/${recipe.id}/delete`, method='post')
+                    input(type='hidden', name='_csrf', value=csrfToken)
+                    button(type='submit') delete this recipe
+
+            script(src='/javascripts/recipe-form.js')
