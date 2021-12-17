@@ -22,15 +22,19 @@ mixin recipeBadgeArea(recipe)
           h2= recipe.name
         .username= recipe.User.userName
         .rating
-            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-5` class="rating-5")
+          if recipe.averageRating.length > 1
+            img.no-ratings(src='/assets/illustrations/no-ratings-small.png')
+          else
+
+            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-5` class="rating-5"  disabled="true" checked=(recipe.averageRating == '5'))
             label(for=`${recipe.name}-rating-5`)
-            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-4` class="rating-4")
+            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-4` class="rating-4"  disabled="true" checked=(recipe.averageRating == '4'))
             label(for=`${recipe.name}-rating-4`)
-            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-3` class="rating-3")
+            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-3` class="rating-3"  disabled="true" checked=(recipe.averageRating == '3'))
             label(for=`${recipe.name}-rating-3`)
-            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-2` class="rating-2")
+            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-2` class="rating-2"  disabled="true" checked=(recipe.averageRating == '2'))
             label(for=`${recipe.name}-rating-2`)
-            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-1` class="rating-1")
+            input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-1` class="rating-1"  disabled="true" checked=(recipe.averageRating == '1'))
             label(for=`${recipe.name}-rating-1`)
         .view-button
           a.button(href=`/recipes/${recipe.id}`) View Recipe

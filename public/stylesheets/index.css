@@ -199,10 +199,15 @@ button.button{
   }
 
 
-  .rating > input:not(:checked) ~ label:hover,
+  /* .rating > input:not(:checked) ~ label:hover,
   .rating > input:not(:checked) ~ label:hover ~ label {
     background-image: var(--whisk-500);
   }
+
+  .card .rating > input:not(:checked) ~ label:hover,
+  .card .rating > input:not(:checked) ~ label:hover ~ label {
+    background-image: inherit;
+  } */
 
   .username{
       font-family: var(--body-font);

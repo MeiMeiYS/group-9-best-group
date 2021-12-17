@@ -1,5 +1,5 @@
 const express = require('express');
-const { csrfProtection, asyncHandler } = require('./utils');
+const { csrfProtection, asyncHandler, addAverageRatingProperty } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
 const { User, Recipe, Review, Collection, Tag, StatusType, Image } = db;
@@ -222,7 +222,6 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
       },
       {
         model: Review,
-        include: [User, Image]
       },
       {
         model: User
@@ -230,14 +229,31 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     ]
   })
 
-  let reviews = Reviews
   const collections = user.Collections
   let memberSince = " " + user.createdAt.toDateString().slice(4)
   let recipesAdded = 0
     if(recipes.length) recipesAdded = recipes.length;
   let reviewsAdded = 0
   if (user.Reviews) reviewsAdded = user.Reviews.length;
-  res.render('users-id', { user, recipes, reviews, collections, memberSince, reviewsAdded, recipesAdded })
+
+  let addAverageRatingProperty = (recipes) => {
+    recipes.forEach(recipe => {
+      if (recipe.Reviews.length) {
+        recipe.averageRating = Math.ceil(recipe.Reviews.map(review => review.rating).reduce((acc, el) => acc + el) / recipe.Reviews.length).toString()
+      } else {
+        recipe.averageRating = `No Ratings`
+      }
+    })
+    return recipes
+  }
+
+  // console.log(addAverageRatingProperty(recipes).map(recipe => recipe.averageRating))
+
+  addAverageRatingProperty(recipes)
+  console.log(recipes.map(recipe => recipe.averageRating))
+
+
+  res.render('users-id', { user, recipes, collections, memberSince, reviewsAdded, recipesAdded })
 
 }));
 
