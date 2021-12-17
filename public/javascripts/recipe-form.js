@@ -4,7 +4,6 @@ window.addEventListener("load", (event) => {
     const qmiRow = document.querySelector('.qmi-row');
 
     const qmiCountInput = document.querySelector('#qmiCount');
-    console.log(qmiCount)
 
     // When click on the newQmiRow button, page will populate a new qmi div
     const newQmiRowBtn = document.querySelector('#new-qmi-row');
