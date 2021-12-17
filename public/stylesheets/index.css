@@ -7,6 +7,7 @@
     --neutral-300: #bea6a1;
     --neutral-100: #ffffff;
     --green-success-500: #605f47;
+    --green-hover-500: #1c1c15;
     --red-error-500: #a33c2e;
 
 
@@ -460,12 +461,14 @@ button.button{
         width: fit-content;
     }
 
+
     i.fa-plus-circle {
         color: var(--green-success-500);
         margin-left: 5px;
         background-color: var(--neutral-300);
         border:none;
     }
+
 
     .delete-row{
         background-color: var(--neutral-300);
@@ -533,3 +536,119 @@ button.button{
         color: var(--neutral-500);
         border-color: var(--neutral-500);
     }
+
+
+
+    /* USER ID PAGE */
+
+    .user-page-content{
+        display: flex;
+    }
+
+    .profile-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 500px;
+        background-color: var(--primary-300);
+        padding: 40px;
+        min-height: 100vh;
+        position: fixed;
+    }
+
+    .profile-pic{
+        width: 250px;
+        height: 250px;
+        border: var(--boxy-border);
+        overflow: hidden;
+        border-radius: 50%
+    }
+
+    .profile-pic > img{
+        margin: 0 auto;
+        height: 100%;
+    }
+
+    .profile-container > h2{
+        font-family: var(--heading-font);
+        font-size: var(--heading-size);
+    }
+
+    .profile-container > h4{
+        font-family: var(--body-font);
+        font-weight: 700;
+        color: var(--neutral-500);
+        margin-top: 35px;
+        margin-bottom: 5px;
+    }
+
+    .edit-button{
+        width: 60px;
+        height: 60px;
+        border: var(--boxy-border);
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        left: 80px;
+        bottom: 60px;
+        background-color: var(--neutral-700);
+        font-size: 30px;
+        transition: transform 0.2s;
+
+    }
+
+    .edit-button:hover{
+        transform: translateY(-4px)
+    }
+
+    .edit-button > i{
+        color: var(--primary-500);
+        transition: background-color 0.2s;
+    }
+
+    .edit-button > i:hover{
+        color: var(--primary-300);
+    }
+
+    .profile-container span{
+        font-size: var(--heading-size);
+        font-family: var(--heading-font);
+        text-transform: uppercase;
+    }
+
+    .recipes-data{
+        background-color: var(--neutral-300);
+        width: 100%;
+        padding: 40px 40px 40px 550px;
+        min-height: 90vh;
+    }
+
+    .recipes-data h2{
+        font-family: var(--heading-font);
+        font-size: var(--heading-size);
+        text-transform: uppercase;
+        color: var(--primary-300);
+        margin-top: 25px;
+    }
+
+    .recipes-data a{
+        font-family: var(--heading-font);
+        text-transform: uppercase;
+        text-decoration: none;
+        font-size: 22px;
+        margin-top: 5px;
+    }
+
+    .recipes-data i{
+      margin-right: 5px;
+    }
+
+    .recipes-data a *{
+        transition: color 0.2s
+    }
+    .recipes-data a:hover *{
+        color: var(--green-hover-500)
+      }
