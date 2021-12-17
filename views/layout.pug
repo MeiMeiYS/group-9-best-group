@@ -35,7 +35,7 @@ html
         .column
           h3.about-blurb About Recipeople
           p.about-blurb
-            | Recipeople is a website where users can sign up for free, post recipes, and curate collections of recipes published by other users. This website was designed as a Week 13 midterm project as part of App Academy's 24-week Full Stack Software Engineering Bootcamp.
+            | Recipeople is a website where users can sign up, post recipes, and curate collections of recipes published by other users. This website was designed as a Week 13 midterm project as part of App Academy's 24-week Full Stack Software Engineering Bootcamp.
         .column
           h3.biography Hire Us
           ul.biography
@@ -63,14 +63,14 @@ html
         .column
           h3.footer-nav Explore
           ul.footer-nav
-            li
-              a(href='/') Home
-            li
-              a(href='/users/signup') Register
-            li
-              a(href='#') Log In
-            li
-              a(href='#') Discover Recipes
+            li: a(href='/') Home
+            li: a(href='/recipes') Find Recipes
+            if locals.authenticated
+              li: a(href="/recipes/new") Create A Recipe
+              li: a(href=`/users/${user.id}`) Profile Page
+            else
+              li: a(href='/users/signup') Register
+              li: a(href='/users/login') Log In
 
       .footer-bottom
         p Built December 2021 with Javascript, Pug, and Express
