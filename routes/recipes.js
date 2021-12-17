@@ -79,10 +79,32 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
 // /recipes/:id
 router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
     const recipeId = parseInt(req.params.id, 10);
-    const recipe = await Recipe.findByPk(recipeId, { include: [RecipeIngredient, User, Image] });
+    const recipe = await Recipe.findByPk(recipeId, {
+        include: [
+            { model: RecipeIngredient },
+            { model: User },
+            { model: Image },
+            {
+            model: Review,
+                include: [Image, User]
+            }
+        ]
+    });
 
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
+    const reviews = recipe.Reviews
+
+    console.log(recipe)
+
+    let averageReview = `No Reviews Posted`
+    if (recipe.Reviews) {
+        if (recipe.Reviews.length) {
+            averageReview = `Average Review: ${Math.ceil(recipe.Reviews.map(review => review.rating).reduce((acc, el) => acc + el) / recipe.Reviews.length)}`
+        }
+    }
+
+    console.log({ averageReview })
 
     let imageUrl = null;
     if(recipe.imageId){
@@ -101,7 +123,7 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         });
     }
 
-    res.render('recipe-page', { title: recipe.name, recipe, imageUrl, qmiList })
+    res.render('recipe-page', { title: recipe.name, recipe, imageUrl, qmiList, averageReview, reviews })
 
 }))
 
@@ -113,22 +135,30 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
         const recipe = await Recipe.findByPk(recipeId, { include: [RecipeIngredient, User, Image] });
         checkPermissionsRecipesRoute(recipe, res.locals.user);
         const { name, description, steps, imageURL } = req.body;
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', imageURL)
 
         //get total count of qmi
         const qmiCount = req.body.qmiCount;
 
         //error validator
         const validatorErrors = validationResult(req.body);
+
+
         if (validatorErrors.isEmpty()) {
+            let imageId
             if (imageURL) {
                 const image = Image.build(imageURL)
                 await image.save();
-                const imageId = await Image.findOne({ where: { url: imageURL } });
-                recipe.imageId = imageId;
+                const foundImage = await Image.findOne({ where: { url: imageURL } });
+                imageId = foundImage.id;
+            } else {
+                const randomRecipeImage = () => {
+                            return (Math.floor(Math.random()*9) + 1).toString()
+                        }
+
+                imageId = randomRecipeImage();
             }
             //update recipe
-            await recipe.update({ name, description, steps });
+            await recipe.update({ name, description, steps, imageId });
 
             //delete all old ingredients
             const oldRecipeIngredients = await RecipeIngredient.findAll({ where: {
@@ -205,7 +235,6 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
         const userId = res.locals.user.id
         const { name, description, steps, imageURL } = req.body;
         //build recipe
-        const recipe = Recipe.build({ name, description, steps, userId });
 
         //get total count of qmi
         const qmiCount = req.body.qmiCount;
@@ -214,12 +243,21 @@ router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidat
         //error validator
         const validatorErrors = validationResult(req.body);
         if (validatorErrors.isEmpty()) {
+            let imageId
             if (imageURL) {
                 const image = Image.build(imageURL)
                 await image.save();
-                const imageId = await Image.findOne({ where: { url: imageURL } });
-                recipe.imageId = imageId;
+                let foundImage = await Image.findOne({ where: { url: imageURL } });
+                imageId = foundImage.id
+            } else {
+                const randomRecipeImage = () => {
+                    return (Math.floor(Math.random()*9) + 1).toString()
+                }
+                imageId = randomRecipeImage();
             }
+
+            const recipe = Recipe.build({ name, description, steps, userId, imageId });
+
 
             await recipe.save();
 

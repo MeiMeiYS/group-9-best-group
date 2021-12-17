@@ -1,6 +1,7 @@
 extends layout.pug
 
 block content
+<<<<<<< HEAD
     div(class="profile-container")
         h2=user.userName
         img(src=user.Image.url)
@@ -26,3 +27,36 @@ block content
                         div.deleteCollection
                             button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
                     div(class='recipe-list')
+=======
+    main.user-page-content
+        .profile-container
+            .profile-pic
+                img(src=user.Image.url)
+            a(class='edit-button' href=`${user.id}/edit` role='button')
+                i(class="fas fa-pencil-alt")
+            h2=user.userName
+            h4 Reciperson Since
+            span= memberSince
+
+            h4 Recipes Sumbitted
+            span= reviewsAdded
+
+            h4 Reviews Added
+            span= recipesAdded
+
+        .recipes-data
+            div(class="recipes-container")
+                h2 My Recipes
+                a(href='/recipes/new'  class='new-recipe add-button' role='button')
+                    i(class="fas fa-plus-circle")
+                    span Add New Recipe
+                each recipe in recipes
+                    +recipeBadgeArea(recipe)
+            div(class="collections-container")
+                h2 My Collections
+                ul
+                    each collection in collections
+                        li=collection.name
+                        //- change later when working with api route
+                        a(class='view-collection' href=`/collections/` role='button') View Collection
+>>>>>>> main
