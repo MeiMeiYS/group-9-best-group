@@ -86,6 +86,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         //grabbing rating
         const ratingInput = document.querySelector("input:checked");
         if (!ratingInput) {
+            
         }
         const rating = getNumericRating(ratingInput.id);
 

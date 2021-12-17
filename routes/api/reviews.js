@@ -70,7 +70,7 @@ router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandle
     }
     else {
         const errors = validatorErrors.array().map(error => error.msg);
-        res.send('send some JSON thing', { title: 'Add a new recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList })
+        res.send({ title: 'Add a new recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList })
     }
 }));
 
