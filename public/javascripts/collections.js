@@ -144,17 +144,19 @@ const changeCollectionName = (target) => {
 };
 
 const viewCollection = async (target) => {
+    let collectionId = target.parentElement.id;
+
+    console.log(collectionId)
+
     const recipeView = document.getElementById('recipe-view');
     if (recipeView.style.display === 'none') {
         recipeView.style.display = 'block';
     } else {
-        recipeView.style.display = 'none'
+        recipeView.style.display = 'none';
+        recipeView.innerHTML = ''
     }
 
 
-
-
-    let collectionId = target.previousElementSibling.textContent;
     fetch(`/api/collections/${collectionId}`, {
         method: "GET",
         headers: {
@@ -167,20 +169,21 @@ const viewCollection = async (target) => {
     .then(data => {
         const recipesInCollection = data.recipes;
 
-        console.log(recipesInCollection)
-        for (let i = 0; i < recipesInCollection.length; i++) {
+       //console.log(recipesInCollection)
+        if (recipeView.innerHTML === '' ) {
+            for (let i = 0; i < recipesInCollection.length; i++) {
             let recipe = recipesInCollection[i]
             recipeView.innerHTML += `
             <div class="card">
-                <img src="${recipe.Image.url}" alt="recipe-image">
-                <div class="title">
-                    <h2>${recipe.name}</h2>
+            <img src="${recipe.Image.url}" alt="recipe-image">
+                    <div class="title">
+                        <h1>${recipe.name}</h1>
+                    </div>
+                    <div class="view-button">
+                    <a class="button" href="/recipes/${recipe.id}">View Recipe</a>
                 </div>
-                <div class="username"> ${foundRecipe.User.userName}</div>
-                <div class="view-button">
-                <a class="button" href="/recipes/${foundRecipe.id}">View Recipe</a>
-            </div>
-            `
+                `
+            }
         }
 
     })

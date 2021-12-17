@@ -40,9 +40,6 @@ block content
                                         button(class='button' id='editCollection' type='submit' onclick='editCollectionName(this)') Edit Name
                                     div.deleteCollection
                                         button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
-                                    div(class='recipe-list')
-                                        div.viewCollection
-                                            h3(hidden)=collection.id
-                                            button(class='button' id='viewCollection' type='submit' onclick='viewCollection(this)') View Recipes
-                                            div#recipe-view(style="display: none")
-                                                p hello there
+                                    div(class='recipe-list' id=collection.id)
+                                        button(class='button' id='viewCollection' type='submit' onclick='viewCollection(this)') View Recipes
+                                        div#recipe-view(style="display: none")

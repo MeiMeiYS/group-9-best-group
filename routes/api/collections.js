@@ -61,7 +61,7 @@ router.get("/:id", asyncHandler(async (req, res) => {
         ]
     });
 
-    console.log(collection);
+    //console.log(collection);
 
     checkPermissionsRecipesRoute(collection, res.locals.user);
 
