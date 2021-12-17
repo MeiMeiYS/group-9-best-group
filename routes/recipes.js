@@ -212,7 +212,7 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
 
             res.redirect(`/recipes/${recipe.id}`)
         } else {
-
+            
             const measurements = await Measurement.findAll();
             const errors = validatorErrors.array().map(error => error.msg);
             res.render('recipe-new', { title: 'Add a New Recipe', measurements, errors, name, description, steps, imageURL, csrfToken: req.csrfToken()})
