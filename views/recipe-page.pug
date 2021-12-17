@@ -4,7 +4,7 @@ block content
     //- for now just list everything we need here
     //- need to go back to route and fix the pass in object
     div(class= 'recipe_details')
-        p recipe name: #{recipe.name}
+        p(data-recipeId= recipe.id, id="recipeinfo") recipe name: #{recipe.name}
         p user name: #{recipe.User.userName}
         p description: #{recipe.description}
         if imageUrl

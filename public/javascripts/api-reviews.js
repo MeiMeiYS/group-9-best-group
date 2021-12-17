@@ -1,4 +1,6 @@
 // const router = require('../../routes/api/reviews');
+// fetching user
+
 
 // building `Add A Review` form
 const reviewFormDiv = document.createElement("div");
@@ -40,28 +42,33 @@ cancelButton.innerText = "CANCEL"
 // --> when reviewForm is made, make a new
 
 
-document.addEventListener("DOMContentLoaded", (event) => {
-    // const currUser = {};
-    // if (res.locals.user) {
-    //     currUser.id = res.locals.user.id;
-    // }
+window.addEventListener("DOMContentLoaded", (event) => {
+    const recipe = document.getElementById("recipeinfo");
+    const user = document.getElementById("userinfo")
+    console.log(recipe, user.dataset.userid, "????");
+    if (user) {
+        user.id = parseInt(user.dataset.userid, 10);
+        console.log(user.id);
+    }
+    recipe.id = parseInt(recipe.dataset.recipeid, 10)
     // `Add a Review` button
-    console.log("recipeId", document);
-    // const addAReview = document.getElementById('addAReview');
-    // addAReview.addEventListener("click", event => {
-    //     event.stopPropagation();
-    //     addAReview.replaceWith(reviewFormDiv);
-    // });
-    // //`Submit` button
-    // submitButton.addEventListener("click", async (event) => {
-    //     event.stopPropagation();
-    //     const body = {
-    //         userId: 1, //this will be res.locals.user
-    //         review: reviewText.value,
-    //         imageURL: imageURL.value
-    //     }
-    //     newReview(body)
-    // });
+    const addAReview = document.getElementById('addAReview');
+    addAReview.addEventListener("click", event => {
+        event.stopPropagation();
+        addAReview.replaceWith(reviewFormDiv);
+    });
+    //`Submit` button
+    submitButton.addEventListener("click", async (event) => {
+        event.stopPropagation();
+        console.log("reviewText", reviewText.value);
+        const body = {
+            userId: user.id, //this will be res.locals.user
+            review: reviewText.value,
+            imageURL: imageURL.value,
+            recipeId: recipe.id
+        }
+        await newReview(body)
+    });
 
     // `Cancel` Button
     cancelButton.addEventListener("click", (event) => {
@@ -73,13 +80,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // posting a new review function
 async function newReview(bodyJS) {
     const body = JSON.stringify(bodyJS);
-    await fetch("/api/reviews", {
+    console.log("body", body);
+    fetch("/api/reviews", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: body
     })
+    return;
 };
 
 // auth check
