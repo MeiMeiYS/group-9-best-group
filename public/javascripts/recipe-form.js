@@ -5,13 +5,109 @@ window.addEventListener("load", (event) => {
 
     const qmiCountInput = document.querySelector('#qmiCount');
 
-    //to check if input is valid
+    //to check if uantity input is valid
     const quantityInput1 = document.querySelector('#quantity-1');
-    quantityInput1.addEventListener('change', (event) => {
-        console.log(event.target.value)
+    quantityInput1.addEventListener('keydown', (event) => {
         if (event.target.value !== Math.round(event.target.value * 100) / 100) {
             event.target.value = Math.round(event.target.value * 100) / 100
         }
+    })
+
+    //check if ther is a name input
+    const recipeNameInput = document.querySelector('#name');
+    recipeNameInput.addEventListener('keydown', (event) => {
+        const nameValidationMsg = document.querySelector('.nameValidationMsg');
+        const recipeNameDiv = recipeNameInput.parentElement;
+        if (!event.target.value){
+            if (! nameValidationMsg) {
+                const spanTag = createSpanTag ('nameValidationMsg', 'Please enter a name for your recipe', 'darkred')
+                recipeNameDiv.insertBefore(spanTag, recipeNameInput)
+            } else {
+                nameValidationMsg.innerHTML = 'Please enter a name for your recipe';
+            }
+        } else if (event.target.value.length < 5){
+            if (! nameValidationMsg) {
+                const spanTag = createSpanTag ('nameValidationMsg', 'Recipe name is too short', 'darkred')
+                recipeNameDiv.insertBefore(spanTag, recipeNameInput)
+            } else {
+                nameValidationMsg.innerHTML = 'Recipe name is too short';
+            }
+        } else {
+            const nameValidationMsg = document.querySelector('.nameValidationMsg');
+            if (nameValidationMsg) nameValidationMsg.remove();
+        }
+        checkValidToSubmit ();
+    })
+
+    //check if there is description input
+    const descriptionInput = document.querySelector('#description');
+    descriptionInput.addEventListener('keydown', (event) => {
+        const descriptionValidationMsg = document.querySelector('.descriptionValidationMsg');
+        const descriptionDiv = descriptionInput.parentElement;
+        if (!event.target.value){
+            if (! descriptionValidationMsg) {
+                const spanTag = createSpanTag ('descriptionValidationMsg', 'Please enter description for your recipe', 'darkred')
+                descriptionDiv.insertBefore(spanTag, descriptionInput)
+            } else {
+                descriptionValidationMsg.innerHTML = 'Please enter description for your recipe';
+            }
+        } else if (event.target.value.length < 10){
+            if (! descriptionValidationMsg) {
+                const spanTag = createSpanTag ('descriptionValidationMsg', 'Recipe description is too short', 'darkred')
+                descriptionDiv.insertBefore(spanTag, descriptionInput)
+            } else {
+                descriptionValidationMsg.innerHTML = 'Recipe description is too short';
+            }
+        } else {
+            const descriptionValidationMsg = document.querySelector('.descriptionValidationMsg');
+            if (descriptionValidationMsg) descriptionValidationMsg.remove();
+        }
+        checkValidToSubmit ();
+    })
+
+     //check if there is steps input
+     const stepsInput = document.querySelector('#steps');
+     stepsInput.addEventListener('keydown', (event) => {
+         const stepsValidationMsg = document.querySelector('.stepsValidationMsg');
+         const stepsDiv = stepsInput.parentElement;
+         if (!event.target.value){
+             if (! stepsValidationMsg) {
+                 const spanTag = createSpanTag ('stepsValidationMsg', 'Please enter steps for your recipe', 'darkred')
+                 stepsDiv.insertBefore(spanTag, stepsInput)
+             } else {
+                stepsValidationMsg.innerHTML = 'Please enter steps for your recipe';
+             }
+         } else if (event.target.value.length < 15){
+             if (! stepsValidationMsg) {
+                 const spanTag = createSpanTag ('stepsValidationMsg', 'Recipe steps is too short', 'darkred')
+                 stepsDiv.insertBefore(spanTag, stepsInput)
+             } else {
+                stepsValidationMsg.innerHTML = 'Recipe steps is too short';
+             }
+         } else {
+             const stepsValidationMsg = document.querySelector('.stepsValidationMsg');
+             if (stepsValidationMsg) stepsValidationMsg.remove();
+         }
+         checkValidToSubmit ();
+     })
+
+
+    //url input validator
+    const imageURLInput = document.querySelector('#imageURL');
+    imageURLInput.addEventListener('keydown', (event) => {
+        const imageURLDiv = imageURLInput.parentElement;
+        if (event.target.value.length > 600){
+            const urlValidationMsg = document.querySelector('.urlValidationMsg');
+            if (! urlValidationMsg) {
+                const spanTag = createSpanTag ('urlValidationMsg', 'Image URL can not be more than 600 character', 'darkred')
+                imageURLDiv.insertBefore(spanTag, imageURLInput)
+                event.target.value = '';
+            }
+        } else {
+            const urlValidationMsg = document.querySelector('.urlValidationMsg');
+            if (urlValidationMsg) urlValidationMsg.remove();
+        }
+        checkValidToSubmit ();
     })
 
 
@@ -43,6 +139,22 @@ window.addEventListener("load", (event) => {
 
       })
 
+
+
+      function checkValidToSubmit () {
+          const submitBtn = document.querySelector('.submit').childNodes[0];
+          const nameValidationMsg = document.querySelector('.nameValidationMsg');
+          const descriptionValidationMsg = document.querySelector('.descriptionValidationMsg');
+          const urlValidationMsg = document.querySelector('.urlValidationMsg');
+          const stepsValidationMsg = document.querySelector('.stepsValidationMsg');
+        if (nameValidationMsg || descriptionValidationMsg || urlValidationMsg || stepsValidationMsg) {
+            submitBtn.setAttribute("disabled", "");
+
+        } else {
+            submitBtn.removeAttribute("disabled");
+        }
+
+      }
 
 
     function createDivQmiRow (childElementCount) {
@@ -93,5 +205,15 @@ window.addEventListener("load", (event) => {
         }
         return;
     }
+
+    function createSpanTag (className, innerText, color = 'black') {
+        const spanTag = document.createElement("span");
+        spanTag.classList.add(className);
+        spanTag.innerText = `* ${innerText}`;
+        spanTag.style.color = color;
+        return spanTag;
+    }
+
+
 
 })
