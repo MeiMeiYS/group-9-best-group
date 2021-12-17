@@ -113,6 +113,7 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
         const recipe = await Recipe.findByPk(recipeId, { include: [RecipeIngredient, User, Image] });
         checkPermissionsRecipesRoute(recipe, res.locals.user);
         const { name, description, steps, imageURL } = req.body;
+        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', imageURL)
 
         //get total count of qmi
         const qmiCount = req.body.qmiCount;
