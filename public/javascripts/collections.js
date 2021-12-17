@@ -57,18 +57,21 @@ const constructCollection = () => {
                         <h3>${newCollection.name}</h3>
                         <h3 hidden>${newCollection.id}</h3>
                         <div class='editCollection'>
-                            <button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
+                            <button class='button' id='editCollection' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
                         </div>
                         <div class='deleteCollection'>
-                            <button class='button' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
+                            <button class='button' id='deleteCollection' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
                         </div>
                     </div>
                     <div class='recipe-list'>
+                        <div class='viewCollection'>
+                            <h3 hidden>${newCollection.id}</h3>
+                            <button class='button' id='viewCollection' type='submit' onclick='viewCollection(this)'>View Recipes</button>
+                        </div>
                     </div>
                 </div>
                 `
             }
-            //NEED TO FIGURE OUT WHAT ORDER COLLECTIONS COMES IN
         })
     }
 }
@@ -161,6 +164,23 @@ const viewCollection = async (target) => {
     //     recipeView.style.display = 'block';
     // } else {
     //     recipeView.style.display = 'none'
+    // }
+
+    // will need to use loop to show all the recipes: 
+    // for (let i = 0; i < foundRecipes.length; i++) {
+    //     console.log(`we got one`)
+    //     let foundRecipe = foundRecipes[i];
+    //     resultArea.innerHTML += `
+    //     <div class="card">
+    //     <img src="${foundRecipe.Image.url}" alt="recipe-image">
+    //     <div class="title">
+    //       <h2>${foundRecipe.name}</h2>
+    //     </div>
+    //     <div class="username"> ${foundRecipe.User.userName}</div>
+    //     <div class="view-button">
+    //         <a class="button" href="/recipes/${foundRecipe.id}">View Recipe</a>
+    //     </div>
+    //     `
     // }
 }
 
