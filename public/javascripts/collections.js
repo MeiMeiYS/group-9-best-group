@@ -156,3 +156,27 @@ const deleteCollection = async (target) => {
     })
 
 };
+
+const viewCollection = async (target) => {
+    let collectionId = target.previousElementSibling.textContent;
+
+    fetch(`/api/collections/${collectionId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
+    .then(res => {
+        return res.json()
+    })
+    .then(data => {
+        const recipesInCollection = data.collection.Recipe
+    })
+
+    // const recipeView = document.getElementsByClassName('recipe-view');
+    // if (recipeView.style.display === 'none') {
+    //     recipeView.style.display = 'block';
+    // } else {
+    //     recipeView.style.display = 'none'
+    // }
+}

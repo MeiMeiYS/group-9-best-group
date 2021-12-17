@@ -26,3 +26,9 @@ block content
                         div.deleteCollection
                             button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
                     div(class='recipe-list')
+                        div.viewCollection
+                            h3(hidden)=collection.id
+                            button(class='button' id='viewCollection' type='submit' onclick='viewCollection(this)') View Recipes
+                            div.recipe-view
+                                each recipe in recipes
+                                    +recipeBadgeArea(recipe)
