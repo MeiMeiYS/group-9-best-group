@@ -1,6 +1,11 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
+
+    const randomUserImage = () => {
+      return (Math.floor(Math.random()*9) + 19).toString()
+    }
+
     return queryInterface.createTable('Users', {
       id: {
         allowNull: false,
@@ -24,7 +29,9 @@ module.exports = {
       },
       imageId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Images'}
+        references: { model: 'Images' },
+        defaultValue: randomUserImage(),
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

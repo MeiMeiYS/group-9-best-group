@@ -140,23 +140,6 @@ const changeCollectionName = (target) => {
 
 };
 
-const deleteCollection = async (target) => {
-    //grabbed the previous, previous sibling (h3) and got the text content to get collection name
-    let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
-    console.log(collectionId);
-
-    const collectionContainer = target.parentElement.parentElement
-    console.log(collectionContainer);
-
-    fetch(`/api/collections/${collectionId}`, {
-        method: "DELETE",
-    })
-    .then(res => {
-        collectionContainer.innerHTML = '';
-    })
-
-};
-
 const viewCollection = async (target) => {
     let collectionId = target.previousElementSibling.textContent;
 
@@ -180,3 +163,21 @@ const viewCollection = async (target) => {
     //     recipeView.style.display = 'none'
     // }
 }
+
+const deleteCollection = async (target) => {
+    //grabbed the previous, previous sibling (h3) and got the text content to get collection name
+    let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
+    console.log(collectionId);
+
+    const collectionContainer = target.parentElement.parentElement
+    console.log(collectionContainer);
+
+    fetch(`/api/collections/${collectionId}`, {
+        method: "DELETE",
+    })
+    .then(res => {
+        collectionContainer.innerHTML = '';
+    })
+
+};
+

@@ -1,5 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+
+  const randomRecipeImage = () => {
+    return (Math.floor(Math.random()*9) + 1).toString()
+  }
+
   const Recipe = sequelize.define('Recipe', {
     name: {
       allowNull: false,
@@ -20,7 +25,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageId: {
       type: DataTypes.INTEGER,
-      references: { model: 'Images' }
+      references: { model: 'Images' },
+      defaultValue: randomRecipeImage(),
+      allowNull: false
     }
   }, {});
   Recipe.associate = function (models) {

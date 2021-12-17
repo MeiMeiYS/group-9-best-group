@@ -1,34 +1,49 @@
 extends layout.pug
 
 block content
-    div(class="profile-container")
-        h2=user.userName
-        img(src=user.Image.url)
-        a(class='edit-image' href=`${user.id}/edit` role='button') Change Picture
-    div(class="recipes-container")
-        h2 My Recipes
-        a(class='new-recipe' href='/recipes/new' role='button') Add New Recipe
-        each recipe in recipes
-            +recipeBadgeArea(recipe)
-    div(class="collections-container")
-        h2 My Collections
-        script(src='/javascripts/collections.js')
-        div.new-collection-form
-            button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add
-        div.all-collections
-            each collection in collections
-                div.collectionContainer
-                    div(class='collection-header')
-                        h3=collection.name
-                        h3(hidden)=collection.id
-                        div.editCollection
-                            button(class='button' id='editCollection' type='submit' onclick='editCollectionName(this)') Edit Name
-                        div.deleteCollection
-                            button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
-                    div(class='recipe-list')
-                        div.viewCollection
-                            h3(hidden)=collection.id
-                            button(class='button' id='viewCollection' type='submit' onclick='viewCollection(this)') View Recipes
-                            div.recipe-view
-                                each recipe in recipes
-                                    +recipeBadgeArea(recipe)
+    main.user-page-content
+        .profile-container
+            .profile-pic
+                img(src=user.Image.url)
+            a(class='edit-button' href=`${user.id}/edit` role='button')
+                i(class="fas fa-pencil-alt")
+            h2=user.userName
+            h4 Reciperson Since
+            span= memberSince
+
+            h4 Recipes Sumbitted
+            span= reviewsAdded
+
+            h4 Reviews Added
+            span= recipesAdded
+
+        .recipes-data
+            div(class="recipes-container")
+                h2 My Recipes
+                a(href='/recipes/new'  class='new-recipe add-button' role='button')
+                    i(class="fas fa-plus-circle")
+                    span Add New Recipe
+                each recipe in recipes
+                    +recipeBadgeArea(recipe)
+                div(class="collections-container")
+                    h2 My Collections
+                    script(src='/javascripts/collections.js')
+                    div.new-collection-form
+                        button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add
+                    div.all-collections
+                        each collection in collections
+                            div.collectionContainer
+                                div(class='collection-header')
+                                    h3=collection.name
+                                    h3(hidden)=collection.id
+                                    div.editCollection
+                                        button(class='button' id='editCollection' type='submit' onclick='editCollectionName(this)') Edit Name
+                                    div.deleteCollection
+                                        button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
+                                    div(class='recipe-list')
+                                        div.viewCollection
+                                            h3(hidden)=collection.id
+                                            button(class='button' id='viewCollection' type='submit' onclick='viewCollection(this)') View Recipes
+                                            div.recipe-view
+                                                each recipe in recipes
+                                                    +recipeBadgeArea(recipe)
