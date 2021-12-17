@@ -77,7 +77,7 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
 }));
 
 // /recipes/:id
-router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
     const recipeId = parseInt(req.params.id, 10);
     const recipe = await Recipe.findByPk(recipeId, {
         include: [
@@ -124,7 +124,7 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
         });
     }
 
-    res.render('recipe-page', { title: recipe.name, recipe, imageURL, qmiList, averageReview, reviews })
+    res.render('recipe-page', { title: recipe.name, recipe, imageURL, qmiList, averageReview, reviews, csrfToken: req.csrfToken() })
 
 }))
 
