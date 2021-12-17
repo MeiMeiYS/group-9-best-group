@@ -153,7 +153,7 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
-  const userId = parseInt(req.params.id);
+  const userId = parseInt(req.params.id, 10);
   const user = await User.findByPk(userId, {
     include: [
       {
@@ -208,8 +208,12 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
   const recipes = user.Recipes;
   const collections = user.Collections
-
-  res.render('users-id', { user, recipes, collections })
+  let memberSince = " " + user.createdAt.toDateString().slice(4)
+  let recipesAdded = 0
+    if(user.Recipes) recipesAdded = user.Recipes.length;
+  let reviewsAdded = 0
+  if (user.Reviews) reviewsAdded = user.Reviews.length;
+  res.render('users-id', { user, recipes, collections, memberSince, reviewsAdded, recipesAdded })
 
 }));
 
