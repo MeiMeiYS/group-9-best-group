@@ -1,28 +1,41 @@
-//- need to pass in isNewFrom in router object
-
 extends layout.pug
 include utils.pug
 
 
 block content
-        +validationErrorSummary(errors)
-        form(action='/recipes', method='post', class='recipe-form')
-            input(type='hidden', name='_csrf', value=csrfToken)
+    +validationErrorSummary(errors)
+    form(action=`/recipes/${recipe.id}`, method='post')
+        input(type='hidden', name='_csrf', value=csrfToken)
 
-            //- need to updat all null to display fetched data for edit form
-            +field('Recipe Name', 'name', null, 'text', 'Recipe Name' )
-            +field('Description', 'description', null, 'textarea', 'Recipe description' )
-            +field('Image URL', 'imageURL', null, 'text', 'URL' )
-
-            div(class='qmi-list')
+        //- need to updat all null to display fetched data for edit form
+        +field('Recipe Name', 'name', recipe.name, 'text')
+        +field('Description', 'description', recipe.description, 'textarea')
+        +field('Image URL', 'imageURL', imageUrl, 'text', 'URL')
+        input(type='hidden', id='qmiCount', name='qmiCount', value=qmiCount)
+        div(id='qmi-list')
+            each qmi, index in qmiList
                 div(class='qmi-row')
-                +field('Quantity', 'quantity', null, 'number', 'Quantity' )
-                label(for='measurement')= measurement
-                select(name='measurement' id='measurement')
-                    //- need to pass in measurements in router object
-                    each measurement in measurements
-                        option(value=measurement.type) #{measurement.type}
-                +field('Ingredient', 'ingredient', null, 'text', 'Ingredient' )
 
-            +field('Cooking Steps', 'steps', null, 'textarea', 'Steps' )
-            button(type='submit') Submit
+                    div
+                        label(for=`quantity-${index + 1}`) Quantity
+                        input(class='quantityInput' type='number' id=`quantity-${index + 1}` name=`quantity-${index + 1}` class='form-control' step='0.01' placeholder='0.00' value=qmi.quantity required)
+
+                    div
+                        label(for=`measurement-${index + 1}`) Measurement
+                        select(name=`measurement-${index + 1}` id=`measurement-${index + 1}` value=qmi.measurement )
+                            each measurement in measurements
+                                option(value=measurement.id) #{measurement.type}
+
+                    div
+                        label(for=`ingredient-${index + 1}`) Ingredient
+                        input(class='ingredientInput' type=text id=`ingredient-${index + 1}` name=`ingredient-${index + 1}` class='form-control' value=qmi.ingredient required)
+
+                    button(type='button' class='delete-row') Delete this ingredient
+
+        button(type='button' id='new-qmi-row') Add a new ingredient
+
+        +field('Steps', 'steps', recipe.steps, 'textarea')
+
+        button(type='submit') Submit
+
+    script(src='/javascripts/recipe-form.js')
