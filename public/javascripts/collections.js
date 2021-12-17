@@ -18,7 +18,7 @@ const cancelAdd = () => {
 }
 
 
-const constructCollection = async () => {
+const constructCollection = () => {
     let name = document.getElementById('newCollection').value;
     const collectionArea = document.querySelector('.new-collection-form');
 
@@ -33,7 +33,7 @@ const constructCollection = async () => {
         </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
         </button>`;
 
-        await fetch("/api/collections", {
+        fetch("/api/collections", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -41,7 +41,7 @@ const constructCollection = async () => {
             body: JSON.stringify({name})
         })
         .then(res => {
-            console.log({res})
+            // console.log({res})
             return res.json()
         })
         .then(data => {
@@ -49,9 +49,9 @@ const constructCollection = async () => {
             let newCollection = data.newCollection;
 
             if (newCollection) {
-                let collectionContainer = document.createElement("div");
+                let collectionContainer = document.querySelector('.collectionContainer');
 
-                collectionContainer.innerHTML = `
+                collectionContainer.innerHTML += `
                 <div class='collection-header'>
                     <h3>${newCollection.name}</h3>
                     <button class='button' type='submit' onclick='editCollectionName()'>Edit Name</button>
@@ -61,6 +61,7 @@ const constructCollection = async () => {
                 </div>
                 `
             }
+            //NEED TO FIGURE OUT WHAT ORDER COLLECTIONS COMES IN
         })
     }
 }
@@ -70,5 +71,5 @@ const editCollectionName = () => {
 };
 
 const deleteCollection = () => {
-    let name = document.getElementById()
+    
 };
