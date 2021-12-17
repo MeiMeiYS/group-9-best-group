@@ -10,7 +10,6 @@ imageURL.setAttribute("name", "imageURL");
 const imageURLLabel = document.createElement("label");
 imageURLLabel.htmlFor = "imageURL";
 imageURLLabel.innerText = `URL for an Image (Optional)`;
-console.log(imageURL);
 reviewForm.appendChild(reviewText);
 reviewText.style.width = `100%`;
 reviewText.style.height = `80%`;
@@ -41,7 +40,7 @@ cancelButton.innerText = "CANCEL"
 // --> when reviewForm is made, make a new
 
 
-document.addEventListener("DOMContentLoaded", event => {
+document.addEventListener("DOMContentLoaded", (event) => {
     // const currUser = {};
     // if (res.locals.user) {
     //     currUser.id = res.locals.user.id;
@@ -53,7 +52,7 @@ document.addEventListener("DOMContentLoaded", event => {
         addAReview.replaceWith(reviewFormDiv);
     });
     //`Submit` button
-    submitButton.addEventListener("click", (event) => {
+    submitButton.addEventListener("click", async (event) => {
         event.stopPropagation();
         const body = {
             userId: 1, //this will be res.locals.user
@@ -73,8 +72,7 @@ document.addEventListener("DOMContentLoaded", event => {
 // posting a new review function
 async function newReview(bodyJS) {
     const body = JSON.stringify(bodyJS);
-    console.log("body");
-    await fetch("/", {
+    await fetch("/api/reviews", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -82,3 +80,8 @@ async function newReview(bodyJS) {
         body: body
     })
 };
+
+// auth check
+const fetchUser = async () => {
+    const res = await fetch("")
+}

@@ -1,8 +1,5 @@
-include recipes.pug
-
-block content
-    #allReviews
+script(src="/javascripts/api-reviews.js")
+#allReviews
+    if locals.authenticated
         #addAReview
             a(class='button', href='#') Submit a New Review
-
-each review in reviews

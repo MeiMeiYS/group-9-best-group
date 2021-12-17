@@ -10,11 +10,7 @@ const router = express.Router();
 const imageValidators = [
     check('imageURL')
         .custom((value, { req }) => {
-            if (value) {
-                check(value)
-                    .isURL()
-                    .withMessage('If you want to upload an image, please provide a valid URL for the image.')
-            }
+            console.log("value", value);
         })
 ];
 
@@ -41,24 +37,27 @@ router.get('/', (req, res) => { // for testing, can see all reviews but in produ
 //  --> need to be logged in
 //  --> also needs csrf
 //  --> needs validator
-router.post('/', requireAuth, csrfProtection, reviewFormValidators, imageValidators, asyncHandler(async (req, res) => {
+router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandler(async (req, res) => {
     const { recipeId, review, imageURL, userId } = req.body;
-    const newReview = Review.build({ recipeId, review, imageId, userId })
-    const validatorErrors = validationResult(req);
+    console.log("imageURL", imageURL);
+    // res.body.newReview = await Review.build({ recipeId, review, userId })
+    const validatorErrors = validationResult(req.body);
     if (validatorErrors.isEmpty()) {
+        console.log("no errors");
         if (imageURL) {
-            const image = Image.build(imageURL)
-            await image.save();
-            const imageId = await Image.findOne({ where: { url: imageURL } });
-            review.imageId = imageId;
+            // await Image.create({ url: imageURL });
+            // const imageId = await Image.findOne({ where: { url: imageURL } });
+            console.log("truthy???");
+            return;
         }
-        await review.save();
-    } else {
+        res.send("hi");
+    }
+    else {
         const errors = validatorErrors.array().map(error => error.msg);
         res.send('send some JSON thing', { title: 'Add a new recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList })
     }
-    res.json(newReview);
-}))
+    // res.json(res.body.newReview);
+}));
 
 // /reviews/:id
 
