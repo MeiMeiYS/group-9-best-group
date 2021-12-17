@@ -771,4 +771,43 @@ button.button{
         .review-data{
             width: 450px;
             margin-left: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: space-between;
+        }
+
+        .review-rating{
+            font-family: var(--heading-font);
+            text-transform: uppercase;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .review-rating span{
+            margin-left: 5px;
+        }
+
+        .review-text{
+            font-family: var(--body-font);
+        }
+
+        .recipe_details button,
+        .recipe_details a{
+            background-color: var(--primary-300);
+            border: var(--boxy-border);
+            font-family: var(--heading-font);
+            text-transform: uppercase;
+            color: var(--neutral-700);
+            font-size: 24px;
+            padding: 4px 6px;
+            margin: 5px;
+            transition: color 0.15s, background-color 0.15s;
+        }
+
+
+        .recipe_details button:hover,
+        .recipe_details a:hover{
+            background-color: var(--neutral-700);
+            text-transform: uppercase;
+            color: var(--primary-300);
         }

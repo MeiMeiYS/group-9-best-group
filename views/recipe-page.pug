@@ -23,7 +23,7 @@ block content
                         button.add-status Add Status
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
-                            button.edit-recipe Edit Recipe
+                            a.edit-recipe(href=`/recipes/${recipe.id}/edit`) Edit Recipe
                             button.delete-recipe Delete Recipe
 
             .recipe-info
@@ -37,13 +37,16 @@ block content
 
 
             .reviews
-                p.review-header Reviews
-                for review in reviews
-                    .review-box
-                        .review-image-container
-                            img.review-image(src=`${review.Image.url}`)
-                        .review-data
-                            p.rating= review.rating
-                            p.review= review.review
-                            p.author= review.User.userName
-                            p.review-date= review.createdAt.toDateString().slice(3)
+                if reviews.length
+                    p.review-header Reviews
+                    for review in reviews
+                        .review-box
+                            .review-image-container
+                                img.review-image(src=`${review.Image.url}`)
+                            .review-data
+                                p.review-rating= review.rating
+                                    span out of 5
+                                p.review-text= review.review
+                                .date-metadata
+                                    p.author= review.User.userName
+                                    p.review-date= review.createdAt.toDateString().slice(3)

@@ -146,7 +146,7 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
-  const userId = parseInt(req.params.id);
+  const userId = parseInt(req.params.id, 10);
   const user = await User.findByPk(userId, {
     include: [
       {
