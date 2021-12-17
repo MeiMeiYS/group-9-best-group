@@ -424,7 +424,7 @@ button.button{
     }
 
     .qmi-row > *:nth-child(1) input{
-        width: 70px;
+        width: 80px;
     }
     .qmi-row > *:nth-child(2) select{
         width: 140px;
@@ -514,6 +514,11 @@ button.button{
 
     #steps{
         height: 200px;
+    }
+
+    .steps{
+        width: 600px;
+        overflow-wrap: break-word;
     }
 
     .submit{
@@ -704,11 +709,13 @@ button.button{
           border: var(--boxy-border);
           overflow: hidden;
           border-radius: 15px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
       }
 
       .recipe-image-container img{
-          margin: 0 auto;
-          width: 450px;
+          width: 100%;
       }
 
 

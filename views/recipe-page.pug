@@ -7,7 +7,7 @@ block content
                 h1.recipe-name #{recipe.name}
                 p.average-rating #{averageReview}
                 .recipe-image-container
-                    if imageUrl
+                    if imageURL
                         img(src=recipe.Image.url)
                     else
                         img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
