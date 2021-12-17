@@ -17,7 +17,7 @@ block content
 
                 div
                     label(for='quantity-1') Quantity
-                    input(type='number' id='quantity-1' name='quantity-1' class='form-control' required)
+                    input(class='quantityInput' type='number' id='quantity-1' name='quantity-1' class='form-control' step='0.01' placeholder='0.00' required)
 
                 div
                     label(for='measurement-1') Measurement
@@ -27,7 +27,7 @@ block content
 
                 div
                     label(for='ingredient-1') Ingredient
-                    input(type=text id='ingredient-1' name='ingredient-1' class='form-control' required)
+                    input(class='ingredientInput' type=text id='ingredient-1' name='ingredient-1' class='form-control' required)
 
                 button(type='button' class='delete-row') Delete this ingredient
 

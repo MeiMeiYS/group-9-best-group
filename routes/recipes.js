@@ -91,7 +91,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
 
     const qmiList = [];
     for (let i = 0; i < recipeIngredients.length; i++) {
-        const quantity = recipeIngredients[i].quantity;
+        const quantity = Math.round(recipeIngredients[i].quantity * 100) / 100;
         const measurement = await Measurement.findByPk(recipeIngredients[i].measurementId).then(measurement => measurement.dataValues.type);
         const ingredient = await Ingredient.findByPk(recipeIngredients[i].ingredientId).then(ingredient => ingredient.dataValues.name);
         qmiList.push({

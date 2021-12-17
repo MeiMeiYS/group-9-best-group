@@ -6,7 +6,16 @@ window.addEventListener("load", (event) => {
     qmiRow.style.backgroundColor = 'red';
 
     const qmiCountInput = document.querySelector('#qmiCount');
-    console.log(qmiCount)
+
+    //to check if input is valid
+    const quantityInput1 = document.querySelector('#quantity-1');
+    quantityInput1.addEventListener('change', (event) => {
+        console.log(event.target.value)
+        if (event.target.value !== Math.round(event.target.value * 100) / 100) {
+            event.target.value = Math.round(event.target.value * 100) / 100
+        }
+    })
+
 
     // When click on the newQmiRow button, page will populate a new qmi div
     const newQmiRowBtn = document.querySelector('#new-qmi-row');
@@ -35,6 +44,8 @@ window.addEventListener("load", (event) => {
         }
 
       })
+
+
 
     function createDivQmiRow (childElementCount) {
           // create a copy of qmiRow
