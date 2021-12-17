@@ -52,17 +52,19 @@ const constructCollection = () => {
                 let collectionContainer = document.querySelector('.all-collections');
 
                 collectionContainer.innerHTML += `
-                <div class='collection-header'>
-                    <h3>${newCollection.name}</h3>
-                    <h3 hidden>${newCollection.id}</h3>
-                    <div class='editCollection'>
-                    <button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
+                <div class=collectionContainer>
+                    <div class='collection-header'>
+                        <h3>${newCollection.name}</h3>
+                        <h3 hidden>${newCollection.id}</h3>
+                        <div class='editCollection'>
+                            <button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
+                        </div>
+                        <div class='deleteCollection'>
+                            <button class='button' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
+                        </div>
                     </div>
-                    <div class='deleteCollection'>
-                    <button class='button' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
+                    <div class='recipe-list'>
                     </div>
-                </div>
-                <div class='recipe-list'>
                 </div>
                 `
             }
@@ -143,15 +145,14 @@ const deleteCollection = async (target) => {
     let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
     console.log(collectionId);
 
+    const collectionContainer = target.parentElement.parentElement
+    console.log(collectionContainer);
+
     fetch(`/api/collections/${collectionId}`, {
         method: "DELETE",
     })
-    // .then(res => {
-    //     console.log(res)
-
-    //     let collectionContainer = document.querySelector('.all-collections');
-
-    //     collectionContainer.innerHTML += ``
-    // })
+    .then(res => {
+        collectionContainer.innerHTML = '';
+    })
 
 };
