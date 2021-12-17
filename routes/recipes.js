@@ -121,12 +121,28 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
         //error validator
         const validatorErrors = validationResult(req.body);
         if (validatorErrors.isEmpty()) {
-            if (imageURL) {
-                const image = Image.build(imageURL)
-                await image.save();
-                const imageId = await Image.findOne({ where: { url: imageURL } });
-                recipe.imageId = imageId;
+
+
+            const oldImageId = recipe.imageId;
+            const oldImageURL = recipe.Image.url;
+            //if there is url input and is different from the old one
+            if (imageURL && oldImageURL !== imageURL){
+                //if image is different, need to update
+                const image = await Image.findByPk(oldImageId);
+                await image.update({ url: imageURL })
             }
+            //if there is no url input but has image before
+            else if (!imageURL && oldImageId) {
+                //delete the old image from database
+                await Image.destroy({ where: { id: oldImageId }})
+            }
+            //if there was no image before and want to create one now
+            else if (imageURL && !oldImageId) {
+                const newImage = await Image.create({ url: imageURL })
+                await recipe.update({ imageId: newImage.dataValues.id });
+            }
+
+
             //update recipe
             await recipe.update({ name, description, steps });
 
