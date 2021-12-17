@@ -4,7 +4,6 @@ const { csrfProtection, asyncHandler } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
 const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db;
-
 const router = express.Router();
 
 const recipeFormValidators = [
@@ -32,6 +31,7 @@ const imageValidators = [
             }
         })
 ];
+
 
 // /recipes/new
 router.get('/new', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
@@ -134,7 +134,7 @@ router.post('/:id', requireAuth, csrfProtection, imageValidators, recipeFormVali
 
 // /recipes
 router.get('/', asyncHandler(async (req, res) => {
-    const recipeList = await Recipe.findAll({
+    const recentRecipes = await Recipe.findAll({
         include: [Image, User],
         limit: 9,
         order: [
@@ -142,7 +142,7 @@ router.get('/', asyncHandler(async (req, res) => {
         ]
     });
     // get rating here and pass it in res.render object vvvvvv
-    res.render('recipes', { recipeList })
+    res.render('recipes', { recentRecipes })
 }));
 
 router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
@@ -184,6 +184,8 @@ router.post(`/:id/delete`, requireAuth, csrfProtection, asyncHandler(async (req,
         data.destroy();
     });
 }));
+
+
 
 
 //please check and add any extra needed routes

@@ -20,6 +20,7 @@ const cancelAdd = () => {
 
 const constructCollection = () => {
     let name = document.getElementById('newCollection').value;
+    const collectionArea = document.querySelector('.new-collection-form');
 
     if (!name.length) {
         collectionArea.innerHTML = `<input type="text" id='newCollection' placeholder="Please Enter New Collection Name!"></input>
@@ -32,7 +33,7 @@ const constructCollection = () => {
         </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
         </button>`;
 
-        fetch("api/collections", {
+        fetch("/api/collections/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -40,9 +41,11 @@ const constructCollection = () => {
             body: JSON.stringify({name})
         })
         .then(res => {
+            console.log({res})
             res.json()
         })
         .then(data => {
+            console.log(data)
             let newCollection = data.newCollection;
 
             if (newCollection) {
@@ -58,7 +61,7 @@ const constructCollection = () => {
                 </div>
                 `
 
-                
+
             }
         })
     }
