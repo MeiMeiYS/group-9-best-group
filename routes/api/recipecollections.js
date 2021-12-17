@@ -10,7 +10,7 @@ const { Collection, RecipeCollection, Recipe } = db;
 
 //add recipe to a collection
 router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
-    const { recipeId, collectionId } = req.body;
+    const { collectionId, recipeId } = req.body;
     const userId = res.locals.user.id;
 
     const recipe = await Recipe.findByPk(recipeId);
@@ -25,15 +25,16 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
 
     checkPermissionsRecipesRoute(collection, res.locals.user);
 
-    if (recipeCollection.length = 0) {
+    if (recipeCollection.length === 0) {
         const newRecipeCollection = await RecipeCollection.create({
             recipeId: recipeId,
             collectionId: collectionId
         })
 
-        res.json({ newRecipeCollection })
+        res.json({ message: 'Successfully added', newRecipeCollection })
     } else {
         const err = Error('This recipe is already in this collection')
+        next(err)
     }
 }));
 

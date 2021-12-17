@@ -5,6 +5,7 @@ block content
         .recipe_details
             .recipe-overview
                 h1.recipe-name #{recipe.name}
+                h1.recipe-id(hidden) #{recipe.id}
                 p.average-rating #{averageReview}
                 .recipe-image-container
                     if imageUrl
@@ -25,6 +26,7 @@ block content
                             select(name='collections' id='collection-select')
                                 for collection in collections
                                     option(value=collection.id)=collection.name
+                            button.adding-to-collection(type='submit' onclick='addToCollection()') +
                         button.add-status Add Status
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
