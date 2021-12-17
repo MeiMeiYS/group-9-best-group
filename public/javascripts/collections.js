@@ -164,7 +164,7 @@ const viewCollection = async (target) => {
 
     console.log(collectionId);
 
-    const button = document.querySelector("#viewCollection");
+    const button = document.querySelector(`#viewCollection-${collectionId}`);
 
     const recipeView = document.getElementById(`recipe-view-${collectionId}`);
     if (recipeView.style.display === 'none') {
