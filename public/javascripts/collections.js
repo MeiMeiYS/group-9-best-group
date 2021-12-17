@@ -64,3 +64,11 @@ const constructCollection = async () => {
         })
     }
 }
+
+const editCollectionName = () => {
+
+};
+
+const deleteCollection = () => {
+    let name = document.getElementById()
+};
