@@ -7,7 +7,7 @@ window.addEventListener("load", (event) => {
 
     //to check if uantity input is valid
     const quantityInput1 = document.querySelector('#quantity-1');
-    quantityInput1.addEventListener('change', (event) => {
+    quantityInput1.addEventListener('keydown', (event) => {
         if (event.target.value !== Math.round(event.target.value * 100) / 100) {
             event.target.value = Math.round(event.target.value * 100) / 100
         }
@@ -149,12 +149,11 @@ window.addEventListener("load", (event) => {
           const stepsValidationMsg = document.querySelector('.stepsValidationMsg');
         if (nameValidationMsg || descriptionValidationMsg || urlValidationMsg || stepsValidationMsg) {
             submitBtn.setAttribute("disabled", "");
-            console.log('2')
+
         } else {
             submitBtn.removeAttribute("disabled");
-            console.log('3')
         }
-        console.log('1')
+
       }
 
 
