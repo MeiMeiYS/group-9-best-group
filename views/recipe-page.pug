@@ -4,7 +4,7 @@ block content
     main.recipe-page-content
         .recipe_details
             .recipe-overview
-                h1.recipe-name #{recipe.name}
+                h1.recipe-name(data-recipeId= recipe.id) #{recipe.name}
                 p.average-rating #{averageReview}
                 .recipe-image-container
                     if imageUrl
@@ -37,6 +37,7 @@ block content
 
 
             .reviews
+                include reviews.pug
                 if reviews.length
                     p.review-header Reviews
                     for review in reviews
@@ -50,4 +51,3 @@ block content
                                 .date-metadata
                                     p.author= review.User.userName
                                     p.review-date= review.createdAt.toDateString().slice(3)
-include reviews.pug

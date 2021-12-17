@@ -1,11 +1,7 @@
 script(src="/javascripts/api-reviews.js", type="module")
-
-#errors
-    +validationErrorSummary(errors)
-
 if locals.authenticated
     #addAReview
         a(class='button', href='#') Submit a New Review
-
+#errors
+    +validationErrorSummary(errors)
 #allReviews
-

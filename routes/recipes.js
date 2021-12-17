@@ -95,16 +95,12 @@ router.get('/:id(\\d+)', asyncHandler(async (req, res) => {
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
     const reviews = recipe.Reviews
 
-    console.log(recipe)
-
     let averageReview = `No Reviews Posted`
     if (recipe.Reviews) {
         if (recipe.Reviews.length) {
             averageReview = `Average Review: ${Math.ceil(recipe.Reviews.map(review => review.rating).reduce((acc, el) => acc + el) / recipe.Reviews.length)}`
         }
     }
-
-    console.log({ averageReview })
 
     let imageUrl = null;
     if(recipe.imageId){

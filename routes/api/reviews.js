@@ -10,13 +10,21 @@ const router = express.Router();
 const imageValidators = [
     check('imageURL')
         .custom((value, { req }) => {
+            if (value) {
+                check('imageURL')
+                    .isURL()
+                    .withMessage('If you want to upload an image, please provide a valid URL for the image.')
+            }
         })
 ];
 
 const reviewFormValidators = [
     check('review')
         .exists({ checkFalsy: true })
-        .withMessage('Please provide a review.')
+        .withMessage('Please provide a review.'),
+    check('rating')
+        .exists({checkFalsy: true})
+        .withMessage('Please provide a rating.')
 ]
 
 // /reviews
@@ -27,10 +35,21 @@ const reviewFormValidators = [
 //  --> also needs csrf
 
 
-router.get('/', (req, res) => { // for testing, can see all reviews but in production, we will delete this route
-    // Mei's code for displaying top 9 recipes
-    res.send('you have reached /reviews')
-})
+router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => { // for testing, can see all reviews but in production, we will delete this route
+    const recipeId = req.params.recipeId;
+    const reviews = await Review.findAll({
+        where: {
+            recipeId: recipeId
+        },
+        include: { model: User },
+        order: [
+            [`updatedAt`, 'DESC']
+        ]
+    })
+    console.log("REIVEWS", reviews);
+    res.json({reviews});
+    // this works
+}));
 
 // posting the review - what initiates when you click the 'submit review' button
 //  --> need to be logged in
@@ -38,21 +57,16 @@ router.get('/', (req, res) => { // for testing, can see all reviews but in produ
 //  --> needs validator
 router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandler(async (req, res, next) => {
     const { recipeId, review, imageURL, userId, rating } = req.body;
-    console.log("recipeId", recipeId);
-    console.log("imageURL", imageURL);
-    console.log("userId", userId);
-    console.log("review", review === true);
     const validatorErrors = validationResult(req.body);
     if (validatorErrors.isEmpty()) {
-        console.log("no errors");
         if (imageURL) {
             const image = await Image.create({ url: imageURL });
-            console.log(`imageId #${image.id} created` );
+            console.log(`imageId #${image.id} created`);
             const newReview = await Review.create({ recipeId, review, userId, rating, imageId: image.id })
-            res.send({newReview});
+            res.send({ newReview });
         }
         const newReview = await Review.create({ recipeId, review, userId, rating })
-        res.json({newReview});
+        res.send({ newReview });
     }
     else {
         const errors = validatorErrors.array().map(error => error.msg);

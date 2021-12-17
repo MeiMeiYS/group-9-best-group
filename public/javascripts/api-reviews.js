@@ -1,6 +1,4 @@
 import { ratingFeature } from './element-generator.js';
-// const router = require('../../routes/api/reviews');
-// fetching user
 // get numeric rating
 function getNumericRating(id) {
     const idArray = id.split("-");
@@ -8,18 +6,21 @@ function getNumericRating(id) {
     return numId;
 }
 
-// getting all reviews -- need recipe Id, need userName
+// getting all reviews -- need recipe Id, need userName // THIS WORKS
 const fetchReviews = async (recipeId) => {
-    // find all reviews, sort by desc
-    const reviews = await Review.findAll({
-        where: {
-            recipeId: recipeId
+    const res = fetch(`/api/reviews/recipe/${recipeId}`, {
+        headers: {
+            "Content-Type": "application/json"
         },
-        include: {model: User},
-        order: [
-            [`updatedAt`, 'DESC']
-        ]
-    });
+        method: "GET"
+    })
+        .then(res => {
+            console.log(res, "line 18");
+            return res.json()
+        })
+        .then(data => data.reviews) // data.reviews = array of reviews
+    console.log("REVIEWS LINE 22", res);
+    return res;
 }
 // building `Add A Review` form
 const reviewFormDiv = document.createElement("div");
@@ -63,8 +64,8 @@ cancelButton.innerText = "CANCEL"
 
 window.addEventListener("DOMContentLoaded", (event) => {
     // const recipe = document.getElementById("recipeinfo");
-    const recipe = document.querySelector("p[name]")
-    const recipeName = recipe.attributes.name.value
+    const recipe = document.querySelector("h1.recipe-name")
+    const recipeName = recipe.innerText;
     const ratings = ratingFeature(recipeName);
     reviewFormDiv.append(ratings);
     const user = document.getElementById("userinfo");
@@ -82,25 +83,26 @@ window.addEventListener("DOMContentLoaded", (event) => {
     //`Submit` button
     submitButton.addEventListener("click", async (event) => {
         event.stopPropagation();
-        console.log("reviewText", reviewText.value);
         //grabbing rating
         const ratingInput = document.querySelector("input:checked");
+        if (!ratingInput) {
+        }
         const rating = getNumericRating(ratingInput.id);
 
         const body = {
-            userId: user.id, //this will be res.locals.user
+            userId: user.id,
             review: reviewText.value,
             imageURL: imageURL.value,
             recipeId: recipe.id,
             rating
         }
-        const res = await newReview(body);
-        if (!res.ok) {
-            throw res
-        };
-        if (res.status === 200) {
+        const review = await newReview(body);
+        console.log(review, "review");
+
+        if (review.status === 200) {
             reviewFormDiv.replaceWith(addAReview);
         }
+        console.log("FETCH REVIEWS", fetchReviews(recipe.id));
 
     });
 
@@ -113,18 +115,19 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 // posting a new review function
 async function newReview(bodyJS) {
+    const { recipeId } = bodyJS;
     const body = JSON.stringify(bodyJS);
-    console.log("body", body);
     const res = await fetch("/api/reviews", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: body
-    })
-    if (res.status !== 200) {
+    });
+    if (res.status === 200) {
+        fetchReviews(recipeId);
+    }
+    else {
         throw error
     }
-    const { newReview } = await res.json();
-    // function to build newReview container
 };
