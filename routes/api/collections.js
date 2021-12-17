@@ -78,19 +78,19 @@ const collectionFormValidator = [
 
 //to create new collection
 router.post("/", requireAuth, collectionFormValidator, asyncHandler(async (req, res) => {
-    console.log('MADE IT TO THE ROUTE AT LEASTTTTTT')
     const { name } = req.body;
-    const userId = res.local.user.id;
+    const userId = res.locals.user.id;
 
     const newCollection = await Collection.build({
         name: name,
         userId: userId
-    })
-    const validationErrors = validationResult(req);
+    });
+
+    const validationErrors = validationResult(req.body);
 
     if (validationErrors.isEmpty()) {
         await newCollection.save();
-        console.log(newCollection);
+        
         res.json({ newCollection })
     } else {
         const errors = validationErrors.array().map(error => error.msg);

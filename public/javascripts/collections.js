@@ -18,7 +18,7 @@ const cancelAdd = () => {
 }
 
 
-const constructCollection = () => {
+const constructCollection = async () => {
     let name = document.getElementById('newCollection').value;
     const collectionArea = document.querySelector('.new-collection-form');
 
@@ -33,7 +33,7 @@ const constructCollection = () => {
         </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
         </button>`;
 
-        fetch("/api/collections/", {
+        await fetch("/api/collections", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -42,10 +42,10 @@ const constructCollection = () => {
         })
         .then(res => {
             console.log({res})
-            res.json()
+            return res.json()
         })
         .then(data => {
-            console.log(data)
+            // console.log(data)
             let newCollection = data.newCollection;
 
             if (newCollection) {
@@ -60,8 +60,6 @@ const constructCollection = () => {
                 <div class='recipe-list'>
                 </div>
                 `
-
-
             }
         })
     }
