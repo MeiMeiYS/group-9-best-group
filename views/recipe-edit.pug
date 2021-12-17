@@ -51,9 +51,11 @@ block content
 
                 div.submit
                     button(type='submit' class='submit') Submit
+                div.submit
+                    a.recipe-page(href=`/recipes/${recipe.id}`) Cancel Edit
             div(class='delete submit')
                 form(action=`/recipes/${recipe.id}/delete`, method='post')
                     input(type='hidden', name='_csrf', value=csrfToken)
                     button(type='submit') delete this recipe
 
-            script(src='/javascripts/recipe-form.js')
+    script(src='/javascripts/recipe-form.js')

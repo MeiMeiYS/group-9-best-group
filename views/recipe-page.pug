@@ -24,7 +24,10 @@ block content
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
                             a.edit-recipe(href=`/recipes/${recipe.id}/edit`) Edit Recipe
-                            button.delete-recipe Delete Recipe
+                            div(class='delete submit')
+                                form(action=`/recipes/${recipe.id}/delete`, method='post')
+                                    input(type='hidden', name='_csrf', value=csrfToken)
+                                    button(type='submit' class='delete-recipe') Delete Recipe
 
             .recipe-info
                 .line-divider
@@ -50,3 +53,4 @@ block content
                                 .date-metadata
                                     p.author= review.User.userName
                                     p.review-date= review.createdAt.toDateString().slice(3)
+    script(src='/javascripts/recipe-status.js')

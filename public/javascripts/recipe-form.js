@@ -149,12 +149,9 @@ window.addEventListener("load", (event) => {
           const stepsValidationMsg = document.querySelector('.stepsValidationMsg');
         if (nameValidationMsg || descriptionValidationMsg || urlValidationMsg || stepsValidationMsg) {
             submitBtn.setAttribute("disabled", "");
-            console.log('2')
         } else {
             submitBtn.removeAttribute("disabled");
-            console.log('3')
         }
-        console.log('1')
       }
 
 
