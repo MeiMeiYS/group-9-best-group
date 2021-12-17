@@ -8,9 +8,9 @@ block content
         input(type='hidden', name='_csrf', value=csrfToken)
 
         //- need to updat all null to display fetched data for edit form
-        +field('Recipe Name', 'name', null, 'text')
-        +field('Description', 'description', null, 'textarea')
-        +field('Image URL', 'imageURL', null, 'text', 'URL' )
+        +field('Recipe Name', 'name', null, 'text', value=name)
+        +field('Description', 'description', null, 'textarea', value=description)
+        +field('Image URL', 'imageURL', null, 'text', 'URL', value=imageURL )
         input(type='hidden', id='qmiCount', name='qmiCount', value='1')
         div(id='qmi-list')
             div(class='qmi-row')
