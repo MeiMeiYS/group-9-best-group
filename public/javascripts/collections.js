@@ -87,15 +87,16 @@ const cancelEdit = (target) => {
 
 
 const changeCollectionName = (target) => {
-    //grabbed the previous sibling in pug file (h3) and its text content
+    //grabbed the previous sibling of the div and its text content
     let collectionId = target.parentElement.previousElementSibling.textContent;
-    console.log(collectionId);
+    //console.log(collectionId);
 
     let name = document.getElementById('updateCollection').value;
 
     const collectionArea = target.parentElement;
 
-    console.log(name)
+    //console.log(name)
+
     if (!name.length) {
         collectionArea.innerHTML = `<input type="text" id='updateCollection' placeholder="Please Enter New Collection Name"></input>
         <button class='button' type='submit' onclick='changeCollectionName(this)'><i class="fas fa-plus-circle"></i>
@@ -103,6 +104,7 @@ const changeCollectionName = (target) => {
         <button class='button cancel' type='submit' onclick='cancelEdit(this)'><i class="fas fa-times-circle"></i>
         </button>`
     } else {
+
         fetch(`/api/collections/${collectionId}`, {
             method: "PUT",
             headers: {
@@ -111,27 +113,21 @@ const changeCollectionName = (target) => {
             body: JSON.stringify({name})
         })
         .then(res => {
-            console.log({res})
+            //console.log({res})
             return res.json()
         })
-        // .then(data => {
-        //     // console.log(data)
-        //     let newCollection = data.newCollection;
+        .then(data => {
+            //console.log(data)
+            let updatedCollection = data.collection;
+            console.log(updatedCollection)
 
-        //     if (newCollection) {
-        //         let collectionContainer = document.querySelector('.all-collections');
+            if (updatedCollection) {
+                collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
+                console.log(collectionArea.previousElementSibling.previousElementSibling)
 
-        //         collectionContainer.innerHTML += `
-        //         <div class='collection-header'>
-        //             <h3>${newCollection.name}</h3>
-        //             <button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
-        //             <button class='button' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
-        //         </div>
-        //         <div class='recipe-list'>
-        //         </div>
-        //         `
-        //     }
-        // })
+                collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name; 
+            }
+        })
 
     }
 

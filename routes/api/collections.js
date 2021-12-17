@@ -111,7 +111,7 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
         await collection.update({
             name: name
         })
-        console.log(collection)
+        // console.log(collection)
         res.json({ collection });
     } else {
         next(collectionNotFound(collectionId));
