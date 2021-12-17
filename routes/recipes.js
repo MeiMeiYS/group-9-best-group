@@ -78,9 +78,17 @@ router.get('/:id/edit', requireAuth, csrfProtection, asyncHandler(async (req, re
 // /recipes/:id
 router.get('/:id', asyncHandler(async (req, res) => {
     const recipeId = parseInt(req.params.id, 10);
-    const recipe = await Recipe.findByPk(recipeId);
+    const recipe = await Recipe.findByPk(recipeId, { include: [RecipeIngredient, User, Image] });
+    // console.log('!!!!!!!!!!!!!!!!!',recipe.Image.url)
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
+    console.log(recipeIngredients.length)
+
+    let imageUrl = null;
+    if(recipe.imageId){
+        imageUrl = recipe.Image.url;
+    }
+
     const qmiList = [];
     for (let i = 0; i < recipeIngredients.length; i++) {
         const quantity = recipeIngredients[i].quantity;
@@ -92,12 +100,9 @@ router.get('/:id', asyncHandler(async (req, res) => {
             ingredient
         });
     }
-    if (imageId) {
-        const image = await Image.findByPk(imageId);
-        const imageURL = image.url;
-        res.render('recipe-page', { title: recipe.name, qmiList, imageURL, name, steps, description }) // revisit when pug page is completed
-    }
-    res.render('recipe-page', { title: recipe.name, qmiList, name, steps, description }) // revisit when pug page is completed
+
+    res.render('recipe-page', { title: recipe.name, recipe, imageUrl, qmiList })
+
 }))
 
 router.post('/:id', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
@@ -147,70 +152,71 @@ router.get('/', asyncHandler(async (req, res) => {
     res.render('recipes', { recentRecipes })
 }));
 
-//submitting a new recipe
+//-----------------------------------submitting a new recipe---------------------------------------------
 router.post('/', requireAuth, csrfProtection, imageValidators, recipeFormValidators, asyncHandler(async (req, res) => {
 
-    const userId = res.locals.user.id
-    const { name, description, steps, imageURL } = req.body;
-    //build recipe
-    const recipe = Recipe.build({ name, description, steps, userId });
+    if (res.locals.authenticated){
+        const userId = res.locals.user.id
+        const { name, description, steps, imageURL } = req.body;
+        //build recipe
+        const recipe = Recipe.build({ name, description, steps, userId });
 
-    //get total count of qmi
-    const qmiCount = req.body.qmiCount;
+        //get total count of qmi
+        const qmiCount = req.body.qmiCount;
 
-
-
-
-    //error validator
-    const validatorErrors = validationResult(req.body);
-    if (validatorErrors.isEmpty()) {
-        if (imageURL) {
-            const image = Image.build(imageURL)
-            await image.save();
-            const imageId = await Image.findOne({ where: { url: imageURL } });
-            recipe.imageId = imageId;
-        }
-
-        await recipe.save();
-
-        //checking each ingredients
-        for (let i = 0; i < qmiCount; i++){
-            const ingredientName = req.body[`ingredient-${i+1}`];
-            const ingredient = await Ingredient.findOne({ where: {
-                name: {
-                    [Op.eq]: ingredientName
-                }
-            }})
-
-            if (!ingredient){
-                //if ingredient does not exit
-                const currentIngredient = await Ingredient.create({ name: ingredientName });
-                req.body.ingredientId = currentIngredient.id;
-
-            } else {
-                //else find ingredient id
-                req.body.ingredientId = ingredient.id;
+        //error validator
+        const validatorErrors = validationResult(req.body);
+        if (validatorErrors.isEmpty()) {
+            if (imageURL) {
+                const image = Image.build(imageURL)
+                await image.save();
+                const imageId = await Image.findOne({ where: { url: imageURL } });
+                recipe.imageId = imageId;
             }
 
+            await recipe.save();
 
-            //build recipeIngredient join table
-            const recipeId = recipe.id
-            await RecipeIngredient.create({
-                recipeId,
-                ingredientId: req.body.ingredientId,
-                quantity: req.body[`quantity-${i+1}`],
-                measurementId: req.body[`measurement-${i+1}`]
-            })
+            //checking each ingredients
+            for (let i = 0; i < qmiCount; i++){
+                const ingredientName = req.body[`ingredient-${i+1}`];
+                const ingredient = await Ingredient.findOne({ where: {
+                    name: {
+                        [Op.eq]: ingredientName
+                    }
+                }})
+
+                if (!ingredient){
+                    //if ingredient does not exit
+                    const currentIngredient = await Ingredient.create({ name: ingredientName });
+                    req.body.ingredientId = currentIngredient.id;
+
+                } else {
+                    //else find ingredient id
+                    req.body.ingredientId = ingredient.id;
+                }
+
+
+                //build recipeIngredient join table
+                const recipeId = recipe.id
+                await RecipeIngredient.create({
+                    recipeId,
+                    ingredientId: req.body.ingredientId,
+                    quantity: req.body[`quantity-${i+1}`],
+                    measurementId: req.body[`measurement-${i+1}`]
+                })
+
+            }
+
+            res.redirect(`/recipes/${recipe.id}`)
+        } else {
+
+            const measurements = await Measurement.findAll();
+            const errors = validatorErrors.array().map(error => error.msg);
+            res.render('recipe-new', { title: 'Add a New Recipe', measurements, errors, name, description, steps, imageURL, csrfToken: req.csrfToken()})
 
         }
-
-        res.redirect(`/${recipe.id}`)
     } else {
-
-        const measurements = await Measurement.findAll();
-        const errors = validatorErrors.array().map(error => error.msg);
-        res.render('recipe-new', { title: 'Add a New Recipe', measurements, errors, csrfToken: req.csrfToken(), recipe })
-
+        res.redirect('/login');
     }
 
 }))
