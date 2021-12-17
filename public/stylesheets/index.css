@@ -303,6 +303,7 @@ button.button{
         color:var(--neutral-100);
     }
 
+    /* RECIPE PAGE */
 
     .recent-recipes{
         display: flex;
@@ -310,10 +311,54 @@ button.button{
         align-items: center;
     }
 
-    .recent-recipes > h2{
+
+    .recent-recipes > h2,
+    .search-recipes > h2 {
         margin-top: 60px;
+        margin-bottom: 30px;
         font-family: var(--heading-font);
         font-size: var(--heading-size);
         text-transform: uppercase;
         color: var(--primary-700)
+    }
+
+    .search-recipes{
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-300);
+    }
+
+    .searchbox{
+        border: var(--boxy-border);
+    }
+    .search-recipes input{
+        -webkit-appearance: none;
+        font-family: var(--body-font);
+        font-size: 1em;
+        min-width: 300px;
+        min-height: 40px;
+        padding-left: 5px;
+
+    }
+
+    .search-recipes:focus{
+        -webkit-appearance: none;
+    }
+
+    .search-recipes button{
+        border: none;
+        border-left: var(--boxy-border);
+        min-height: 40px;
+        min-width: 40px;
+        font-size: 1em;
+        background-color: var(--neutral-100);
+    }
+
+
+    h3.results-header{
+        padding: 10px;
+        font-family: var(--body-font);
     }
