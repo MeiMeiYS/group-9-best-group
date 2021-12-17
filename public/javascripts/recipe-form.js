@@ -52,19 +52,22 @@ window.addEventListener("load", (event) => {
           const qmiRowClone = qmiRow.cloneNode(true);
           //updating quantity label for attribute
           qmiRowClone.childNodes[0].childNodes[0].setAttribute('for', `quantity-${childElementCount}`);
-          //updating quantity label input id and name
+          //updating quantity input id and name
           qmiRowClone.childNodes[0].childNodes[1].id = `quantity-${childElementCount}`;
           qmiRowClone.childNodes[0].childNodes[1].setAttribute('name', `quantity-${childElementCount}`);
+          qmiRowClone.childNodes[0].childNodes[1].value = null
           //updating measurement label for attribute
           qmiRowClone.childNodes[1].childNodes[0].setAttribute('for', `measurement-${childElementCount}`);
-          //updating measurement label input id and name
+          //updating measurement input id and name
           qmiRowClone.childNodes[1].childNodes[1].id = `measurement-${childElementCount}`;
           qmiRowClone.childNodes[1].childNodes[1].setAttribute('name', `measurement-${childElementCount}`);
+          qmiRowClone.childNodes[1].childNodes[1].value = null
           //updating ingredients label for attribute
           qmiRowClone.childNodes[2].childNodes[0].setAttribute('for', `ingredient-${childElementCount}`);
-          //updating ingredients label input id and name
+          //updating ingredients input id and name
           qmiRowClone.childNodes[2].childNodes[1].id = `ingredient-${childElementCount}`;
           qmiRowClone.childNodes[2].childNodes[1].setAttribute('name', `ingredient-${childElementCount}`);
+          qmiRowClone.childNodes[2].childNodes[1].value = null
           //update qmi count
           qmiCountInput.setAttribute('value', qmiList.childElementCount + 1 )
         return qmiRowClone;
