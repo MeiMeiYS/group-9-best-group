@@ -150,7 +150,7 @@ const deleteCollection = async (target) => {
         method: "DELETE",
     })
         .then(res => {
-            collectionContainer.innerHTML = '';
+            collectionContainer.remove();
         })
 
 };
