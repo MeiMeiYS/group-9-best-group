@@ -898,6 +898,10 @@ button.button{
             color: var(--primary-700)
         }
 
+        .statusOn {
+            color: var(--neutral-100) !important;
+            background-color: var(--primary-700) !important;
+        }
 
         /* FOOTER */
 
