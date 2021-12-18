@@ -18,6 +18,22 @@ module.exports = {
     */
     return queryInterface.bulkInsert('Users', [
       {
+        userName: 'demouser',
+        hashedPassword: '$2a$10$0ILB5FzeXNK6AM5nJ3ZpaO6kz7R7errJnpWYPYw0URmMy8QP6KfTW',
+        email: 'demouser@gmail.com',
+        imageId: randomUserImage(),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        userName: 'demouser2',
+        hashedPassword: '$2a$10$0ILB5FzeXNK6AM5nJ3ZpaO6kz7R7errJnpWYPYw0URmMy8QP6KfTW',
+        email: 'demouser2@gmail.com',
+        imageId: randomUserImage(),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
         userName: 'superchef',
         hashedPassword: '$2a$10$6mSjDaJMN0nMmm/Iikwdoub4r/nJRyT2HIcl2RJw8rtavuKRsKfpS',
         email: 'superchef@gmail.com',
@@ -33,22 +49,6 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
-      {
-        userName: 'demouser',
-        hashedPassword: '$2a$10$0ILB5FzeXNK6AM5nJ3ZpaO6kz7R7errJnpWYPYw0URmMy8QP6KfTW',
-        email: 'demouser@gmail.com',
-        imageId: randomUserImage(),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        userName: 'demouser2',
-        hashedPassword: '$2a$10$0ILB5FzeXNK6AM5nJ3ZpaO6kz7R7errJnpWYPYw0URmMy8QP6KfTW',
-        email: 'demouser2@gmail.com',
-        imageId: randomUserImage(),
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
     ])
   },
 
