@@ -59,8 +59,8 @@ const constructCollection = async () => {
                             <button class='button' id='deleteCollection' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
                         </div>
                         <div class='recipe-list' id=${newCollection.id}>
-                            <button class='button' id='viewCollection' type='submit' onclick='viewCollection(this)'>View Recipes</button>
-                            <div id='recipe-view-${newCollection.id}' style='display:none'>
+                            <button class='button' id='viewCollection-${newCollection.id}' type='submit' onclick='viewCollection(this)'>View Recipes</button>
+                            <div id='recipe-view-${newCollection.id}' style='display:none'></div>
                         </div>
                     </div>
                 </div>
@@ -162,11 +162,13 @@ const deleteCollection = async (target) => {
 const viewCollection = async (target) => {
     let collectionId = target.parentElement.id;
 
-    console.log(collectionId);
+    //console.log(collectionId);
 
     const button = document.querySelector(`#viewCollection-${collectionId}`);
 
     const recipeView = document.getElementById(`recipe-view-${collectionId}`);
+
+    //console.log(recipeView);
     if (recipeView.style.display === 'none') {
         recipeView.style.display = 'block';
         button.innerHTML = 'Hide Recipes'
@@ -185,9 +187,8 @@ const viewCollection = async (target) => {
 
     const data = await res.json()
     const recipesInCollection = data.recipes;
-    console.log(recipesInCollection);
+    // console.log(recipesInCollection);
 
-    //console.log(recipesInCollection)
     if (recipeView.innerHTML === '') {
         if (recipesInCollection.length > 0) {
             for (let i = 0; i < recipesInCollection.length; i++) {
@@ -205,12 +206,11 @@ const viewCollection = async (target) => {
                     `
             }
         } else {
-            recipeView.innerHTML = `
+            recipeView.innerHTML += `
                 <p>No recipes have been added yet!</p>
                 `
         }
     }
-
 }
 
 const removeFromCollection = async (target) => {
