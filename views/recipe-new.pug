@@ -3,7 +3,6 @@ include utils.pug
 
 
 block content
-
     main.form-area
         h1 Add A Recipe
         .new-recipe-form
@@ -12,16 +11,20 @@ block content
                 input(type='hidden', id='qmiCount', name='qmiCount', value='1')
                 input(type='hidden', name='_csrf', value=csrfToken)
 
-                //- need to update all null to display fetched data for edit form
-                +field('Recipe Name', 'name', null, 'text')
-                +field('Description', 'description', null, 'textarea')
-                +field('Image URL', 'imageURL', null, 'url', 'URL' )
+                div
+                    label(for='name') Recipe Name
+                    if nameErrMsg
+                        span.nameValidationMsg(style={color: 'darkred'})= nameErrMsg
+                    input(type='text' id='name' name='name' value=name class='form-control')
+
+                +field('Description', 'description', description, 'textarea')
+                +field('Image URL', 'imageURL', imageURL, 'url', 'URL' )
                 div(id='qmi-list')
                     div(class='qmi-row')
 
                         div
                             label(for='quantity-1') Quantity
-                            input(type='number' id='quantity-1' name='quantity-1' class='form-control' required placeholder='Qty' min='0.01')
+                            input(type='number' id='quantity-1' name='quantity-1' class='form-control' required placeholder='Qty' min='0.01' step='0.01')
 
                         div
                             label(for='measurement-1') Measurement
@@ -41,7 +44,7 @@ block content
 
                 div
                     label(for='steps') Instructions
-                    textarea(id='steps' name='steps' class='form-control' rows='5')
+                    textarea(id='steps' name='steps' class='form-control' rows='5')= steps
 
                 div.submit
                     button(type='submit' class='submit') Submit

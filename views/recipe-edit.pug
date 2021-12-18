@@ -9,10 +9,15 @@ block content
             +validationErrorSummary(errors)
             form(action=`/recipes/${recipe.id}`, method='post')
                 input(id='csurf' type='hidden', name='_csrf', value=csrfToken)
-
                 input(type='hidden', id='qmiCount', name='qmiCount', value=qmiCount)
-                //- need to updat all null to display fetched data for edit form
-                +field('Recipe Name', 'name', recipe.name, 'text')
+
+
+                div
+                    label(for='name') Recipe Name
+                    if nameErrMsg
+                        span.nameValidationMsg(style={color: 'darkred'})= nameErrMsg
+                    input(type='text' id='name' name='name' value=recipe.name class='form-control')
+
                 +field('Description', 'description', recipe.description, 'textarea')
                 +field('Image URL', 'imageURL', imageURL, 'url', 'URL')
                 div(id='qmi-list')
