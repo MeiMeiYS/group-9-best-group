@@ -19,7 +19,7 @@ export function getPErrors() {
     return errorsDiv;
 }
 
-export function buildReviewForm {
+export function buildReviewForm () {
     const reviewFormDiv = document.createElement("div");
     const reviewForm = document.createElement("form");
     const reviewText = document.createElement("textarea");
