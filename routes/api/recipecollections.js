@@ -33,8 +33,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
 
         res.json({ message: 'Successfully added', newRecipeCollection })
     } else {
-        const err = Error('This recipe is already in this collection')
-        next(err)
+        res.json({message: 'Already in that Collection!'})
     }
 }));
 

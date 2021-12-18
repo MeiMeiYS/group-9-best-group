@@ -14,34 +14,34 @@ const getCollectionForm = () => {
 
 }
 
-const addToCollection = () => {
-    // const select = document.getElementsByName('collections');
-    // const collectionId = select.options[select.selectedIndex].value;
-    // const collectionName = select.options[select.selectedIndex].text;
+const addToCollection = async () => {
     const select = document.getElementById('collection-select')
 
     const collectionId = select.value;
     const recipeId = document.querySelector('.recipe-id').textContent;
 
-    fetch('/api/recipecollections', {
+    const res = await fetch('/api/recipecollections', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ collectionId, recipeId })
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(data => {
-        console.log(data)
+    const data = await res.json()
 
-        const newRecipeCollection = data.newRecipeCollection;
+    console.log(data)
 
-        if (newRecipeCollection) {
-            console.log('Success')
-        }
-    })
+    const newRecipeCollection = data.newRecipeCollection;
+
+    // if (newRecipeCollection) {
+            const alertArea = document.querySelector('#show-alert');
+
+            alertArea.innerHTML = `${data.message}`
+
+            setTimeout(function() {
+                alertArea.style = "display:none"
+            }, 1800)
+        // }
 }
 
 

@@ -17,6 +17,7 @@ block content
                     p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
                     p.update-date updated on #{recipe.updatedAt.toDateString().slice(3)}
                 p.description #{recipe.description}
+                p(id='show-alert')
                 script(src='/javascripts/recipeCollections.js')
                 if locals.authenticated
                     .log-in-buttons
