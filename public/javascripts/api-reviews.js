@@ -2,30 +2,7 @@ import { ratingFeature } from './element-generator.js';
 import { getPErrors } from './element-generator.js';
 
 // building `Add A Review` form
-const reviewFormDiv = document.createElement("div");
-const reviewForm = document.createElement("form");
-const reviewText = document.createElement("textarea");
-const imageURL = document.createElement("input");
-imageURL.setAttribute("type", "text");
-imageURL.setAttribute("id", "imageURL");
-const imageURLLabel = document.createElement("label");
-imageURLLabel.htmlFor = "imageURL";
-imageURLLabel.innerText = `URL for an Image (Optional)`;
-reviewForm.appendChild(reviewText);
-reviewText.style.width = `100%`;
-reviewText.style.height = `80%`;
-reviewText.setAttribute("name", "review");
-reviewText.setAttribute("required", "");
-const reviewButtonsDiv = document.createElement("div");
-const submitButton = document.createElement("button");
-submitButton.innerText = "SUBMIT"
-const cancelButton = document.createElement("button");
-cancelButton.innerText = "CANCEL"
-reviewButtonsDiv.append(submitButton, cancelButton)
-reviewFormDiv.append(reviewForm, imageURLLabel, imageURL, reviewButtonsDiv)
-reviewFormDiv.appendChild(reviewButtonsDiv);
-submitButton.innerText = "SUBMIT"
-cancelButton.innerText = "CANCEL"
+
 
 // get numeric rating
 function getNumericRating(id) {
@@ -36,7 +13,6 @@ function getNumericRating(id) {
 
 // error checker
 function isUrl(string) {
-    console.log("badURL");
     const badURL = document.getElementById("urlBad");
     try {
         (Boolean(new URL(string)))
@@ -127,7 +103,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         event.preventDefault();
         //grabbing rating
         const ratingInput = document.querySelector("input:checked");
-        if ((isUrl(imageURL.value) || imageURL.value === undefined) && hasRating() && hasReview()) {
+        if ((imageURL.value === undefined || isUrl(imageURL.value)) && hasRating() && hasReview()) {
             const rating = getNumericRating(ratingInput.id);
             const body = {
                 userId: user.id,
@@ -137,8 +113,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 rating
             }
             const reviewsArray = newReview(body);
+            console.log("reviewsArray", reviewsArray);
             const reviewsHTML = reviewsArray.map( (review) => {
-                
+                return;
             })
 
             const allReviews = document.getElementById("allReviews");
