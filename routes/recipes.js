@@ -1,11 +1,12 @@
 const express = require('express');
 const { requireAuth, checkPermissionsRecipesRoute } = require('../auth');
-const { csrfProtection, asyncHandler } = require('./utils');
+const { csrfProtection, asyncHandler, addAverageRatingProperty } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const { Sequelize } = require('../db/models');
 const db = require('../db/models');
 const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db;
 const router = express.Router();
+
 
 const recipeFormValidators = [
     check('name')
@@ -95,7 +96,6 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
     const reviews = recipe.Reviews
 
-    console.log(recipe)
 
     let averageReview = `No Reviews Posted`
     if (recipe.Reviews) {
@@ -104,12 +104,11 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
         }
     }
 
-    console.log({ averageReview })
+    addAverageRatingProperty([recipe])
 
     let imageURL = null;
     if(recipe.imageId){
         imageURL = recipe.Image.url;
-        console.log('~~~~~~~~', imageURL)
     }
 
     const qmiList = [];
@@ -227,12 +226,14 @@ router.post('/:id(\\d+)', requireAuth, csrfProtection, imageValidators, recipeFo
 // /recipes
 router.get('/', asyncHandler(async (req, res) => {
     const recentRecipes = await Recipe.findAll({
-        include: [Image, User],
+        include: [Image, User, Review],
         limit: 9,
         order: [
             [`createdAt`, 'DESC']
         ]
     });
+
+    addAverageRatingProperty(recentRecipes)
     // get rating here and pass it in res.render object vvvvvv
     res.render('recipes', { recentRecipes })
 }));

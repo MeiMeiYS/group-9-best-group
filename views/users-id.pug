@@ -8,28 +8,28 @@ block content
             a(class='edit-button' href=`${user.id}/edit` role='button')
                 i(class="fas fa-pencil-alt")
             h2=user.userName
-            h4 Reciperson Since
+            h4 Reciperson since
             span= memberSince
 
-            h4 Recipes Sumbitted
-            span= reviewsAdded
-
-            h4 Reviews Added
+            h4 Recipes submitted
             span= recipesAdded
 
+            h4 Reviews added
+            span= reviewsAdded
+
         .recipes-data
-            div(class="recipes-container")
                 h2 My Recipes
                 a(href='/recipes/new'  class='new-recipe add-button' role='button')
                     i(class="fas fa-plus-circle")
                     span Add New Recipe
-                each recipe in recipes
-                    +recipeBadgeArea(recipe)
+                div(class="recipes-container")
+                    each recipe in recipes
+                        +recipeBadgeArea(recipe)
                 div(class="collections-container")
                     h2 My Collections
                     script(src='/javascripts/collections.js')
                     div.new-collection-form
-                        button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add
+                        button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add New Collection
                     div.all-collections
                         each collection in collections
                             div.collectionContainer
