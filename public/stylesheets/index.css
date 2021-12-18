@@ -145,8 +145,8 @@ button.button{
     flex-direction: column;
     align-items: center;
     width: 300px;
+    min-height: 480px;
     margin: 40px;
-
 }
 
 .card > img{
@@ -157,10 +157,13 @@ button.button{
     border: var(--boxy-border)
 }
 
-.card h2{
+.card .title h2{
+    color: var(--neutral-700);
     font-family: var(--heading-font);
     text-transform: uppercase;
-    font-size: 2em;
+    font-size: 36px;
+    padding: 0px 10px;
+    margin-top: 0;
     text-align: center;
 }
 
@@ -196,10 +199,15 @@ button.button{
   }
 
 
-  .rating > input:not(:checked) ~ label:hover,
+  /* .rating > input:not(:checked) ~ label:hover,
   .rating > input:not(:checked) ~ label:hover ~ label {
     background-image: var(--whisk-500);
   }
+
+  .card .rating > input:not(:checked) ~ label:hover,
+  .card .rating > input:not(:checked) ~ label:hover ~ label {
+    background-image: inherit;
+  } */
 
   .username{
       font-family: var(--body-font);
@@ -637,6 +645,10 @@ button.button{
         min-height: 90vh;
     }
 
+    .recipes-data .recipes-container{
+        display: flex;
+    }
+
     .recipes-data h2{
         font-family: var(--heading-font);
         font-size: var(--heading-size);
@@ -887,6 +899,10 @@ button.button{
             color: var(--primary-700)
         }
 
+        .statusOn {
+            color: var(--neutral-100) !important;
+            background-color: var(--primary-700) !important;
+        }
 
         /* FOOTER */
 
@@ -978,7 +994,6 @@ button.button{
             display: flex;
             justify-content: center;
             width: 100%;
-            text-transform: capitalize;
             padding-top: 8px;
             padding-bottom: 8px;
           }
@@ -995,5 +1010,4 @@ button.button{
             width: 100%;
             font-family: var(--body-font);
             padding-left: 10px;
-            text-transform: capitalize;
           }

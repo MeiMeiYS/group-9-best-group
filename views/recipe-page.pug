@@ -5,16 +5,31 @@ block content
         .recipe_details
             .recipe-overview
                 h1.recipe-name #{recipe.name}
-                p.average-rating #{averageReview}
+                //- p.average-rating #{averageReview}
+                .date-metadata
+                    p.author by #{recipe.User.userName}
+                    p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
+                    p.update-date updated on #{recipe.updatedAt.toDateString().slice(3)}
                 .recipe-image-container
                     if imageURL
                         img(src=recipe.Image.url)
                     else
                         img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
-                .date-metadata
-                    p.author by #{recipe.User.userName}
-                    p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
-                    p.update-date updated on #{recipe.updatedAt.toDateString().slice(3)}
+                .rating
+                    if recipe.averageRating.length > 1
+                        img.no-ratings(src='/assets/illustrations/no-ratings-small.png')
+                    else
+
+                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-5` class="rating-5"  disabled="true" checked=(recipe.averageRating == '5'))
+                        label(for=`${recipe.name}-rating-5`)
+                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-4` class="rating-4"  disabled="true" checked=(recipe.averageRating == '4'))
+                        label(for=`${recipe.name}-rating-4`)
+                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-3` class="rating-3"  disabled="true" checked=(recipe.averageRating == '3'))
+                        label(for=`${recipe.name}-rating-3`)
+                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-2` class="rating-2"  disabled="true" checked=(recipe.averageRating == '2'))
+                        label(for=`${recipe.name}-rating-2`)
+                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-1` class="rating-1"  disabled="true" checked=(recipe.averageRating == '1'))
+                        label(for=`${recipe.name}-rating-1`)
                 p.description #{recipe.description}
                 if locals.authenticated
                     .log-in-buttons
@@ -24,6 +39,7 @@ block content
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
                             a.edit-recipe(href=`/recipes/${recipe.id}/edit`) Edit Recipe
+
                             div(class='delete submit')
                                 form(action=`/recipes/${recipe.id}/delete`, method='post')
                                     input(type='hidden', name='_csrf', value=csrfToken)
@@ -54,3 +70,4 @@ block content
                                     p.author= review.User.userName
                                     p.review-date= review.createdAt.toDateString().slice(3)
     script(src='/javascripts/recipe-status.js')
+    script(src='/javascripts/delete-recipe.js')
