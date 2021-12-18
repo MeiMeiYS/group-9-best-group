@@ -4,8 +4,7 @@ block content
     main.recipe-page-content
         .recipe_details
             .recipe-overview
-                 h1.recipe-name(data-recipeId= recipe.id) #{recipe.name}
-                //- p.average-rating #{averageReview}
+                h1.recipe-name(data-recipeId= recipe.id) #{recipe.name}
                 .date-metadata
                     p.author by #{recipe.User.userName}
                     p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}

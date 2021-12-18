@@ -21,7 +21,7 @@ block content
 
                             div
                                 label(for=`quantity-${index + 1}`) Quantity
-                                input(class='quantityInput' type='number' id=`quantity-${index + 1}` name=`quantity-${index + 1}` class='form-control' step='0.01' placeholder='0.00' value=qmi.quantity required)
+                                input(class='quantityInput' type='number' id=`quantity-${index + 1}` name=`quantity-${index + 1}` class='form-control' step='0.01' placeholder='0.00' value=qmi.quantity min='0.01' required)
 
                             div
                                 label(for=`measurement-${index + 1}`) Measurement
