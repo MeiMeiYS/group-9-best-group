@@ -57,7 +57,6 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
     let imageURL = null;
     if(recipe.imageId){
         imageURL = recipe.Image.url;
-        console.log('!!!!!!!!!!',imageURL)
     }
     checkPermissionsRecipesRoute(recipe, res.locals.user);
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });

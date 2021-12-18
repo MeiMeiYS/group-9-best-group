@@ -46,7 +46,6 @@ router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => { // for 
             [`updatedAt`, 'DESC']
         ]
     })
-    console.log("REIVEWS", reviews);
     res.json({reviews});
     // this works
 }));
@@ -61,7 +60,6 @@ router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandle
     if (validatorErrors.isEmpty()) {
         if (imageURL) {
             const image = await Image.create({ url: imageURL });
-            console.log(`imageId #${image.id} created`);
             const newReview = await Review.create({ recipeId, review, userId, rating, imageId: image.id })
             res.send({ newReview });
         }

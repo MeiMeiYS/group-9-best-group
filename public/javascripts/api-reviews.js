@@ -85,7 +85,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const user = document.getElementById("userinfo");
     if (user) {
         user.id = parseInt(user.dataset.userid, 10);
-        console.log(user.id);
     }
     recipe.id = parseInt(recipe.dataset.recipeid, 10);
 
@@ -113,7 +112,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 rating
             }
             const reviewsArray = newReview(body);
-            console.log("reviewsArray", reviewsArray);
             const reviewsHTML = reviewsArray.map( (review) => {
                 return;
             })

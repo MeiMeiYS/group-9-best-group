@@ -246,11 +246,7 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     return recipes
   }
 
-  // console.log(addAverageRatingProperty(recipes).map(recipe => recipe.averageRating))
-
   addAverageRatingProperty(recipes)
-  console.log(recipes.map(recipe => recipe.averageRating))
-
 
   res.render('users-id', { user, recipes, collections, memberSince, reviewsAdded, recipesAdded })
 
@@ -315,7 +311,6 @@ router.post('/:id(\\d+)/image/new', requireAuth, csrfProtection, imageValidators
 
     res.redirect(`/users/${userId}`)
     // res.json({ userToUpdate, image })
-    // console.log(userToUpdate, image)
   } else {
     const errors = validatorErrors.array().map((error) => error.msg);
 
