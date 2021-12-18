@@ -1,5 +1,4 @@
 window.addEventListener("load", (event)=>{
-    console.log("hello from javascript!")
 })
 
 
@@ -23,7 +22,6 @@ const searchForRecipes = async () => {
                 resultArea.innerHTML = `<h3 class="results-header"> Sorry, no results found for ${searchTerm}.</h3>`
             } else {
                 for (let i = 0; i < foundRecipes.length; i++) {
-                    console.log(`we got one`)
                     let foundRecipe = foundRecipes[i];
                     resultArea.innerHTML += `
                     <div class="card">

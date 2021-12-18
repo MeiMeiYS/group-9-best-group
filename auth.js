@@ -5,8 +5,6 @@ const loginUser = (req, res, user) => {
     req.session.auth = {
         userId: user.id
     }
-
-    console.log('logging in successfully')
     req.session.save(()=> res.redirect('/'));
 };
 

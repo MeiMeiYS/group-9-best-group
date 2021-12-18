@@ -41,11 +41,9 @@ const constructCollection = () => {
             body: JSON.stringify({name})
         })
         .then(res => {
-            // console.log({res})
             return res.json()
         })
         .then(data => {
-            // console.log(data)
             let newCollection = data.newCollection;
 
             if (newCollection) {
@@ -99,13 +97,10 @@ const cancelEdit = (target) => {
 const changeCollectionName = (target) => {
     //grabbed the previous sibling of the div and its text content
     let collectionId = target.parentElement.previousElementSibling.textContent;
-    //console.log(collectionId);
 
     let name = document.getElementById('updateCollection').value;
 
     const collectionArea = target.parentElement;
-
-    //console.log(name)
 
     if (!name.length) {
         collectionArea.innerHTML = `<input type="text" id='updateCollection' placeholder="Please Enter New Collection Name"></input>
@@ -123,18 +118,12 @@ const changeCollectionName = (target) => {
             body: JSON.stringify({name})
         })
         .then(res => {
-            //console.log({res})
             return res.json()
         })
         .then(data => {
-            //console.log(data)
             let updatedCollection = data.collection;
-            console.log(updatedCollection)
-
             if (updatedCollection) {
                 collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
-                console.log(collectionArea.previousElementSibling.previousElementSibling)
-
                 collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;
             }
         })
@@ -166,9 +155,8 @@ const viewCollection = async (target) => {
     //     recipeView.style.display = 'none'
     // }
 
-    // will need to use loop to show all the recipes: 
+    // will need to use loop to show all the recipes:
     // for (let i = 0; i < foundRecipes.length; i++) {
-    //     console.log(`we got one`)
     //     let foundRecipe = foundRecipes[i];
     //     resultArea.innerHTML += `
     //     <div class="card">
@@ -187,11 +175,7 @@ const viewCollection = async (target) => {
 const deleteCollection = async (target) => {
     //grabbed the previous, previous sibling (h3) and got the text content to get collection name
     let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
-    console.log(collectionId);
-
-    const collectionContainer = target.parentElement.parentElement
-    console.log(collectionContainer);
-
+    const collectionContainer = target.parentElement.parentElement;
     fetch(`/api/collections/${collectionId}`, {
         method: "DELETE",
     })
@@ -200,4 +184,3 @@ const deleteCollection = async (target) => {
     })
 
 };
-

@@ -5,7 +5,6 @@
 //     deleteBtn.addEventListener('click', async(e) => {
 
 //         const csurf = document.querySelector('#csurf');
-//         console.log(csurf)
 //         const csrfToken = csurf.value;
 //         const recipe = document.querySelector('h1.recipe-name');
 //         recipe.id = parseInt(recipe.dataset.recipeid, 10);
