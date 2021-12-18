@@ -193,14 +193,15 @@ const viewCollection = async (target) => {
             for (let i = 0; i < recipesInCollection.length; i++) {
                 let recipe = recipesInCollection[i];
                 recipeView.innerHTML += `
-                <div class="card">
-                <img src="${recipe.Image.url}" alt="recipe-image">
+                <div class="card" id="card-${recipe.id}">
+                    <img src="${recipe.Image.url}" alt="recipe-image">
                         <div class="title">
                             <h3>${recipe.name}</h3>
                         </div>
                         <div class="view-button">
-                        <a class="button" href="/recipes/${recipe.id}">View Recipe</a>
-                    </div>
+                            <a class="button" href="/recipes/${recipe.id}">View Recipe</a>
+                        </div>
+                    <button class='button' id='remove-recipe-${recipe.id}' type='submit' onclick='removeFromCollection(this)'>Remove</button>
                     `
             }
         } else {
@@ -212,4 +213,23 @@ const viewCollection = async (target) => {
 
 }
 
+const removeFromCollection = async (target) => {
+    //get button id and split to string then get the recipeId that is last
+    const idArr = target.id.split("-");
+    const recipeId = idArr[2];
+
+    //get id of parent div that has collectionId in id
+    const collectionIdArr = target.parentElement.parentElement.id.split("-");
+    const collectionId = collectionIdArr[2];
+
+    const res = await fetch(`/api/recipecollections/${recipeId}/${collectionId}`, {
+        method: "DELETE",
+    })
+    const data = await res.json();
+
+    const recipeCard = document.querySelector(`#card-${recipeId}`);
+
+    recipeCard.innerHTML = `<p>${data.message}</p>`;
+
+}
 

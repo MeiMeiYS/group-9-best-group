@@ -40,8 +40,9 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
 
 
 //delete recipe from a collection
-router.delete('/', requireAuth, asyncHandler(async (req, res) => {
-    const { recipeId, collectionId } = req.body;
+router.delete('/:recipeId/:collectionId', requireAuth, asyncHandler(async (req, res) => {
+    const recipeId = req.params.recipeId;
+    const collectionId = req.params.collectionId;
     const userId = res.locals.user.id;
 
     const recipe = await Recipe.findByPk(recipeId);
