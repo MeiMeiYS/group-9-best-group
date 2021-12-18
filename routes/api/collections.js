@@ -129,7 +129,6 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 
 //delete full collection
 router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
-    console.log('MADE IT TO THE ROUTTTTEEEE')
     const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id);
     console.log(collectionId);
