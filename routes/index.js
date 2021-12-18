@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { asyncHandler } = require('./utils');
+const { asyncHandler, addAverageRatingProperty } = require('./utils');
 const db = require('../db/models');
 
 
@@ -30,7 +30,7 @@ router.get('/', asyncHandler(async function (req, res, next) {
     }
   )
 
-  console.log(recipes[0])
+  addAverageRatingProperty(recipes);
 
   res.render('index', { title: 'Home', recipes });
 }));
