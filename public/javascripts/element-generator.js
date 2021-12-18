@@ -13,6 +13,11 @@ export function ratingFeature(recipeName) {
     return ratingDiv;
 }
 
+export function getPErrors () {
+    const errorsDiv = document.getElementById("errorsDiv")
+    errorsDiv.innerHTML = `<p hidden id="ratingBad" class="errors">Please rate this recipe.</p><p hidden id="urlBad" class="errors">Please provide a valid URL.</p><p hidden id="reviewBad" class="errors">Please review this recipe.</p>`;
+    return errorsDiv;
+}
 
 // export async function newReviewDiv(newReview) { // put this into pug?
 //     const { review, rating, userId, imageId, id, recipeId } = newReview;
