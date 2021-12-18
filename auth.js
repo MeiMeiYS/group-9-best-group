@@ -5,6 +5,9 @@ const loginUser = (req, res, user) => {
     req.session.auth = {
         userId: user.id
     }
+
+    console.log('logging in successfully')
+    req.session.save(()=> res.redirect('/'));
 };
 
 const restoreUser = async (req, res, next) => {
@@ -32,6 +35,7 @@ const restoreUser = async (req, res, next) => {
 
 const userLogout = (req, res) => {
     delete req.session.auth;
+    req.session.save(()=> res.redirect('/'));
 };
 
 const requireAuth = (req, res, next) => {

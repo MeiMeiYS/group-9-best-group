@@ -10,4 +10,9 @@ block content
         +validationErrorSummary(errors)
         button(type='submit') Log In
         a(href='/users/signup') Don't have an account? Sign up here.
+      form(action='/users/login' method='post')
+        input(type='hidden' name='_csrf' value=csrfToken)
+        input(type='hidden' name='email' value='demouser@gmail.com')
+        input(type='hidden' name='password' value='userdemo')
+        button(type='submit') Demo Site
 //-add some log-in script   script(type="module" src="js/log-in.js")

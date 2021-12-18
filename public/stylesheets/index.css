@@ -404,6 +404,7 @@ button.button{
         border: var(--boxy-border);
         flex-direction: column;
         padding: 30px;
+        margin-bottom: 50px;
 
     }
 
@@ -811,11 +812,11 @@ button.button{
         .recipe_details button,
         .recipe_details a,
         .form-wrapper button{
-            background-color: var(--primary-300);
+            background-color: var(--neutral-700);
             border: var(--boxy-border);
             font-family: var(--heading-font);
             text-transform: uppercase;
-            color: var(--neutral-700);
+            color: var(--primary-300);
             font-size: 24px;
             padding: 4px 6px;
             margin: 5px;
@@ -826,9 +827,9 @@ button.button{
         .recipe_details button:hover,
         .recipe_details a:hover,
         .form-wrapper button:hover{
-            background-color: var(--neutral-700);
+            background-color: var(--neutral-500);
             text-transform: uppercase;
-            color: var(--primary-300);
+            color: var(--neutral-700);
         }
 
 
