@@ -36,6 +36,7 @@ const addToCollection = async () => {
     // if (newRecipeCollection) {
             const alertArea = document.querySelector('#show-alert');
 
+            alertArea.style.display = 'block'; 
             alertArea.innerHTML = `${data.message}`
 
             setTimeout(function() {
