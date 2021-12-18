@@ -7,17 +7,18 @@ const { asyncHandler } = require('../utils');
 const Op = Sequelize.Op;
 const { restoreUser } = require('../../auth');
 
-//vvv below code is for testing or debugging, will delete for production
-// router.get('/', restoreUser, async (req, res) => {
-//     //prepare all element needed for building data in RecipeStatus
-//     const data = await RecipeStatus.findAll();
-//     console.log('~~~~~~',res.locals.user.id)
-//     res.json(data);
-// })
+
+router.get('/:id(\\d+)', restoreUser, async (req, res) => {
+    //find all matched user and recipeid
+    const userId = res.locals.user.id
+    const recipeId = parseInt(req.params.id, 10);
+    const data = await RecipeStatus.findAll({ where: { userId, recipeId }});
+    res.json(data);
+})
 
 
 // POST /api/recipes/:id/cooked
-router.post('/:id/cooked', asyncHandler( async (req, res) => {
+router.post('/:id(\\d+)/cooked', asyncHandler( async (req, res) => {
     //prepare all element needed for building data in RecipeStatus
     const userId = res.locals.user.id
     const recipeId = parseInt(req.params.id, 10);

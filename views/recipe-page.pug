@@ -4,7 +4,7 @@ block content
     main.recipe-page-content
         .recipe_details
             .recipe-overview
-                h1.recipe-name #{recipe.name}
+                h1.recipe-name(data-recipeId= recipe.id) #{recipe.name}
                 p.average-rating #{averageReview}
                 .recipe-image-container
                     if imageURL
@@ -24,6 +24,7 @@ block content
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
                             a.edit-recipe(href=`/recipes/${recipe.id}/edit`) Edit Recipe
+
                             div(class='delete submit')
                                 form(action=`/recipes/${recipe.id}/delete`, method='post')
                                     input(type='hidden', name='_csrf', value=csrfToken)
@@ -54,3 +55,4 @@ block content
                                     p.author= review.User.userName
                                     p.review-date= review.createdAt.toDateString().slice(3)
     script(src='/javascripts/recipe-status.js')
+    script(src='/javascripts/delete-recipe.js')
