@@ -229,7 +229,16 @@ const removeFromCollection = async (target) => {
 
     const recipeCard = document.querySelector(`#card-${recipeId}`);
 
-    recipeCard.innerHTML = `<p>${data.message}</p>`;
+
+    // const alertArea = document.querySelector('#show-alert');
+
+    // alertArea.style.display = 'block';
+    recipeCard.innerHTML = `${data.message}`
+
+    setTimeout(function() {
+        recipeCard.remove();
+        // alertArea.style = "display:none"
+    }, 1800)
 
 }
 
