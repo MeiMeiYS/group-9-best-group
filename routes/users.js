@@ -131,7 +131,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
       const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
       if (passwordMatch) {
         loginUser(req, res, user);
-        return res.redirect('/');
+        return await res.redirect('/');
       }
     }
 
@@ -149,7 +149,6 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
 router.post('/logout', (req, res) => {
   userLogout(req, res);
-  res.redirect('/');
 });
 
 router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
