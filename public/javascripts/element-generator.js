@@ -1,16 +1,18 @@
 export function ratingFeature(recipeName) {
-    const ratingDiv = document.createElement("div");
-    ratingDiv.setAttribute("class", "rating");
+    const ratingWhisks = document.getElementById("ratingWhisks");
+    ratingWhisks.setAttribute("class", "rating");
     for (let i = 5; i >= 1; i--) {
         const input = document.createElement("input");
         input.setAttribute("name", `${recipeName}-rating`);
-        input.setAttribute("id", `recipeNameRating-${i}`);
+        input.setAttribute("class", "rating-form")
+        input.setAttribute("id", `${recipeName}Rating-${i}`);
         input.setAttribute("type", "radio");
+        input.setAttribute("value", `${i}`);
         const label = document.createElement("label");
-        label.setAttribute("for", `recipeNameRating-${i}`);
-        ratingDiv.append(input, label);
+        label.setAttribute("for", `${recipeName}Rating-${i}`);
+        ratingWhisks.append(input, label);
     }
-    return ratingDiv;
+    return
 }
 
 export function getPErrors() {
@@ -19,32 +21,36 @@ export function getPErrors() {
     return errorsDiv;
 }
 
-export function buildReviewForm () {
-    const reviewFormDiv = document.createElement("div");
-    const reviewForm = document.createElement("form");
-    const reviewText = document.createElement("textarea");
-    const imageURL = document.createElement("input");
-    imageURL.setAttribute("type", "text");
-    imageURL.setAttribute("id", "imageURL");
-    const imageURLLabel = document.createElement("label");
-    imageURLLabel.htmlFor = "imageURL";
-    imageURLLabel.innerText = `URL for an Image (Optional)`;
-    reviewForm.appendChild(reviewText);
-    reviewText.style.width = `100%`;
-    reviewText.style.height = `80%`;
-    reviewText.setAttribute("name", "review");
-    reviewText.setAttribute("required", "");
-    const reviewButtonsDiv = document.createElement("div");
-    const submitButton = document.createElement("button");
-    submitButton.innerText = "SUBMIT"
-    const cancelButton = document.createElement("button");
-    cancelButton.innerText = "CANCEL"
-    reviewButtonsDiv.append(submitButton, cancelButton)
-    reviewFormDiv.append(reviewForm, imageURLLabel, imageURL, reviewButtonsDiv)
-    reviewFormDiv.appendChild(reviewButtonsDiv);
-    submitButton.innerText = "SUBMIT"
-    cancelButton.innerText = "CANCEL"
-}
+// export function buildReviewForm () {
+//     const reviewFormDiv = document.createElement("div");
+//     reviewFormDiv.setAttribute("id", "reviewForm")
+//     const reviewForm = document.createElement("form");
+//     const reviewText = document.createElement("textarea");
+//     const imageURL = document.createElement("input");
+//     imageURL.setAttribute("type", "text");
+//     imageURL.setAttribute("id", "imageURL");
+//     const imageURLLabel = document.createElement("label");
+//     imageURLLabel.htmlFor = "imageURL";
+//     imageURLLabel.innerText = `URL for an Image (Optional)`;
+//     reviewForm.appendChild(reviewText);
+//     reviewText.style.width = `100%`;
+//     reviewText.style.height = `80%`;
+//     reviewText.setAttribute("name", "review");
+//     reviewText.setAttribute("required", "");
+//     const reviewButtonsDiv = document.createElement("div");
+//     const submitButton = document.createElement("button");
+//     submitButton.setAttribute("id", "review-submit");
+//     submitButton.innerText = "SUBMIT"
+//     const cancelButton = document.createElement("button");
+//     cancelButton.setAttribute("id", "review-cancel")
+//     cancelButton.innerText = "CANCEL"
+//     reviewButtonsDiv.append(submitButton, cancelButton)
+//     reviewFormDiv.append(reviewForm, imageURLLabel, imageURL, reviewButtonsDiv)
+//     reviewFormDiv.appendChild(reviewButtonsDiv);
+//     submitButton.innerText = "SUBMIT"
+//     cancelButton.innerText = "CANCEL"
+//     return reviewFormDiv;
+// }
 // export async function newReviewDiv(newReview) { // put this into pug?
 //     const { review, rating, userId, imageId, id, recipeId } = newReview;
 //     const reviewDiv = document.createElement("div");

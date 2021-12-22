@@ -1,16 +1,4 @@
-import { ratingFeature } from './element-generator.js';
-import { getPErrors } from './element-generator.js';
-
-// building `Add A Review` form
-
-
-// get numeric rating
-function getNumericRating(id) {
-    const idArray = id.split("-");
-    const numId = parseInt(idArray[1], 10);
-    return numId;
-}
-
+import { ratingFeature, getPErrors} from './element-generator.js';
 // error checker
 function isUrl(string) {
     const badURL = document.getElementById("urlBad");
@@ -20,6 +8,7 @@ function isUrl(string) {
             badURL.setAttribute("hidden", "");
             return true
         }
+        return true
     }
     catch (e) {
         badURL.removeAttribute("hidden");
@@ -27,13 +16,14 @@ function isUrl(string) {
     }
 }
 
-function hasRating() {
+function hasRating(rating) {
     const noRating = document.getElementById("ratingBad");
-    if (document.querySelector("input:checked")) {
+    if (rating) {
         if (!noRating.hasAttribute("hidden")) {
             noRating.setAttribute("hidden", "");
-            return true
+            return true;
         }
+        return true;
     }
     else {
         noRating.removeAttribute("hidden");
@@ -43,11 +33,13 @@ function hasRating() {
 
 function hasReview() {
     const noReview = document.getElementById("reviewBad");
+    const reviewText = document.getElementById("review")
     if (reviewText.value) {
         if (!noReview.hasAttribute("hidden")) {
             noRating.setAttribute("hidden", "");
             return true;
         }
+        return true;
     }
     else {
         noReview.removeAttribute("hidden");
@@ -76,34 +68,45 @@ const fetchReviews = async (recipeId) => {
 // --> submit button only appears when Submit a New Recipe is clicked
 // --> when reviewForm is made, make a new
 
-document.addEventListener("DOMContentLoaded", (event) => {
+window.onload = event => {
     // const recipe = document.getElementById("recipeinfo");
     const recipe = document.querySelector("h1.recipe-name")
     const recipeName = recipe.innerText;
+
+    // adding rating feature (whisks)
     const ratings = ratingFeature(recipeName);
-    reviewFormDiv.append(ratings);
     const user = document.getElementById("userinfo");
     if (user) {
         user.id = parseInt(user.dataset.userid, 10);
+        console.log("userId", user.id);
     }
     recipe.id = parseInt(recipe.dataset.recipeid, 10);
+    console.log("recipeId", recipe.id);
 
     // `Add a Review` button
     const addAReview = document.getElementById('addAReview');
+    const reviewFormDiv = document.getElementById('reviewFormDiv');
     getPErrors();
     addAReview.addEventListener("click", event => {
         event.stopPropagation();
-        addAReview.replaceWith(reviewFormDiv);
+        addAReview.setAttribute("hidden", "");
+        reviewFormDiv.removeAttribute("hidden");
     });
 
     //`Submit` button
-    submitButton.addEventListener("click", async (event) => {
+    const submitButton = document.getElementById("review-submit");
+    submitButton.addEventListener("click", (event) => {
         event.stopPropagation();
         event.preventDefault();
-        //grabbing rating
-        const ratingInput = document.querySelector("input:checked");
-        if ((imageURL.value === undefined || isUrl(imageURL.value)) && hasRating() && hasReview()) {
-            const rating = getNumericRating(ratingInput.id);
+        //grabbing data from review form
+        const ratingValue = document.querySelector(".rating-form:checked").value;
+        const imageURL = document.getElementById("imageURL");
+        const reviewText = document.getElementById("review")
+        console.log("hasRating", hasRating(ratingValue));
+        if ((imageURL.value === "" || isUrl(imageURL.value)) && hasRating(ratingValue) && hasReview(reviewText.value)) {
+            console.log("passed conditional");
+            const rating = parseInt(ratingValue, 10);
+            console.log("rating", rating);
             const body = {
                 userId: user.id,
                 review: reviewText.value,
@@ -111,8 +114,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 recipeId: recipe.id,
                 rating
             }
+            console.log("about to make a new review");
             const reviewsArray = newReview(body);
-            // console.log("reviewsArray", reviewsArray);
+            console.log("reviewsArray", reviewsArray);
             // const reviewsHTML = reviewsArray.map( (review) => {
             //     const {userId, review, userName, } = review
             //     return;
@@ -122,12 +126,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
 
     // `Cancel` Button
+    const cancelButton = document.getElementById("review-cancel");
     cancelButton.addEventListener("click", (event) => {
         event.stopPropagation();
         event.preventDefault();
         reviewFormDiv.replaceWith(addAReview);
     })
-});
+};
 
 // posting a new review function
 async function newReview(bodyJS) {
@@ -140,10 +145,11 @@ async function newReview(bodyJS) {
         },
         body: body
     });
+    console.log("res.status", res.status);
     if (res.status === 200) {
         return fetchReviews(recipeId);
     }
     else {
-        throw error
+        throw Error;
     }
 };
