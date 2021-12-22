@@ -112,13 +112,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 rating
             }
             const reviewsArray = newReview(body);
-            const reviewsHTML = reviewsArray.map( (review) => {
-                return;
-            })
-
-            const allReviews = document.getElementById("allReviews");
-
-
+            // console.log("reviewsArray", reviewsArray);
+            // const reviewsHTML = reviewsArray.map( (review) => {
+            //     const {userId, review, userName, } = review
+            //     return;
+            // })
+            // const allReviews = document.getElementById("allReviews");
         }
     });
 
