@@ -95,7 +95,7 @@ window.onload = event => {
 
     //`Submit` button
     const submitButton = document.getElementById("review-submit");
-    submitButton.addEventListener("click", (event) => {
+    submitButton.addEventListener("click", async (event) => {
         event.stopPropagation();
         event.preventDefault();
         //grabbing data from review form
@@ -115,13 +115,14 @@ window.onload = event => {
                 rating
             }
             console.log("about to make a new review");
-            const reviewsArray = newReview(body);
+            const reviewsArray = await newReview(body);
             console.log("reviewsArray", reviewsArray);
-            // const reviewsHTML = reviewsArray.map( (review) => {
-            //     const {userId, review, userName, } = review
-            //     return;
-            // })
-            // const allReviews = document.getElementById("allReviews");
+            console.log(reviewsArray[0]);
+            const reviewsHTML = reviewsArray.map((reviewObj) => {
+                const {userId, review, userName, } = reviewObj
+                return;
+            })
+            const allReviews = document.getElementById("allReviews");
         }
     });
 
