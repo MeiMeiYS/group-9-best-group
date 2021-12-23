@@ -7,6 +7,7 @@
     --neutral-300: #bea6a1;
     --neutral-100: #ffffff;
     --green-success-500: #605f47;
+    --green-success-300: #678542;
     --green-hover-500: #1c1c15;
     --red-error-500: #a33c2e;
 
@@ -377,6 +378,10 @@ button.button{
         font-family: var(--body-font);
     }
 
+    .recipe-owner-buttons {
+        display: flex;
+    }
+
 
     /* CREATE RECIPE FORM */
 
@@ -483,14 +488,13 @@ button.button{
         border:none;
     }
 
-
-    .delete-row{
-        background-color: var(--neutral-300);
-        min-height: 40px;
-        position: relative;
-        top: 5px;
+    .add-button i.fa-plus-circle {
+        pointer-events: none;
     }
 
+    .add-button:hover, .add-button:hover i.fa-plus-circle{
+        color: var(--green-success-300);
+    }
 
     .delete-button,
     i.fa-trash-alt {
@@ -500,7 +504,20 @@ button.button{
         margin-left: 10px;
     }
 
+    .delete-button i.fa-trash-alt {
+        pointer-events: none;
+    }
 
+    .delete-row{
+        background-color: var(--neutral-300);
+        min-height: 40px;
+        position: relative;
+        top: 5px;
+    }
+
+    .delete-row:hover, .delete-row:hover i.fa-trash-alt{
+        color: var(--red-error-500);
+    }
 
     .new-recipe-form label{
         font-family: var(--heading-font);
@@ -539,13 +556,12 @@ button.button{
         display: flex;
         margin-top: 10px;
         align-items: center;
-
     }
 
     .submit button{
         background-color: var(--neutral-300);
         border: var(--boxy-border);
-        padding: 8px 10px 5px;
+        padding: 5px 10px 5px;
         font-size: 30px;
         transition: color 0.2s, border-color 0.2s;
     }
@@ -556,7 +572,42 @@ button.button{
         border-color: var(--neutral-500);
     }
 
+    .submit a {
+        display: block;
+        margin-top: 10px;
+        background-color: var(--neutral-300);
+        border: var(--boxy-border);
+        padding: 5px 10px 5px;
+        font-size: 30px;
+        transition: color 0.2s, border-color 0.2s;
+        text-decoration:none;
+        font-family: var(--heading-font);
+        text-transform: uppercase;
+    }
 
+    .submit a:hover {
+        color: var(--neutral-500);
+        border-color: var(--neutral-500);
+    }
+
+    #delete-recipe {
+        padding: 5px 10px 5px;
+        font-size: 20px;
+        border-color: var(--primary-700);
+        color: var(--primary-700);
+        margin-top: 10px;
+    }
+
+    #delete-recipe:hover {
+        color: var(--red-error-500);
+        border-color: var(--red-error-500);
+    }
+
+    .edit-page-btn-group {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
 
     /* USER ID PAGE */
 

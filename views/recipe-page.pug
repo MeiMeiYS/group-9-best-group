@@ -37,8 +37,8 @@ block content
                         button.add-status Add Status
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
-                            a.edit-recipe(href=`/recipes/${recipe.id}/edit`) Edit Recipe
-
+                            div.submit
+                                a(href=`/recipes/${recipe.id}/edit`) Edit Recipe
                             div(class='delete submit')
                                 form(action=`/recipes/${recipe.id}/delete`, method='post')
                                     input(type='hidden', name='_csrf', value=csrfToken)
