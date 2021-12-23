@@ -5,6 +5,7 @@ block content
         .recipe_details
             .recipe-overview
                 h1.recipe-name(data-recipeId= recipe.id) #{recipe.name}
+                h3.recipe-id(hidden)=recipe.id
                 .date-metadata
                     p.author by #{recipe.User.userName}
                     p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}

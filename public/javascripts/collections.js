@@ -155,7 +155,7 @@ const deleteCollection = async (target) => {
 
 
 
-
+//click button to view recipes that are in a collection
 const viewCollection = async (target) => {
     let collectionId = target.parentElement.id;
 
@@ -210,6 +210,7 @@ const viewCollection = async (target) => {
     }
 }
 
+//click button on recipe that removes a recipe from a collection 
 const removeFromCollection = async (target) => {
     //get button id and split to string then get the recipeId that is last
     const idArr = target.id.split("-");
