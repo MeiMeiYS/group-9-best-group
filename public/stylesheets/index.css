@@ -378,6 +378,10 @@ button.button{
         font-family: var(--body-font);
     }
 
+    .recipe-owner-buttons {
+        display: flex;
+    }
+
 
     /* CREATE RECIPE FORM */
 
