@@ -483,15 +483,6 @@ button.button{
         border:none;
     }
 
-
-    .delete-row{
-        background-color: var(--neutral-300);
-        min-height: 40px;
-        position: relative;
-        top: 5px;
-    }
-
-
     .delete-button,
     i.fa-trash-alt {
         background-color: none;
@@ -500,7 +491,20 @@ button.button{
         margin-left: 10px;
     }
 
+    .delete-button i.fa-trash-alt {
+        pointer-events: none;
+    }
 
+    .delete-row{
+        background-color: var(--neutral-300);
+        min-height: 40px;
+        position: relative;
+        top: 5px;
+    }
+
+    .delete-row:hover, .delete-row:hover i.fa-trash-alt{
+        color: var(--red-error-500);
+    }
 
     .new-recipe-form label{
         font-family: var(--heading-font);
