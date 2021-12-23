@@ -1,8 +1,8 @@
 const express = require('express');
-const { csrfProtection, asyncHandler } = require('./utils');
+const { csrfProtection, asyncHandler, addAverageRatingProperty } = require('./utils');
 const { check, validationResult } = require('express-validator');
 const db = require('../db/models');
-const { User } = db;
+const { User, Recipe, Review, Collection, Tag, StatusType, Image } = db;
 const bcrypt = require('bcryptjs');
 const { loginUser, restoreUser, userLogout, requireAuth, checkPermissionsUsersRoute } = require('../auth');
 
@@ -131,7 +131,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
       const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString());
       if (passwordMatch) {
         loginUser(req, res, user);
-        return res.redirect('/');
+        return await res.redirect('/');
       }
     }
 
@@ -149,7 +149,6 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
 router.post('/logout', (req, res) => {
   userLogout(req, res);
-  res.redirect('/');
 });
 
 router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
@@ -157,45 +156,45 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
   const user = await User.findByPk(userId, {
     include: [
       {
-        model: db.Recipe,
+        model: Recipe,
         include: [
           {
-            model: db.Tag
+            model: Tag
           },
           {
-            model: db.StatusType
+            model: StatusType
           },
           {
-            model: db.Image
+            model: Image
           },
           {
-            model: db.Review
+            model: Review
           },
           {
-            model: db.User
+            model: User
           }
         ]
       },
       {
-        model: db.Image
+        model: Image
       },
       {
-        model: db.Collection,
+        model: Collection,
         include: [
           {
-            model: db.Recipe,
+            model: Recipe,
             include: [
               {
-                model: db.Tag
+                model: Tag
               },
               {
-                model: db.StatusType
+                model: StatusType
               },
               {
-                model: db.Image
+                model: Image
               },
               {
-                model: db.Review
+                model: Review
               }
             ]
           }
@@ -206,13 +205,49 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 
   checkPermissionsUsersRoute(user, res.locals.user);
 
-  const recipes = user.Recipes;
+  const recipes = await Recipe.findAll({
+    where: {
+      userId
+    },
+    include: [
+      {
+        model: Tag
+      },
+      {
+        model: StatusType
+      },
+      {
+        model: Image
+      },
+      {
+        model: Review,
+      },
+      {
+        model: User
+      }
+    ]
+  })
+
   const collections = user.Collections
   let memberSince = " " + user.createdAt.toDateString().slice(4)
   let recipesAdded = 0
-    if(user.Recipes) recipesAdded = user.Recipes.length;
+    if(recipes.length) recipesAdded = recipes.length;
   let reviewsAdded = 0
   if (user.Reviews) reviewsAdded = user.Reviews.length;
+
+  let addAverageRatingProperty = (recipes) => {
+    recipes.forEach(recipe => {
+      if (recipe.Reviews.length) {
+        recipe.averageRating = Math.ceil(recipe.Reviews.map(review => review.rating).reduce((acc, el) => acc + el) / recipe.Reviews.length).toString()
+      } else {
+        recipe.averageRating = `No Ratings`
+      }
+    })
+    return recipes
+  }
+
+  addAverageRatingProperty(recipes)
+
   res.render('users-id', { user, recipes, collections, memberSince, reviewsAdded, recipesAdded })
 
 }));
@@ -276,7 +311,6 @@ router.post('/:id(\\d+)/image/new', requireAuth, csrfProtection, imageValidators
 
     res.redirect(`/users/${userId}`)
     // res.json({ userToUpdate, image })
-    // console.log(userToUpdate, image)
   } else {
     const errors = validatorErrors.array().map((error) => error.msg);
 

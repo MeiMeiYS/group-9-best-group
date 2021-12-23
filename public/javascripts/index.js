@@ -1,22 +1,20 @@
 window.addEventListener("load", (event)=>{
-    console.log("hello from javascript!")
 })
 
 
-const searchForRecipes = () => {
+const searchForRecipes = async () => {
     let searchTerm = document.querySelector('#recipe-search').value;
     let resultArea = document.querySelector('#search-results')
     resultArea.innerHTML=''
     document.querySelector('#recipe-search').value = '';
 
-    fetch('api/recipes/search', {
+    let result = fetch('api/recipes/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ searchTerm })
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             let foundRecipes = data.foundRecipes
             if (searchTerm == '') {
                 resultArea.innerHTML = `<h3 class="results-header">Please enter a search term.</h3>`
@@ -24,7 +22,6 @@ const searchForRecipes = () => {
                 resultArea.innerHTML = `<h3 class="results-header"> Sorry, no results found for ${searchTerm}.</h3>`
             } else {
                 for (let i = 0; i < foundRecipes.length; i++) {
-                    console.log(`we got one`)
                     let foundRecipe = foundRecipes[i];
                     resultArea.innerHTML += `
                     <div class="card">
@@ -39,5 +36,12 @@ const searchForRecipes = () => {
                     `
                 }
             }
+            return 1;
         })
+        .catch(e => {
+            console.error(e)
+            return
+
+        })
+    return result
 }

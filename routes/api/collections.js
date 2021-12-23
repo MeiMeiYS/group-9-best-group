@@ -19,7 +19,6 @@ const collectionNotFound = (id) => {
 // //v for testing or debugging
 // router.get("/", asyncHandler(async (req, res) => {
 //     const collectionData = await Collection.findAll();
-//     console.log('~~~~~~',res.locals.user.id)
 //     res.json(collectionData);
 // }));
 
@@ -119,7 +118,6 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
         await collection.update({
             name: name
         })
-        // console.log(collection)
         res.json({ collection });
     } else {
         next(collectionNotFound(collectionId));
@@ -131,12 +129,7 @@ router.put("/:id", requireAuth, asyncHandler(async (req, res, next) => {
 router.delete("/:id", requireAuth, asyncHandler(async (req, res, next) => {
     const userId = res.locals.user.id;
     const collectionId = parseInt(req.params.id);
-    console.log(collectionId);
-
     const collection = await Collection.findByPk(collectionId);
-
-    // console.log(collection);
-
     checkPermissionsRecipesRoute(collection, res.locals.user);
 
     //array of all recipeCollections associated with the collection

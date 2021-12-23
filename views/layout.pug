@@ -4,7 +4,7 @@ doctype html
 html
   head
       block head
-        title=`Recipeople - ${title}`
+        title=`Recipeople`
         link(rel='shortcut icon' type='image/png' href='/assets/logos/favicon.png')
         link(rel='stylesheet' href='/stylesheets/index.css')
         link(rel="stylesheet" href="https://use.typekit.net/leo2why.css")
@@ -16,7 +16,7 @@ html
       a(href='/'): img(id ='logo' src="/assets/logos/main-logo-2.svg" alt="Recipeople Main Logo")
       ul.nav-links
         if locals.authenticated
-          li.nav-item:  a.button(href=`/users/${user.id}`) Welcome #{user.userName}!
+          li.nav-item(data-userId= user.id, id="userinfo"): a.button(href=`/users/${user.id}`) Welcome #{user.userName}!
           li.nav-item: a.button(href="/recipes/new") Create A Recipe
           li.nav-item: a.button(href="/recipes") View Recipes
           li.nav-item

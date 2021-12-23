@@ -7,7 +7,19 @@ const asyncHandler = (handler) => {
     }
 };
 
+let addAverageRatingProperty = (recipes) => {
+    recipes.forEach(recipe => {
+      if (recipe.Reviews && recipe.Reviews.length) {
+        recipe.averageRating = Math.ceil(recipe.Reviews.map(review => review.rating).reduce((acc, el) => acc + el) / recipe.Reviews.length).toString()
+      } else {
+        recipe.averageRating = `No Ratings`
+      }
+    })
+    return recipes
+  }
+
 module.exports = {
     csrfProtection,
-    asyncHandler
+    asyncHandler,
+    addAverageRatingProperty
 }

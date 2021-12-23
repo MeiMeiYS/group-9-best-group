@@ -92,13 +92,10 @@ const cancelEdit = (target) => {
 const changeCollectionName = (target) => {
     //grabbed the previous sibling of the div and its text content
     let collectionId = target.parentElement.previousElementSibling.textContent;
-    //console.log(collectionId);
 
     let name = document.getElementById('updateCollection').value;
 
     const collectionArea = target.parentElement;
-
-    //console.log(name)
 
     if (!name.length) {
         collectionArea.innerHTML = `<input type="text" id='updateCollection' placeholder="Please Enter New Collection Name"></input>
