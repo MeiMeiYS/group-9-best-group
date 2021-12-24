@@ -18,7 +18,7 @@ const cancelAdd = () => {
 }
 
 
-const constructCollection = () => {
+const constructCollection = async () => {
     let name = document.getElementById('newCollection').value;
     const collectionArea = document.querySelector('.new-collection-form');
 
@@ -33,23 +33,21 @@ const constructCollection = () => {
         </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
         </button>`;
 
-        fetch("/api/collections", {
+        const res = await fetch("/api/collections", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({name})
+            body: JSON.stringify({ name })
         })
-        .then(res => {
-            return res.json()
-        })
-        .then(data => {
-            let newCollection = data.newCollection;
+        const data = await res.json()
 
-            if (newCollection) {
-                let collectionContainer = document.querySelector('.all-collections');
+        let newCollection = data.newCollection;
 
-                collectionContainer.innerHTML += `
+        if (newCollection) {
+            let collectionContainer = document.querySelector('.all-collections');
+
+            collectionContainer.innerHTML += `
                 <div class=collectionContainer>
                     <div class='collection-header'>
                         <h3>${newCollection.name}</h3>
@@ -60,17 +58,14 @@ const constructCollection = () => {
                         <div class='deleteCollection'>
                             <button class='button' id='deleteCollection' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
                         </div>
-                    </div>
-                    <div class='recipe-list'>
-                        <div class='viewCollection'>
-                            <h3 hidden>${newCollection.id}</h3>
-                            <button class='button' id='viewCollection' type='submit' onclick='viewCollection(this)'>View Recipes</button>
+                        <div class='recipe-list' id=${newCollection.id}>
+                            <button class='button' id='viewCollection-${newCollection.id}' type='submit' onclick='viewCollection(this)'>View Recipes</button>
+                            <div id='recipe-view-${newCollection.id}' style='display:none'></div>
                         </div>
                     </div>
                 </div>
                 `
-            }
-        })
+        }
     }
 }
 
@@ -115,72 +110,133 @@ const changeCollectionName = (target) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({name})
+            body: JSON.stringify({ name })
         })
-        .then(res => {
-            return res.json()
-        })
-        .then(data => {
-            let updatedCollection = data.collection;
-            if (updatedCollection) {
-                collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
-                collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;
-            }
-        })
+            .then(res => {
+                //console.log({res})
+                return res.json()
+            })
+            .then(data => {
+                //console.log(data)
+                let updatedCollection = data.collection;
+                console.log(updatedCollection)
+
+                if (updatedCollection) {
+                    collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
+                    console.log(collectionArea.previousElementSibling.previousElementSibling)
+
+                    collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;
+                }
+            })
 
     }
 
 };
 
-const viewCollection = async (target) => {
-    let collectionId = target.previousElementSibling.textContent;
+
+
+const deleteCollection = async (target) => {
+    //grabbed the previous, previous sibling (h3) and got the text content to get collection name
+    let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
+    console.log(collectionId);
+
+    const collectionContainer = target.parentElement.parentElement.parentElement
+    console.log(collectionContainer);
 
     fetch(`/api/collections/${collectionId}`, {
+        method: "DELETE",
+    })
+        .then(res => {
+            collectionContainer.remove();
+        })
+
+};
+
+
+
+
+//click button to view recipes that are in a collection
+const viewCollection = async (target) => {
+    let collectionId = target.parentElement.id;
+
+    //console.log(collectionId);
+
+    const button = document.querySelector(`#viewCollection-${collectionId}`);
+
+    const recipeView = document.getElementById(`recipe-view-${collectionId}`);
+
+    //console.log(recipeView);
+    if (recipeView.style.display === 'none') {
+        recipeView.style.display = 'block';
+        button.innerHTML = 'Hide Recipes'
+    } else {
+        recipeView.style.display = 'none';
+        button.innerHTML = 'View Recipes'
+    }
+
+
+    const res = await fetch(`/api/collections/${collectionId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
         }
     })
-    .then(res => {
-        return res.json()
-    })
-    .then(data => {
-        const recipesInCollection = data.collection.Recipe
-    })
 
-    // const recipeView = document.getElementsByClassName('recipe-view');
-    // if (recipeView.style.display === 'none') {
-    //     recipeView.style.display = 'block';
-    // } else {
-    //     recipeView.style.display = 'none'
-    // }
+    const data = await res.json()
+    const recipesInCollection = data.recipes;
+    // console.log(recipesInCollection);
 
-    // will need to use loop to show all the recipes:
-    // for (let i = 0; i < foundRecipes.length; i++) {
-    //     let foundRecipe = foundRecipes[i];
-    //     resultArea.innerHTML += `
-    //     <div class="card">
-    //     <img src="${foundRecipe.Image.url}" alt="recipe-image">
-    //     <div class="title">
-    //       <h2>${foundRecipe.name}</h2>
-    //     </div>
-    //     <div class="username"> ${foundRecipe.User.userName}</div>
-    //     <div class="view-button">
-    //         <a class="button" href="/recipes/${foundRecipe.id}">View Recipe</a>
-    //     </div>
-    //     `
-    // }
+    if (recipeView.innerHTML === '') {
+        if (recipesInCollection.length > 0) {
+            for (let i = 0; i < recipesInCollection.length; i++) {
+                let recipe = recipesInCollection[i];
+                recipeView.innerHTML += `
+                <div class="card" id="card-${recipe.id}">
+                    <img src="${recipe.Image.url}" alt="recipe-image">
+                        <div class="title">
+                            <h3>${recipe.name}</h3>
+                        </div>
+                        <div class="view-button">
+                            <a class="button" href="/recipes/${recipe.id}">View Recipe</a>
+                        </div>
+                    <button class='button' id='remove-recipe-${recipe.id}' type='submit' onclick='removeFromCollection(this)'>Remove</button>
+                    `
+            }
+        } else {
+            recipeView.innerHTML += `
+                <p>No recipes have been added yet!</p>
+                `
+        }
+    }
 }
 
-const deleteCollection = async (target) => {
-    //grabbed the previous, previous sibling (h3) and got the text content to get collection name
-    let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
-    const collectionContainer = target.parentElement.parentElement;
-    fetch(`/api/collections/${collectionId}`, {
+//click button on recipe that removes a recipe from a collection 
+const removeFromCollection = async (target) => {
+    //get button id and split to string then get the recipeId that is last
+    const idArr = target.id.split("-");
+    const recipeId = idArr[2];
+
+    //get id of parent div that has collectionId in id
+    const collectionIdArr = target.parentElement.parentElement.id.split("-");
+    const collectionId = collectionIdArr[2];
+
+    const res = await fetch(`/api/recipecollections/${recipeId}/${collectionId}`, {
         method: "DELETE",
     })
-    .then(res => {
-        collectionContainer.innerHTML = '';
-    })
+    const data = await res.json();
 
-};
+    const recipeCard = document.querySelector(`#card-${recipeId}`);
+
+
+    // const alertArea = document.querySelector('#show-alert');
+
+    // alertArea.style.display = 'block';
+    recipeCard.innerHTML = `${data.message}`
+
+    setTimeout(function() {
+        recipeCard.remove();
+        // alertArea.style = "display:none"
+    }, 1800)
+
+}
+

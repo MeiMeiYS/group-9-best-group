@@ -1076,10 +1076,58 @@ padding-bottom: 8px;
 
 
 
+<<<<<<< HEAD
 .footer-bottom p {
     color: var(--neutral-300);
     max-width: 1600px;
     width: 100%;
     font-family: var(--body-font);
     padding-left: 10px;
+=======
+          .footer-bottom p {
+            color: var(--neutral-300);
+            max-width: 1600px;
+            width: 100%;
+            font-family: var(--body-font);
+            padding-left: 10px;
+          }
+
+/* error-404 page */
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 65vh;
+    background-color: var(--primary-300);
+}
+
+.error-header {
+    font-family: var(--heading-font);
+    text-transform: uppercase;
+    font-size: 25px;
+    color:var(--primary-700);
+}
+
+h1.error-header {
+    font-size: 100px;
+    padding: 0 10px;
+}
+
+.error-headline {
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+}
+
+.error-links a {
+    margin: 15px 50px;
+    display: inline-block;
+}
+
+#error404-img {
+    height: 100px;
+    filter: invert(11%) sepia(46%) saturate(3268%) hue-rotate(342deg) brightness(104%) contrast(106%);
+    padding: 0 10px;
+>>>>>>> main
 }
