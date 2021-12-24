@@ -191,7 +191,7 @@ const viewCollection = async (target) => {
             for (let i = 0; i < recipesInCollection.length; i++) {
                 let recipe = recipesInCollection[i];
                 recipeView.innerHTML += `
-                <div class="card" id="card-${recipe.id}">
+                <div class="card" id="card-${recipe.id}-${collectionId}">
                     <img src="${recipe.Image.url}" alt="recipe-image">
                         <div class="title">
                             <h3>${recipe.name}</h3>
@@ -210,7 +210,7 @@ const viewCollection = async (target) => {
     }
 }
 
-//click button on recipe that removes a recipe from a collection 
+//click button on recipe that removes a recipe from a collection
 const removeFromCollection = async (target) => {
     //get button id and split to string then get the recipeId that is last
     const idArr = target.id.split("-");
@@ -225,7 +225,7 @@ const removeFromCollection = async (target) => {
     })
     const data = await res.json();
 
-    const recipeCard = document.querySelector(`#card-${recipeId}`);
+    const recipeCard = document.querySelector(`#card-${recipeId}-${collectionId}`);
 
 
     // const alertArea = document.querySelector('#show-alert');
