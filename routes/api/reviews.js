@@ -41,13 +41,13 @@ router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => { // for 
         where: {
             recipeId: recipeId
         },
-        include: { model: User },
+        include: [Image, User],
+        limit: 9,
         order: [
-            [`updatedAt`, 'DESC']
+            [`createdAt`, 'DESC']
         ]
-    })
+    });
     res.json({reviews});
-    // this works
 }));
 
 // posting the review - what initiates when you click the 'submit review' button

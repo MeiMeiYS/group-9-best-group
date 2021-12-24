@@ -1,4 +1,4 @@
-import { ratingFeature, getPErrors} from './element-generator.js';
+import { ratingFeature, getPErrors } from './element-generator.js';
 // error checker
 function isUrl(string) {
     const badURL = document.getElementById("urlBad");
@@ -58,8 +58,35 @@ const fetchReviews = async (recipeId) => {
     });
     const data = await res.json()
     const reviews = data.reviews // data.reviews = array of reviews
+    console.log("reviews", reviews);
     return reviews;
-}
+};
+
+// mapping all reviews
+const reviewsHTML = async (reviewsArray) => {
+    console.log("reviewsHTML)")
+    const allReviewsDiv = document.getElementById("allReviews");
+    console.log("allReviewsDiv", allReviewsDiv);
+    const allReviewsHTML = reviewsArray.map(({ User, review, Image, userId, recipeId, id, rating, updatedAt }) => `
+        <div class="review-box">
+            <div class="review-image-container">
+                <img src="${Image.url}" class="review-image">
+                    </div>
+                    <div class="review-data">
+                        <p class="review-rating">${rating}<span> out of 5</span></p>
+                        <p class="review-text" id="review-${id}">${review}</p>
+                        <div class="date-metadata">
+                            <p class="author" id="${userId}">${User.userName}</p>
+                            <p class="review-date">${new Date(updatedAt).toDateString().slice(3)}</p>
+                        </div>
+                    </div>
+                </div>`
+    );
+    allReviewsHTML.unshift(`<p class="review-header">Reviews</p>`);
+    allReviewsDiv.innerHTML = allReviewsHTML.join("");
+    console.log("allReviewsDiv", allReviewsDiv)
+    return;
+};
 
 // when cancel button is pressed, form goes away, submitButton comes back
 
@@ -118,11 +145,7 @@ window.onload = event => {
             const reviewsArray = await newReview(body);
             console.log("reviewsArray", reviewsArray);
             console.log(reviewsArray[0]);
-            const reviewsHTML = reviewsArray.map((reviewObj) => {
-                const {userId, review, userName, } = reviewObj
-                return;
-            })
-            const allReviews = document.getElementById("allReviews");
+            await reviewsHTML(reviewsArray);
         }
     });
 

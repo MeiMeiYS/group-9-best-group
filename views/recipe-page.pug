@@ -92,7 +92,7 @@ block content
                                     p.review-text= review.review
                                     .date-metadata
                                         p.author= review.User.userName
-                                        p.review-date= review.createdAt.toDateString().slice(3)
+                                        p.review-date= review.updatedAt.toDateString().slice(3)
     script(src='/javascripts/recipe-status.js')
     script(src='/javascripts/delete-recipe.js')
     script(src="/javascripts/api-reviews.js", type="module")
