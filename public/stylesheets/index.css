@@ -729,6 +729,13 @@ button.button{
     color: var(--green-hover-500)
 }
 
+.collection-button {
+    background-color: var(--neutral-300);
+    border: var(--boxy-border);
+    padding: 5px 10px 5px;
+    font-size: 30px;
+    transition: color 0.2s, border-color 0.2s;
+}
 
 /* RECIPE PAGE */
 .recipe-page-content{
