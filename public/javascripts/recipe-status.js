@@ -16,7 +16,7 @@ window.addEventListener("load", (event) => {
 
             const loginButtons = document.querySelector('.log-in-buttons');
             loginButtons.appendChild(statusContainer);
-            addStatusBtn.innerHTML = 'Close';
+            addStatusBtn.innerHTML = 'Close👇🏻';
             addStatusBtn.classList.add('.darkenBtn')
 
             const recipe = document.querySelector('h1.recipe-name');
@@ -88,6 +88,7 @@ window.addEventListener("load", (event) => {
 
     function createBtn (className) {
         const btn = document.createElement('button');
+        btn.classList.add('status-btn');
         btn.classList.add(className);
         return btn;
     }

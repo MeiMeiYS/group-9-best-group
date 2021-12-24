@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    div(class="error-container")
+        div(class="error-headline")
+            img(id="error404-img" src="/assets/illustrations/error-404.png")
+            h1(class="error-header") Oops!
+        h2(class="error-header") We can't seem to find the page you're looking for.
+        div(class="error-links")
+            a.button(href=`javascript:history.back()`) Go back to last page
+            a.button(href=`/`) Home page
+    +footer()

@@ -5,6 +5,7 @@ block content
         .recipe_details
             .recipe-overview
                 h1.recipe-name(data-recipeId= recipe.id) #{recipe.name}
+                h3.recipe-id(hidden)=recipe.id
                 .date-metadata
                     p.author by #{recipe.User.userName}
                     p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
@@ -30,15 +31,22 @@ block content
                         input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-1` class="rating-1"  disabled="true" checked=(recipe.averageRating == '1'))
                         label(for=`${recipe.name}-rating-1`)
                 p.description #{recipe.description}
+                p(id='show-alert')
+                script(src='/javascripts/recipeCollections.js')
                 if locals.authenticated
                     .log-in-buttons
                         button.add-review Add Review
-                        button.add-collection Add To Collection
+                        button.add-collection(onclick='getCollectionForm()') Add To Collection
+                        div#collection-choices(style="display: none")
+                            select(name='collections' id='collection-select')
+                                for collection in collections
+                                    option(value=collection.id)=collection.name
+                            button.adding-to-collection(type='submit' onclick='addToCollection()') +
                         button.add-status Add Status
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
-                            a.edit-recipe(href=`/recipes/${recipe.id}/edit`) Edit Recipe
-
+                            div.submit
+                                a(href=`/recipes/${recipe.id}/edit`) Edit Recipe
                             div(class='delete submit')
                                 form(action=`/recipes/${recipe.id}/delete`, method='post')
                                     input(type='hidden', name='_csrf', value=csrfToken)
