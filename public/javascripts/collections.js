@@ -5,8 +5,8 @@ const addNewCollection = () => {
     collectionArea.innerHTML = '';
 
     collectionArea.innerHTML = `<input type="text" id='newCollection' placeholder="Enter New Collection Name"></input>
-    <button class='button' type='submit' onclick='constructCollection()'><i class="fas fa-plus-circle"></i>
-    </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
+    <button class='button' id='add-collection' type='submit' onclick='constructCollection()'>Add
+    </button><button class='button cancel' id="cancel-collection" type='submit' onclick='cancelAdd()'>Cancel
     </button>`
 
 }
@@ -14,7 +14,7 @@ const addNewCollection = () => {
 const cancelAdd = () => {
     const collectionArea = document.querySelector('.new-collection-form');
 
-    collectionArea.innerHTML = `<button class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()'>Add</button>`;
+    collectionArea.innerHTML = `<button class='collection-button' id='newCollectionBtn' type='submit' onclick='addNewCollection()'>Add New Collection</button>`;
 }
 
 
@@ -24,13 +24,13 @@ const constructCollection = async () => {
 
     if (!name.length) {
         collectionArea.innerHTML = `<input type="text" id='newCollection' placeholder="Please Enter New Collection Name!"></input>
-        <button class='button' type='submit' onclick='constructCollection()'><i class="fas fa-plus-circle"></i>
-        </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
+        <button class='button' id='add-collection' type='submit' onclick='constructCollection()'>Add
+        </button><button class='button cancel' id="cancel-collection" type='submit' onclick='cancelAdd()'>Cancel
         </button>`
     } else {
         collectionArea.innerHTML = `<input type="text" id='newCollection' placeholder="Enter New Collection Name"></input>
-        <button class='button' type='submit' onclick='constructCollection()'><i class="fas fa-plus-circle"></i>
-        </button><button class='button cancel' type='submit' onclick='cancelAdd()'><i class="fas fa-times-circle"></i>
+        <button class='button' id='add-collection' type='submit' onclick='constructCollection()'>Add
+        </button><button class='button cancel' id="cancel-collection" type='submit' onclick='cancelAdd()'>Cancel
         </button>`;
 
         const res = await fetch("/api/collections", {

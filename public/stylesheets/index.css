@@ -719,6 +719,7 @@ button.button{
 
 .recipes-data i{
     margin-right: 5px;
+    font-family: var(--heading-font);
 }
 
 .recipes-data a *{
@@ -729,13 +730,65 @@ button.button{
     color: var(--green-hover-500)
 }
 
+/* for all the buttons in collection area */
 .collection-button {
-    background-color: var(--neutral-300);
+    background-color: var(--neutral-700);
     border: var(--boxy-border);
-    padding: 5px 10px 5px;
-    font-size: 30px;
-    transition: color 0.2s, border-color 0.2s;
+    font-family: var(--heading-font);
+    text-transform: uppercase;
+    color: var(--primary-300);
+    font-size: 24px;
+    padding: 4px 6px;
+    margin: 5px;
+    transition: color 0.15s, background-color 0.15s;
 }
+
+/* for input new collection name */
+#newCollection {
+    height: 40px;
+    width: 300px;
+    outline: 1px solid;
+    outline-color: var(--boxy-border);
+    font-family: var(--heading-font);
+    font-size: 24px;
+    padding: 0 5px;
+}
+
+/* for the + button to add collection */
+#add-collection {
+    height: 40px;
+    width: 60px;
+    background-color: var(--neutral-700);
+    border: var(--boxy-border);
+    font-family: var(--heading-font);
+    color: white;
+    font-size: 24px;
+    border-radius: 15px;
+    margin: 0 5px;
+}
+
+#cancel-collection {
+    height: 40px;
+    width: 80px;
+    background-color: var(--neutral-700);
+    border: var(--boxy-border);
+    font-family: var(--heading-font);
+    color: white;
+    font-size: 24px;
+    border-radius: 15px;
+    margin: 0 5px;
+}
+
+#add-collection:hover {
+    background-color: var(--green-success-300);
+    color: var(--neutral-100)
+}
+
+#cancel-collection:hover {
+    background-color: var(--red-error-500);
+    color: var(--neutral-100)
+}
+
 
 /* RECIPE PAGE */
 .recipe-page-content{
