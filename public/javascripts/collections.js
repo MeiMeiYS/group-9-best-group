@@ -53,13 +53,13 @@ const constructCollection = async () => {
                         <h3>${newCollection.name}</h3>
                         <h3 hidden>${newCollection.id}</h3>
                         <div class='editCollection'>
-                            <button class='button' id='editCollection' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
+                            <button class='collection-button' id='editCollection' type='submit' onclick='editCollectionName(this)'>Edit Name</button>
                         </div>
                         <div class='deleteCollection'>
-                            <button class='button' id='deleteCollection' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
+                            <button class='collection-button' id='deleteCollection' type='submit' onclick='deleteCollection(this)'>Delete Collection</button>
                         </div>
                         <div class='recipe-list' id=${newCollection.id}>
-                            <button class='button' id='viewCollection-${newCollection.id}' type='submit' onclick='viewCollection(this)'>View Recipes</button>
+                            <button class='collection-button' id='viewCollection-${newCollection.id}' type='submit' onclick='viewCollection(this)'>View Recipes</button>
                             <div id='recipe-view-${newCollection.id}' style='display:none'></div>
                         </div>
                     </div>
@@ -76,16 +76,16 @@ const editCollectionName = (target) => {
 
     collectionArea.innerHTML = `
     <input type="text" id='updateCollection' placeholder="Enter New Collection Name"></input>
-    <button class='button' type='submit' onclick='changeCollectionName(this)'><i class="fas fa-plus-circle"></i>
+    <button class='button' id='edit-collection' type='submit' onclick='changeCollectionName(this)'>Edit
     </button>
-    <button class='button cancel' type='submit' onclick='cancelEdit(this)'><i class="fas fa-times-circle"></i>
+    <button class='button cancel' id='cancel-collection-edit' type='submit' onclick='cancelEdit(this)'>Cancel
     </button>`
 }
 
 const cancelEdit = (target) => {
     const collectionArea = target.parentElement;
 
-    collectionArea.innerHTML = `<button class='button' id='editCollection' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
+    collectionArea.innerHTML = `<button class='collection-button' id='editCollection' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
 }
 
 
@@ -99,9 +99,9 @@ const changeCollectionName = (target) => {
 
     if (!name.length) {
         collectionArea.innerHTML = `<input type="text" id='updateCollection' placeholder="Please Enter New Collection Name"></input>
-        <button class='button' type='submit' onclick='changeCollectionName(this)'><i class="fas fa-plus-circle"></i>
+        <button class='button' id='edit-collection' type='submit' onclick='changeCollectionName(this)'>Edit
         </button>
-        <button class='button cancel' type='submit' onclick='cancelEdit(this)'><i class="fas fa-times-circle"></i>
+        <button class='button cancel' id='cancel-collection-edit' type='submit' onclick='cancelEdit(this)'>Cancel
         </button>`
     } else {
 
@@ -122,7 +122,7 @@ const changeCollectionName = (target) => {
                 console.log(updatedCollection)
 
                 if (updatedCollection) {
-                    collectionArea.innerHTML = `<button class='button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
+                    collectionArea.innerHTML = `<button class='collection-button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
                     console.log(collectionArea.previousElementSibling.previousElementSibling)
 
                     collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;

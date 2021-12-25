@@ -743,8 +743,8 @@ button.button{
     transition: color 0.15s, background-color 0.15s;
 }
 
-/* for input new collection name */
-#newCollection {
+/* for input new collection name and edited name*/
+#newCollection, #updateCollection {
     height: 40px;
     width: 300px;
     outline: 1px solid;
@@ -755,7 +755,7 @@ button.button{
 }
 
 /* for the + button to add collection */
-#add-collection {
+#add-collection, #edit-collection {
     height: 40px;
     width: 60px;
     background-color: var(--neutral-700);
@@ -767,7 +767,7 @@ button.button{
     margin: 0 5px;
 }
 
-#cancel-collection {
+#cancel-collection, #cancel-collection-edit {
     height: 40px;
     width: 80px;
     background-color: var(--neutral-700);
@@ -779,15 +779,36 @@ button.button{
     margin: 0 5px;
 }
 
-#add-collection:hover {
+#add-collection:hover, #edit-collection:hover {
     background-color: var(--green-success-300);
     color: var(--neutral-100)
 }
 
-#cancel-collection:hover {
+#cancel-collection:hover, #cancel-collection-edit:hover {
     background-color: var(--red-error-500);
     color: var(--neutral-100)
 }
+
+.collection-header, .my-collection-header {
+    display: flex;
+    flex-direction: row;
+    font-family: var(--heading-font);
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+.editCollection, .my-collection-header .new-collection-form {
+    margin-left: auto;
+}
+
+.my-collection-header .new-collection-form {
+    align-self: flex-end;
+}
+
+.my-collection-header {
+    margin-bottom: 20px;
+}
+
 
 
 /* RECIPE PAGE */
