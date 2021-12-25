@@ -1,4 +1,4 @@
-
+//clicking button to add new collection
 const addNewCollection = () => {
     const collectionArea = document.querySelector('.new-collection-form');
 
@@ -10,14 +10,14 @@ const addNewCollection = () => {
     </button>`
 
 }
-
+//clicking button to cancel adding collection
 const cancelAdd = () => {
     const collectionArea = document.querySelector('.new-collection-form');
 
     collectionArea.innerHTML = `<button class='collection-button' id='newCollectionBtn' type='submit' onclick='addNewCollection()'>Add New Collection</button>`;
 }
 
-
+//actually submitting new collection
 const constructCollection = async () => {
     let name = document.getElementById('newCollection').value;
     const collectionArea = document.querySelector('.new-collection-form');
@@ -68,7 +68,7 @@ const constructCollection = async () => {
         }
     }
 }
-
+//clicking button to edit a collection name
 const editCollectionName = (target) => {
     const collectionArea = target.parentElement;
 
@@ -81,14 +81,14 @@ const editCollectionName = (target) => {
     <button class='button cancel' id='cancel-collection-edit' type='submit' onclick='cancelEdit(this)'>Cancel
     </button>`
 }
-
+//clicking button to cancel editting a collection
 const cancelEdit = (target) => {
     const collectionArea = target.parentElement;
 
     collectionArea.innerHTML = `<button class='collection-button' id='editCollection' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
 }
 
-
+//actually changing collection name
 const changeCollectionName = (target) => {
     //grabbed the previous sibling of the div and its text content
     let collectionId = target.parentElement.previousElementSibling.textContent;
@@ -134,7 +134,7 @@ const changeCollectionName = (target) => {
 };
 
 
-
+//deleting collection
 const deleteCollection = async (target) => {
     //grabbed the previous, previous sibling (h3) and got the text content to get collection name
     let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
@@ -159,13 +159,10 @@ const deleteCollection = async (target) => {
 const viewCollection = async (target) => {
     let collectionId = target.parentElement.id;
 
-    //console.log(collectionId);
-
     const button = document.querySelector(`#viewCollection-${collectionId}`);
 
     const recipeView = document.getElementById(`recipe-view-${collectionId}`);
 
-    //console.log(recipeView);
     if (recipeView.style.display === 'none') {
         recipeView.style.display = 'block';
         button.innerHTML = 'Hide Recipes'
@@ -173,7 +170,6 @@ const viewCollection = async (target) => {
         recipeView.style.display = 'none';
         button.innerHTML = 'View Recipes'
     }
-
 
     const res = await fetch(`/api/collections/${collectionId}`, {
         method: "GET",
@@ -184,7 +180,6 @@ const viewCollection = async (target) => {
 
     const data = await res.json()
     const recipesInCollection = data.recipes;
-    // console.log(recipesInCollection);
 
     if (recipeView.innerHTML === '') {
         if (recipesInCollection.length > 0) {
@@ -199,7 +194,7 @@ const viewCollection = async (target) => {
                         <div class="view-button">
                             <a class="button" href="/recipes/${recipe.id}">View Recipe</a>
                         </div>
-                    <button class='button' id='remove-recipe-${recipe.id}' type='submit' onclick='removeFromCollection(this)'>Remove</button>
+                    <button class='delete-recipe-from-collection' id='remove-recipe-${recipe.id}' type='submit' onclick='removeFromCollection(this)'>Remove</button>
                     `
             }
         } else {

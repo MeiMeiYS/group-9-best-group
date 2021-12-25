@@ -767,7 +767,7 @@ button.button{
     margin: 0 5px;
 }
 
-#cancel-collection, #cancel-collection-edit {
+#cancel-collection, #cancel-collection-edit, .delete-recipe-from-collection {
     height: 40px;
     width: 80px;
     background-color: var(--neutral-700);
@@ -784,7 +784,7 @@ button.button{
     color: var(--neutral-100)
 }
 
-#cancel-collection:hover, #cancel-collection-edit:hover {
+#cancel-collection:hover, #cancel-collection-edit:hover, .delete-recipe-from-collection:hover {
     background-color: var(--red-error-500);
     color: var(--neutral-100)
 }
@@ -808,7 +808,6 @@ button.button{
 .my-collection-header {
     margin-bottom: 20px;
 }
-
 
 
 /* RECIPE PAGE */
