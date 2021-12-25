@@ -31,7 +31,7 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
             collectionId: collectionId
         })
 
-        res.json({ message: 'Successfully added', newRecipeCollection })
+        res.json({ message: 'Successfully Added!', newRecipeCollection })
     } else {
         res.json({message: 'Already in that Collection!'})
     }
@@ -57,7 +57,7 @@ router.delete('/:recipeId/:collectionId', requireAuth, asyncHandler(async (req, 
 
     if (recipeCollection) {
         await recipeCollection.destroy();
-        res.json({message: `Deleted recipe ${recipe.name} from collection ${collection.name}.`})
+        res.json({message: `Deleted recipe ${recipe.name} from collection "${collection.name}".`})
     } else {
         next()
     }

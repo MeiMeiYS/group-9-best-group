@@ -138,16 +138,21 @@ const changeCollectionName = (target) => {
 const deleteCollection = async (target) => {
     //grabbed the previous, previous sibling (h3) and got the text content to get collection name
     let collectionId = target.parentElement.previousElementSibling.previousElementSibling.textContent;
-    console.log(collectionId);
 
     const collectionContainer = target.parentElement.parentElement.parentElement
-    console.log(collectionContainer);
 
     fetch(`/api/collections/${collectionId}`, {
         method: "DELETE",
     })
         .then(res => {
-            collectionContainer.remove();
+            return res.json()
+        })
+        .then(data => {
+            collectionContainer.innerHTML = data.message;
+
+            setTimeout(function() {
+                collectionContainer.remove();
+           }, 1800)
         })
 
 };
@@ -231,7 +236,7 @@ const removeFromCollection = async (target) => {
     setTimeout(function() {
         recipeCard.remove();
         // alertArea.style = "display:none"
-    }, 1800)
+    }, 1850)
 
 }
 
