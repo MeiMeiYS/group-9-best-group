@@ -16,7 +16,7 @@ window.addEventListener("load", (event) => {
 
             const loginButtons = document.querySelector('.log-in-buttons');
             loginButtons.appendChild(statusContainer);
-            addStatusBtn.innerHTML = 'Close👇🏻';
+            addStatusBtn.innerHTML = 'Close <i class="fas fa-hand-point-down" style="color:#fff6f4;"></i>';
             addStatusBtn.classList.add('.darkenBtn')
 
             const recipe = document.querySelector('h1.recipe-name');
