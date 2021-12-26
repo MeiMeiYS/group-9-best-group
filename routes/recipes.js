@@ -85,7 +85,7 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
             { model: User },
             { model: Image },
             {
-            model: Review,
+                model: Review,
                 include: [Image, User]
             }
         ]
@@ -105,7 +105,7 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
     addAverageRatingProperty([recipe])
 
     let imageURL = null;
-    if(recipe.imageId){
+    if (recipe.imageId) {
         imageURL = recipe.Image.url;
     }
 
@@ -122,12 +122,20 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
     }
 
     //would like users collections to be able to render on recipe page as well
-    const userId = res.locals.user.id;
-    const collections = await db.Collection.findAll({
-        where: {
-            userId
-        }
-    });
+
+    let userId
+    let collections
+
+    if (res.locals.user) {
+        userId = res.locals.user.id;
+        collections = await db.Collection.findAll({
+            where: {
+                userId
+            }
+        });
+    } else {
+        collections = [];
+    }
 
     res.render('recipe-page', { title: recipe.name, recipe, imageURL, qmiList, averageReview, reviews, collections, csrfToken: req.csrfToken() })
 
