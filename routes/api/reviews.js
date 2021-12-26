@@ -14,7 +14,7 @@ const router = express.Router();
 //  --> also needs csrf
 
 
-router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => { // for testing, can see all reviews but in production, we will delete this route
+router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => {
     const recipeId = req.params.recipeId;
     const reviews = await Review.findAll({
         where: {
@@ -31,8 +31,6 @@ router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => { // for 
 
 // posting the review - what initiates when you click the 'submit review' button
 //  --> need to be logged in
-//  --> also needs csrf
-//  --> needs validator
 router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
     const { recipeId, review, imageURL, userId, rating } = req.body;
     const validatorErrors = validationResult(req.body);
@@ -54,9 +52,11 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
 // /reviews/:id
 
 // try sending csrf here instead of adding to DOM manipulation to reduce redundancy
-router.get('/:id(\\d+)', (req, res) => { // this should be in DOM
-    res.render('you have reached /reviews/:id')
-})
+router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+    const review = await Review.findByPk(req.params.id);
+    const recipe = await Recipe.findByPk(review.recipeId);
+    res.render('review-edit', {title: `Edit Your Review`, review, recipe, csrfToken: req.csrfToken(), })
+}));
 
 // to edit review --> js, DOM stuff, add csrfProtection in DOM manipulation file
 

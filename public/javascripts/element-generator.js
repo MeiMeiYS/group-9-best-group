@@ -27,13 +27,8 @@ export function editButtonsEventListeners() {
         allEditButtons[i].addEventListener("click", (event) => {
             event.stopPropagation();
             const reviewId = allEditButtons[i].id.split("-")[1];
-            // when clicking --> turn review into review form
-            const reviewBox = document.getElementById(`review-${reviewId}`);
-            // set review form textarea to review.review
-            reviewBox.setAttribute("hidden");
-            // prepend review form
-            
-            // if imageurl, set imageurl to imageurl
+            // when clicking --> redirect to the review page
+            window.location.href = `/${reviewId}/edit`;
         })
     }
 
