@@ -44,4 +44,5 @@ block content
                                         button(class='collection-button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
                                     div(class='recipe-list' id=collection.id)
                                         button(class='collection-button' id=`viewCollection-${collection.id}` type='submit' onclick='viewCollection(this)') View Recipes
-                                        div(class='collectionList' id=`recipe-view-${collection.id}` style="display: none")
+                                        div(class='collectionList recipe-container' id=`recipe-view-${collection.id}` style="display: none")
+                                        

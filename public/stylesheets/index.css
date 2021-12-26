@@ -800,6 +800,8 @@ button.button{
 .collectionContainer {
     font-family: var(--heading-font);
     font-size: 22px;
+    display: flex;
+    flex-direction: column;
 }
 
 .editCollection, .my-collection-header .new-collection-form {
@@ -812,6 +814,12 @@ button.button{
 
 .my-collection-header {
     margin-bottom: 20px;
+}
+
+.recipe-card-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 

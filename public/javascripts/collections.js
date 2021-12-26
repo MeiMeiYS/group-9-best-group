@@ -150,9 +150,9 @@ const deleteCollection = async (target) => {
         .then(data => {
             collectionContainer.innerHTML = data.message;
 
-            setTimeout(function() {
+            setTimeout(function () {
                 collectionContainer.remove();
-           }, 1800)
+            }, 1800)
         })
 
 };
@@ -166,31 +166,33 @@ const viewCollection = async (target) => {
 
     const button = document.querySelector(`#viewCollection-${collectionId}`);
 
-    const recipeView = document.getElementById(`recipe-view-${collectionId}`);
+    // //const recipeView = document.getElementById(`recipe-view-${collectionId}`);
+    const collectionContainer = target.parentElement.parentElement.parentElement;
 
-    if (recipeView.style.display === 'none') {
-        recipeView.style.display = 'block';
-        button.innerHTML = 'Hide Recipes'
-    } else {
-        recipeView.style.display = 'none';
-        button.innerHTML = 'View Recipes'
-    }
+    const recipeCardsDiv = document.createElement('div');
+    recipeCardsDiv.classList.add('recipe-card-div');
+    recipeCardsDiv.setAttribute('id', `recipe-card-${collectionId}`)
 
-    const res = await fetch(`/api/collections/${collectionId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    })
 
-    const data = await res.json()
-    const recipesInCollection = data.recipes;
 
-    if (recipeView.innerHTML === '') {
-        if (recipesInCollection.length > 0) {
-            for (let i = 0; i < recipesInCollection.length; i++) {
-                let recipe = recipesInCollection[i];
-                recipeView.innerHTML += `
+    if (button.innerHTML === 'View Recipes') {
+        button.innerHTML = 'Hide Recipes';
+        //want to fetch the data
+        const res = await fetch(`/api/collections/${collectionId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        const data = await res.json()
+        const recipesInCollection = data.recipes;
+        //if there are recipes, want to make a recipe card for each recipe to put in the recipeCardsDiv
+
+        if (recipeCardsDiv) {
+            if (recipesInCollection.length > 0) {
+                for (let i = 0; i < recipesInCollection.length; i++) {
+                    let recipe = recipesInCollection[i];
+                    recipeCardsDiv.innerHTML += `
                 <div class="card" id="card-${recipe.id}-${collectionId}">
                     <img src="${recipe.Image.url}" alt="recipe-image">
                         <div class="title">
@@ -201,13 +203,27 @@ const viewCollection = async (target) => {
                         </div>
                     <button class='delete-recipe-from-collection' id='remove-recipe-${recipe.id}' type='submit' onclick='removeFromCollection(this)'>Remove</button>
                     `
-            }
-        } else {
-            recipeView.innerHTML += `
+                }
+            } else {
+                recipeCardsDiv.innerHTML += `
                 <p>No recipes have been added yet!</p>
                 `
+            }
         }
+
+        collectionContainer.appendChild(recipeCardsDiv);
+
+
+    } else {
+        button.innerHTML = 'View Recipes';
+        const currentRecipeCardsDiv = document.querySelector(`#recipe-card-${collectionId}`);
+        console.log(currentRecipeCardsDiv);
+        currentRecipeCardsDiv.remove();
+        console.log('removed!!!!!!!!!!!! ')
     }
+
+
+
 }
 
 //click button on recipe that removes a recipe from a collection
@@ -233,7 +249,7 @@ const removeFromCollection = async (target) => {
     // alertArea.style.display = 'block';
     recipeCard.innerHTML = `${data.message}`
 
-    setTimeout(function() {
+    setTimeout(function () {
         recipeCard.remove();
         // alertArea.style = "display:none"
     }, 1850)
