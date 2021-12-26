@@ -44,5 +44,16 @@ block content
                                         button(class='collection-button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
                                     div(class='recipe-list' id=collection.id)
                                         button(class='collection-button' id=`viewCollection-${collection.id}` type='submit' onclick='viewCollection(this)') View Recipes
-                                        div(class='collectionList recipe-container' id=`recipe-view-${collection.id}` style="display: none")
-                                        
+                div(class="status-container")
+                    div.my-status-header
+                        h2 Status
+                        script(src='/javascripts/show-status.js')
+                    div.all-status
+                        .cooked-container
+                            .header-row
+                                h3 Cooked
+                                button(class='status-button' id='show-cooked-btn') View Recipes
+                        .will-cook-container
+                            .header-row
+                                h3 Will Cook
+                                button(class='status-button' id='show-will-cook-btn') View Recipes

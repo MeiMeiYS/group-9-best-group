@@ -16,7 +16,7 @@
     --title-font: tomarik-display, sans-serif;
     --heading-font: tomarik-poster, sans-serif;
 
-    --heading-size: 2.5em;
+    --heading-size: 2.5rem;
     --button-size: 1.5em;
 
     --big-desktop-min-width: 1200px;
@@ -731,7 +731,7 @@ button.button{
 }
 
 /* for all the buttons in collection area */
-.collection-button {
+.collection-button, .status-button {
     background-color: var(--neutral-700);
     border: var(--boxy-border);
     font-family: var(--heading-font);
@@ -789,12 +789,13 @@ button.button{
     color: var(--neutral-100)
 }
 
-.collection-header, .my-collection-header {
+.collection-header, .my-collection-header, .header-row {
     display: flex;
     flex-direction: row;
     font-family: var(--heading-font);
     font-size: 24px;
     text-transform: uppercase;
+    align-items: center;
 }
 
 .collectionContainer {
@@ -804,7 +805,7 @@ button.button{
     flex-direction: column;
 }
 
-.editCollection, .my-collection-header .new-collection-form {
+.editCollection, .my-collection-header .new-collection-form, .status-button {
     margin-left: auto;
 }
 
@@ -812,7 +813,7 @@ button.button{
     align-self: flex-end;
 }
 
-.my-collection-header {
+.my-collection-header, .my-status-header {
     margin-bottom: 20px;
 }
 
@@ -821,6 +822,8 @@ button.button{
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+
 
 
 /* RECIPE PAGE */

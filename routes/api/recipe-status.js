@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Sequelize } = require('../../db/models');
 const db = require('../../db/models');
-const { RecipeStatus } = db;
+const { RecipeStatus, Recipe, Image, StatusType } = db
 const { asyncHandler } = require('../utils');
 const Op = Sequelize.Op;
 const { restoreUser } = require('../../auth');
@@ -13,6 +13,55 @@ router.get('/:id(\\d+)', restoreUser, async (req, res) => {
     const userId = res.locals.user.id
     const recipeId = parseInt(req.params.id, 10);
     const data = await RecipeStatus.findAll({ where: { userId, recipeId }});
+    res.json(data);
+})
+
+
+router.get('/cooked', restoreUser, async (req, res) => {
+    //find all matched user
+    const userId = res.locals.user.id;
+    const statusId = 1;
+    // const data = await RecipeStatus.findAll({ where: { userId, statusId }, include: [
+    //     {
+    //         model: db.Recipe,
+    //         include: [
+    //             {
+    //                 model: db.Image
+    //             }
+
+    //         ]
+    //     }
+    // ] });
+    // const data = await Recipe.findAll({
+    //     include: [
+    //         {
+    //             model: StatusType,
+    //             where: {
+    //                 userId,
+    //                 statusId
+    //             }
+    //         }
+    //     ]
+    // })
+    const data = await Recipe.findAll({
+        include: [{
+          model: StatusType,
+          through: {
+            attributes: [''],
+            where: {type: 'Cooked'}
+          }
+        }]
+      });
+
+
+    res.json(data);
+});
+
+router.get('/will-cook', restoreUser, async (req, res) => {
+    //find all matched user
+    const userId = res.locals.user.id;
+    const statusId = 2;
+    const data = await RecipeStatus.findAll({ where: { userId, statusId }, include: [Recipe, Image] });
     res.json(data);
 })
 

@@ -188,7 +188,6 @@ const viewCollection = async (target) => {
         const recipesInCollection = data.recipes;
         //if there are recipes, want to make a recipe card for each recipe to put in the recipeCardsDiv
 
-        if (recipeCardsDiv) {
             if (recipesInCollection.length > 0) {
                 for (let i = 0; i < recipesInCollection.length; i++) {
                     let recipe = recipesInCollection[i];
@@ -209,7 +208,6 @@ const viewCollection = async (target) => {
                 <p>No recipes have been added yet!</p>
                 `
             }
-        }
 
         collectionContainer.appendChild(recipeCardsDiv);
 
@@ -217,9 +215,7 @@ const viewCollection = async (target) => {
     } else {
         button.innerHTML = 'View Recipes';
         const currentRecipeCardsDiv = document.querySelector(`#recipe-card-${collectionId}`);
-        console.log(currentRecipeCardsDiv);
         currentRecipeCardsDiv.remove();
-        console.log('removed!!!!!!!!!!!! ')
     }
 
 
