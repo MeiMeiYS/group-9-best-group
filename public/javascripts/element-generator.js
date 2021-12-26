@@ -28,7 +28,11 @@ export function editButtonsEventListeners() {
             event.stopPropagation();
             const reviewId = allEditButtons[i].id.split("-")[1];
             // when clicking --> turn review into review form
+            const reviewBox = document.getElementById(`review-${reviewId}`);
             // set review form textarea to review.review
+            reviewBox.setAttribute("hidden");
+            // prepend review form
+            
             // if imageurl, set imageurl to imageurl
         })
     }

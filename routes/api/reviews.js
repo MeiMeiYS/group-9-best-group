@@ -54,8 +54,8 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
 // /reviews/:id
 
 // try sending csrf here instead of adding to DOM manipulation to reduce redundancy
-router.get('/:id', (req, res) => { // this should be in DOM
-    res.send('you have reached /reviews/:id')
+router.get('/:id(\\d+)', (req, res) => { // this should be in DOM
+    res.render('you have reached /reviews/:id')
 })
 
 // to edit review --> js, DOM stuff, add csrfProtection in DOM manipulation file
