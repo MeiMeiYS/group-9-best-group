@@ -45,7 +45,7 @@ Recipeople is a website where users can sign up, post recipes, and curate collec
  ```
 
 ## Recipeople In Action
-Full user stories for the initial development phase are available on the [User Stories](https://github.com/MeiMeiYS/group-9-best-group/wiki/User-Stories) section of the project wiki.
+Full user stories for the initial development phase are available on the [User Stories](https://github.com/MeiMeiYS/group-9-best-group/wiki/User-Stories) section of the project wiki. A feature list for the initial development phase is available on the MVP Feature List section of the project wiki.
 
 ### User Registration and Authentication
 New users can register for an account by entering a unique email address, a username, and a secure password.
@@ -126,6 +126,10 @@ A recipe's average rating is visible on the Homepage, the Recipes page, and each
 Users can edit and delete their collections.
 
 ### Assigning A Recipe Status
+A user can create, view, update, and remove a personalized status on any recipe in to indicating whether they "Will Cook" the recipe in the future, or whether they already "Cooked" the recipe.
+
+After assigning a status to a recipe, the user can view the recipe on the Status section of their user page.
+
 ### Search For Recipes
 The most recent publicly-visible recipes are visible both on the site Homepage and the Recipes page.
 
@@ -147,10 +151,11 @@ The Recipes page also includes a case-insensitive search where users can search 
 
 ## Technical Implementation
 ### Database Design
-The [full database schema](https://dbdiagram.io/d/61afe26a8c901501c0e5914b) is available to view as a linked chart on dbdiagram.io, or as a list of tables on the Database Schema page of the wiki.
+The full database schema is available to view as a [linked chart on dbdiagram.io](https://dbdiagram.io/d/61afe26a8c901501c0e5914b), or as a [list of tables on the Database Schema page](https://github.com/MeiMeiYS/group-9-best-group/wiki/Database-Schema) of the wiki.
 
-Some tables, such as user Role Types, Tags, Tag Categories,
-![enter image description here](https://i.ibb.co/4S9bs3p/Recipeople.png)
+![Full Database Schema](https://i.ibb.co/4S9bs3p/Recipeople.png)
+
+Some tables, such as Roles are reserved for such as creation of an Administrator frontend, where certain users can have access to edit and delete content posted by other users. The Tags table is reserved for creation of recipe tags that a recipe creator can assign to their recipes, or for other users to include in search criteria. Tag categories are intended for the future development of tag grouping, such a *Cuisine* tag category that may have tags such as *Japanese*, *French*, or *Mediterranean*, which can useful to organize tags as the number and diversity of recipes continues to grow.
 
 ### Frontend Routes
 
