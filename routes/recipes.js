@@ -235,7 +235,7 @@ router.get('/', asyncHandler(async (req, res) => {
         include: [Image, User, Review],
         limit: 9,
         order: [
-            [`createdAt`, 'DESC']
+            [`updatedAt`, 'DESC']
         ]
     });
 

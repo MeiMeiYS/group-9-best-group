@@ -95,7 +95,7 @@ const reviewsHTML = async (reviewsArray) => {
 // --> submit button only appears when Submit a New Recipe is clicked
 // --> when reviewForm is made, make a new
 
-window.onload = event => {
+document.addEventListener("DOMContentLoaded", event => {
     // const recipe = document.getElementById("recipeinfo");
     const recipe = document.querySelector("h1.recipe-name")
     const recipeName = recipe.innerText;
@@ -110,7 +110,7 @@ window.onload = event => {
     recipe.id = parseInt(recipe.dataset.recipeid, 10);
     console.log("recipeId", recipe.id);
 
-    // `Add a Review` button
+    // `Add a New Review` button
     const addAReview = document.getElementById('addAReview');
     const reviewFormDiv = document.getElementById('reviewFormDiv');
     getPErrors();
@@ -120,7 +120,7 @@ window.onload = event => {
         reviewFormDiv.removeAttribute("hidden");
     });
 
-    //`Submit` button
+    //`Submit review` button
     const submitButton = document.getElementById("review-submit");
     submitButton.addEventListener("click", async (event) => {
         event.stopPropagation();
@@ -130,21 +130,21 @@ window.onload = event => {
         const imageURL = document.getElementById("imageURL");
         const reviewText = document.getElementById("review")
         console.log("hasRating", hasRating(ratingValue));
-        if ((imageURL.value === "" || isUrl(imageURL.value)) && hasRating(ratingValue) && hasReview(reviewText.value)) {
+        if (hasRating(ratingValue) && hasReview(reviewText.value)) {
             console.log("passed conditional");
             const rating = parseInt(ratingValue, 10);
             console.log("rating", rating);
             const body = {
                 userId: user.id,
                 review: reviewText.value,
-                imageURL: imageURL.value || null,
+                imageURL: null,
                 recipeId: recipe.id,
                 rating
             }
-            console.log("about to make a new review");
+            if (isUrl(imageURL.value)) {
+                body.imageURL = imageURL.value;
+            }
             const reviewsArray = await newReview(body);
-            console.log("reviewsArray", reviewsArray);
-            console.log(reviewsArray[0]);
             await reviewsHTML(reviewsArray);
         }
     });
@@ -154,9 +154,13 @@ window.onload = event => {
     cancelButton.addEventListener("click", (event) => {
         event.stopPropagation();
         event.preventDefault();
-        reviewFormDiv.replaceWith(addAReview);
+        reviewFormDiv.setAttribute("hidden", "");
+        const reviewText = document.getElementById("review");
+        const imageURL = document.getElementById("imageURL");
+        reviewText.value = "";
+        imageURL.value = "";
     })
-};
+});
 
 // posting a new review function
 async function newReview(bodyJS) {
@@ -171,6 +175,8 @@ async function newReview(bodyJS) {
     });
     console.log("res.status", res.status);
     if (res.status === 200) {
+        const reviewFormDiv = document.getElementById("reviewFormDiv");
+        reviewFormDiv.setAttribute("hidden", "");
         return fetchReviews(recipeId);
     }
     else {

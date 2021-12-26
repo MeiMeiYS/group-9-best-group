@@ -21,6 +21,26 @@ export function getPErrors() {
     return errorsDiv;
 }
 
+export function editButtonsEventListeners() {
+    const allEditButtons = document.querySelectorAll(".edit");
+    for (let i = 0; i < reviewDivs.length; i++) {
+        allEditButtons[i].addEventListener("click", (event) => {
+            event.stopPropagation();
+            const reviewId = allEditButtons[i].id.split("-")[1];
+            // when clicking --> turn review into review form
+            // set review form textarea to review.review
+            // if imageurl, set imageurl to imageurl
+        })
+    }
+
+}
+
+export function deleteButtonsEventListeners() {
+
+}
+
+const reviewbox = document.getElementById("review-1");
+
 // export function buildReviewForm () {
 //     const reviewFormDiv = document.createElement("div");
 //     reviewFormDiv.setAttribute("id", "reviewForm")

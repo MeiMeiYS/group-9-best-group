@@ -6,27 +6,6 @@ const db = require('../../db/models');
 const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db
 const router = express.Router();
 
-//validators:
-const imageValidators = [
-    check('imageURL')
-        .custom((value, { req }) => {
-            if (value) {
-                check('imageURL')
-                    .isURL()
-                    .withMessage('If you want to upload an image, please provide a valid URL for the image.')
-            }
-        })
-];
-
-const reviewFormValidators = [
-    check('review')
-        .exists({ checkFalsy: true })
-        .withMessage('Please provide a review.'),
-    check('rating')
-        .exists({checkFalsy: true})
-        .withMessage('Please provide a rating.')
-]
-
 // /reviews
 // these routes will be API, res will we be sent in json format
 
@@ -44,7 +23,7 @@ router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => { // for 
         include: [Image, User],
         limit: 9,
         order: [
-            [`createdAt`, 'DESC']
+            [`updatedAt`, 'ASC']
         ]
     });
     res.json({reviews});
@@ -54,7 +33,7 @@ router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => { // for 
 //  --> need to be logged in
 //  --> also needs csrf
 //  --> needs validator
-router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandler(async (req, res, next) => {
+router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
     const { recipeId, review, imageURL, userId, rating } = req.body;
     const validatorErrors = validationResult(req.body);
     if (validatorErrors.isEmpty()) {
@@ -81,11 +60,12 @@ router.get('/:id', (req, res) => { // this should be in DOM
 
 // to edit review --> js, DOM stuff, add csrfProtection in DOM manipulation file
 
+
 // PUTting the editted review
 //  --> need to be logged in
 //  --> need to be authorized (userId on review must match current user's Id)
 //  --> also needs csrf, validators
-router.put('/:id', requireAuth, csrfProtection, reviewFormValidators, imageValidators, asyncHandler(async (req, res) => {
+router.put('/:id', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     checkPermissionsRoute(review, res.locals.user);
     const { recipeId, review, imageId, imageURL, userId } = req.body;
     const reviewId = req.params.id;
