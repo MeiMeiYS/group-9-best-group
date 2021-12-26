@@ -1070,27 +1070,13 @@ padding-top: 8px;
 padding-bottom: 8px;
 }
 
-
-
-
-
-
-
-<<<<<<< HEAD
 .footer-bottom p {
-    color: var(--neutral-300);
-    max-width: 1600px;
-    width: 100%;
-    font-family: var(--body-font);
-    padding-left: 10px;
-=======
-          .footer-bottom p {
-            color: var(--neutral-300);
-            max-width: 1600px;
-            width: 100%;
-            font-family: var(--body-font);
-            padding-left: 10px;
-          }
+color: var(--neutral-300);
+max-width: 1600px;
+width: 100%;
+font-family: var(--body-font);
+padding-left: 10px;
+}
 
 /* error-404 page */
 
@@ -1129,5 +1115,4 @@ h1.error-header {
     height: 100px;
     filter: invert(11%) sepia(46%) saturate(3268%) hue-rotate(342deg) brightness(104%) contrast(106%);
     padding: 0 10px;
->>>>>>> main
 }
