@@ -6,13 +6,26 @@ const db = require('../../db/models');
 const { Image, Ingredient, Measurement, Recipe, RecipeCollection, RecipeIngredient, RecipeStatus, RecipeTag, Review, User, sequelize } = db
 const router = express.Router();
 
-// /reviews
-// these routes will be API, res will we be sent in json format
+//validators:
+const imageValidators = [
+    check('imageURL')
+        .custom((value, { req }) => {
+            if (value) {
+                check('imageURL')
+                    .isURL()
+                    .withMessage('If you want to upload an image, please provide a valid URL for the image.')
+            }
+        })
+];
 
-// get the form to post A NEW review -- this is DOM manipulation
-//  --> need to be logged in
-//  --> also needs csrf
-
+const reviewFormValidators = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a review.'),
+    check('rating')
+        .exists({ checkFalsy: true })
+        .withMessage('Please provide a rating.')
+]
 
 router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => {
     const recipeId = req.params.recipeId;
@@ -26,7 +39,7 @@ router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => {
             [`updatedAt`, 'ASC']
         ]
     });
-    res.json({reviews});
+    res.json({ reviews });
 }));
 
 // posting the review - what initiates when you click the 'submit review' button
@@ -52,10 +65,24 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
 // /reviews/:id
 
 // try sending csrf here instead of adding to DOM manipulation to reduce redundancy
-router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
-    const review = await Review.findByPk(req.params.id);
-    const recipe = await Recipe.findByPk(review.recipeId);
-    res.render('review-edit', {title: `Edit Your Review`, review, recipe, csrfToken: req.csrfToken(), })
+router.get('/:id(\\d+)/edit', requireAuth, imageValidators, reviewFormValidators, csrfProtection, asyncHandler(async (req, res) => {
+    const review = await Review.findByPk(req.params.id, { include: [User, Recipe, Image] });
+    const recipe = await Recipe.findByPk(review.Recipe.id, {include: [Image]});
+    const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId: recipe.id } });
+    const imageURL = recipe.Image.url;
+    const qmiList = [];
+    for (let i = 0; i < recipeIngredients.length; i++) {
+        const quantity = Math.round(recipeIngredients[i].quantity * 100) / 100;
+        const measurement = await Measurement.findByPk(recipeIngredients[i].measurementId).then(measurement => measurement.dataValues.type);
+        const ingredient = await Ingredient.findByPk(recipeIngredients[i].ingredientId).then(ingredient => ingredient.dataValues.name);
+        qmiList.push({
+            quantity,
+            measurement,
+            ingredient
+        });
+    }
+    console.log("review", review);
+    res.render('review-edit', { title: `Edit Your Review`, review, recipe, imageURL, csrfToken: req.csrfToken(), qmiList })
 }));
 
 // to edit review --> js, DOM stuff, add csrfProtection in DOM manipulation file

@@ -7,7 +7,7 @@ block content
                 h1.recipe-name(data-recipeId= recipe.id) #{recipe.name}
                 h3.recipe-id(hidden)=recipe.id
                 .date-metadata
-                    p.author by #{recipe.User.userName}
+                    p.author by #{review.User.userName}
                     p.create-date created on #{ recipe.createdAt.toDateString().slice(3)}
                     p.update-date updated on #{recipe.updatedAt.toDateString().slice(3)}
                 .recipe-image-container
@@ -15,57 +15,29 @@ block content
                         img(src=recipe.Image.url)
                     else
                         img(src="/assets/logos/main-logo-2.svg" width="500" height="600")
-                .rating
-                    if recipe.averageRating.length > 1
-                        img.no-ratings(src='/assets/illustrations/no-ratings-small.png')
-                    else
-
-                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-5` class="rating-5"  disabled="true" checked=(recipe.averageRating == '5'))
-                        label(for=`${recipe.name}-rating-5`)
-                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-4` class="rating-4"  disabled="true" checked=(recipe.averageRating == '4'))
-                        label(for=`${recipe.name}-rating-4`)
-                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-3` class="rating-3"  disabled="true" checked=(recipe.averageRating == '3'))
-                        label(for=`${recipe.name}-rating-3`)
-                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-2` class="rating-2"  disabled="true" checked=(recipe.averageRating == '2'))
-                        label(for=`${recipe.name}-rating-2`)
-                        input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-1` class="rating-1"  disabled="true" checked=(recipe.averageRating == '1'))
-                        label(for=`${recipe.name}-rating-1`)
                 p.description #{recipe.description}
-            #reviews(style= "font-family: var(--body-font);")
+                .recipe-info
+                    .line-divider
+                    ul.ingredient-list
+                        each qmi in qmiList
+                            li #{qmi.quantity} #{qmi.measurement} #{qmi.ingredient}
+                    .line-divider
+                    p.steps #{recipe.steps}
+                    .line-divider
+            div(style= "font-family: var(--body-font);", id= `reviewId-${review.id}`)
                 if locals.authenticated
                     #errorsDiv
-                        if errors 
+                        if errors
                     #reviewFormDiv
                         #ratingDiv
                             #ratingLabel
                                 p.recipe RATE THIS RECIPE
                             #ratingWhisks
                         form(action="/")
-                            textarea(name="review" style= "width: 100%; height: 40em" placeholder="Type your review here!" id="review")
+                            textarea(name="review" style= "width: 100%; height: 40em" id="review")= review.review
                             label(for="imageURL") URL for an Image (Optional):
-                            input(type="text" id="imageURL" name="imageURL")
+                            input(type="text" id="imageURL" name="imageURL" value=review.Image.url)
                             #reviewButtonsDiv
                                 button(id= "review-submit") SUBMIT
                                 button(id= "review-cancel") CANCEL
-                #allReviews
-                    if reviews.length
-                        p.review-header Reviews
-                        for review in reviews
-                            .review-box(id=`review-${review.id}`)
-                                .review-image-container
-                                    img.review-image(src=`${review.Image.url}`)
-                                .review-data
-                                    p.review-rating= review.rating
-                                        span out of 5
-                                    p.review-text(class=`review-${review.id}`)= review.review
-                                    if user.id === review.userId
-                                        .editButtons
-                                            button(class= 'edit' id=`editreview-${review.id}`) Edit Review
-                                            button(class='delete' id=`deletereview-${review.id}`) Delete Review
-                                        h1 HELLO
-                                    .date-metadata
-                                        p.author= review.User.userName
-                                        p.review-date= review.updatedAt.toDateString().slice(3)
-    script(src='/javascripts/recipe-status.js')
-    script(src='/javascripts/delete-recipe.js')
-    script(src="/javascripts/api-reviews.js", type="module")
+    script(src="/javascripts/api-reviews-edit.js", type="module")
