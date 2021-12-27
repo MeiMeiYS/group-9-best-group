@@ -1,4 +1,4 @@
-import { ratingFeature, getPErrors, editButtonsEventListeners } from './element-generator.js';
+import { ratingFeature, getPErrors, editButtonsEventListeners, deleteButtonsEventListeners } from './element-generator.js';
 // error checker
 function isUrl(string) {
     const badURL = document.getElementById("urlBad");
@@ -183,3 +183,17 @@ async function newReview(bodyJS) {
         throw Error;
     }
 };
+
+async function deleteReview(reviewId) {
+    const res = await fetch(`/api/reviews/${reviewId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: {
+            reviewId,
+            
+        }
+    });
+
+}

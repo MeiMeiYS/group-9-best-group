@@ -129,7 +129,7 @@ router.put('/:id', requireAuth, imageValidators, reviewFormValidators, asyncHand
 //  --> need to be logged in
 //  --> need to be authorized (userId on review must match current user's Id)
 //      --> DOM stuff, add csrfProtection in DOM manipulation file that has the delete button
-router.delete('/:id', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
     const { recipeId, reviewId, imageURL, userId } = req.body;
     const review = Review.findByPk(reviewId);
     checkPermissionsRoute(review, req.locals.user);
