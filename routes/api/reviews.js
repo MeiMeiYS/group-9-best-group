@@ -52,9 +52,11 @@ router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandle
             const image = await Image.create({ url: imageURL });
             const newReview = await Review.create({ recipeId, review, userId, rating, imageId: image.id })
             res.send({ newReview });
+            return;
         }
         const newReview = await Review.create({ recipeId, review, userId, rating })
         res.send({ newReview });
+        return;
     }
     else {
         const errors = validatorErrors.array().map(error => error.msg);
