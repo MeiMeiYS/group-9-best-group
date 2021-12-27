@@ -1,4 +1,5 @@
 extends layout.pug
+include utils.pug
 
 block content
     main.recipe-page-content
@@ -24,19 +25,23 @@ block content
                     .line-divider
                     p.steps #{recipe.steps}
                     .line-divider
-            div(style= "font-family: var(--body-font);", id= `reviewId-${review.id}`)
+            div(style= "font-family: var(--body-font);", id="reviewId", data-reviewId= `${review.id}`)
                 if locals.authenticated
                     #errorsDiv
-                        if errors
+                        +validationErrorSummary(errors)
                     #reviewFormDiv
                         #ratingDiv
                             #ratingLabel
                                 p.recipe RATE THIS RECIPE
                             #ratingWhisks
                         form(action="/")
+                            input(type='hidden', name='_csrf', value=csrfToken)
                             textarea(name="review" style= "width: 100%; height: 40em" id="review")= review.review
-                            label(for="imageURL") URL for an Image (Optional):
-                            input(type="text" id="imageURL" name="imageURL" value=review.Image.url)
+                            label(for="imageURL" id="imageId" data-imageId=`${review.Image.id}`) URL for an Image (Optional):
+                            if review.Image.id >= 10 && review.Image.id <= 18
+                                input(type="text" id="imageURL" name="imageURL" value="")
+                            else
+                                input(type="text" id="imageURL" name="imageURL" value=review.Image.url)
                             #reviewButtonsDiv
                                 button(id= "review-submit") SUBMIT
                                 button(id= "review-cancel") CANCEL

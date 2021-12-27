@@ -44,7 +44,7 @@ router.get('/recipe/:recipeId(\\d+)', asyncHandler(async (req, res) => {
 
 // posting the review - what initiates when you click the 'submit review' button
 //  --> need to be logged in
-router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
+router.post('/', requireAuth, reviewFormValidators, imageValidators, asyncHandler(async (req, res, next) => {
     const { recipeId, review, imageURL, userId, rating } = req.body;
     const validatorErrors = validationResult(req.body);
     if (validatorErrors.isEmpty()) {
@@ -65,9 +65,9 @@ router.post('/', requireAuth, asyncHandler(async (req, res, next) => {
 // /reviews/:id
 
 // try sending csrf here instead of adding to DOM manipulation to reduce redundancy
-router.get('/:id(\\d+)/edit', requireAuth, imageValidators, reviewFormValidators, csrfProtection, asyncHandler(async (req, res) => {
+router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
     const review = await Review.findByPk(req.params.id, { include: [User, Recipe, Image] });
-    const recipe = await Recipe.findByPk(review.Recipe.id, {include: [Image]});
+    const recipe = await Recipe.findByPk(review.Recipe.id, { include: [Image] });
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId: recipe.id } });
     const imageURL = recipe.Image.url;
     const qmiList = [];
@@ -92,27 +92,36 @@ router.get('/:id(\\d+)/edit', requireAuth, imageValidators, reviewFormValidators
 //  --> need to be logged in
 //  --> need to be authorized (userId on review must match current user's Id)
 //  --> also needs csrf, validators
-router.put('/:id', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+router.put('/:id', requireAuth, imageValidators, reviewFormValidators, asyncHandler(async (req, res) => {
+    const { review, rating, recipeId } = req.body;
+    console.log("recipeId)", recipeId);
+    const validatorErrors = validationResult(req.body);
     checkPermissionsRoute(review, res.locals.user);
-    const { recipeId, review, imageId, imageURL, userId } = req.body;
+    const newReview = review.review;
+    const imageId = review.Image.id;
+    const imageURL = review.Image.url;
+    console.log("imageURL", imageURL);
     const reviewId = req.params.id;
     const currReview = await Review.findByPk(reviewId);
+    const currImage = currReview.imageId;
     if (validatorErrors.isEmpty()) {
-        const image = Image.findByPk(imageId);
-        if (imageURL) {
+        console.log("validator pass)")
+        const image = await Image.findByPk(imageId);
+        console.log("image", image)
+        if (imageURL && imageURL !== image.url) {
             image.url = imageURL;
             await image.save();
         }
-        else {
-            if (imageId) {
-                // delete image
-                await image.destroy();
-            }
-            await review.save();
-        }
-    } else {
+        console.log("imagepass)");
+        currReview.review = newReview;
+        currReview.rating = rating;
+        await currReview.save();
+        res.json("SUCCESS");
+    }
+    else {
+        console.log("oops didn't pass);")
         const errors = validatorErrors.array().map(error => error.msg);
-        res.send('send some JSON thing', { title: 'Add a new recipe', errors, csrfToken: req.csrfToken(), recipe, qmiList })
+        res.render('reviews-edit', { title: 'Edit Your Review', errors, csrfToken: req.csrfToken(), recipe, qmiList })
     }
 }));
 

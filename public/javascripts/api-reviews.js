@@ -1,4 +1,4 @@
-import { ratingFeature, getPErrors } from './element-generator.js';
+import { ratingFeature, getPErrors, editButtonsEventListeners } from './element-generator.js';
 // error checker
 function isUrl(string) {
     const badURL = document.getElementById("urlBad");
@@ -64,9 +64,7 @@ const fetchReviews = async (recipeId) => {
 
 // mapping all reviews
 const reviewsHTML = async (reviewsArray) => {
-    console.log("reviewsHTML)")
     const allReviewsDiv = document.getElementById("allReviews");
-    console.log("allReviewsDiv", allReviewsDiv);
     const allReviewsHTML = reviewsArray.map(({ User, review, Image, userId, recipeId, id, rating, updatedAt }) => `
         <div class="review-box">
             <div class="review-image-container">
@@ -84,7 +82,6 @@ const reviewsHTML = async (reviewsArray) => {
     );
     allReviewsHTML.unshift(`<p class="review-header">Reviews</p>`);
     allReviewsDiv.innerHTML = allReviewsHTML.join("");
-    console.log("allReviewsDiv", allReviewsDiv)
     return;
 };
 
@@ -99,6 +96,9 @@ document.addEventListener("DOMContentLoaded", event => {
     // const recipe = document.getElementById("recipeinfo");
     const recipe = document.querySelector("h1.recipe-name")
     const recipeName = recipe.innerText;
+
+    // adding event listeners to edit buttons
+    editButtonsEventListeners()
 
     // adding rating feature (whisks)
     const ratings = ratingFeature(recipeName);

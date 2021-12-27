@@ -23,12 +23,12 @@ export function getPErrors() {
 
 export function editButtonsEventListeners() {
     const allEditButtons = document.querySelectorAll(".edit");
-    for (let i = 0; i < reviewDivs.length; i++) {
+    for (let i = 0; i < allEditButtons.length; i++) {
         allEditButtons[i].addEventListener("click", (event) => {
             event.stopPropagation();
             const reviewId = allEditButtons[i].id.split("-")[1];
             // when clicking --> redirect to the review page
-            window.location.href = `/${reviewId}/edit`;
+            window.location.href = `/api/reviews/${reviewId}/edit`;
         })
     }
 
