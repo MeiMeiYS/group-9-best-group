@@ -94,31 +94,30 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
 //  --> need to be logged in
 //  --> need to be authorized (userId on review must match current user's Id)
 //  --> also needs csrf, validators
-router.put('/:id', requireAuth, imageValidators, reviewFormValidators, asyncHandler(async (req, res) => {
-    const { review, rating, recipeId } = req.body;
-    console.log("recipeId)", recipeId);
+router.put('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
+    const { review, rating } = req.body;
+    console.log("rating", rating, typeof rating);
     const validatorErrors = validationResult(req.body);
     checkPermissionsRoute(review, res.locals.user);
     const newReview = review.review;
     const imageId = review.Image.id;
     const imageURL = review.Image.url;
-    console.log("imageURL", imageURL);
     const reviewId = req.params.id;
     const currReview = await Review.findByPk(reviewId);
     const currImage = currReview.imageId;
     if (validatorErrors.isEmpty()) {
-        console.log("validator pass)")
         const image = await Image.findByPk(imageId);
-        console.log("image", image)
         if (imageURL && imageURL !== image.url) {
             image.url = imageURL;
             await image.save();
         }
-        console.log("imagepass)");
         currReview.review = newReview;
+        console.log(currReview);
         currReview.rating = rating;
-        await currReview.save();
-        res.json("SUCCESS");
+        const savedReview = await currReview.save();
+        console.log("currReview saved");
+        res.send({savedReview});
+        return;
     }
     else {
         console.log("oops didn't pass);")
@@ -133,12 +132,9 @@ router.put('/:id', requireAuth, imageValidators, reviewFormValidators, asyncHand
 //      --> DOM stuff, add csrfProtection in DOM manipulation file that has the delete button
 router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
     const { imageId, reviewId } = req.body;
-    console.log(reviewId);
     const review = await Review.findByPk(reviewId);
-    console.log("delReview", review);
     // console.log("req.locals.user", req.locals.user);
     // checkPermissionsRoute(review, req.locals.user);
-    console.log("permissions checked");
     await review.destroy();
     if (imageId > 27) {
         const image = await Image.findByPk(imageId);

@@ -1232,3 +1232,7 @@ h1.error-header {
     filter: invert(11%) sepia(46%) saturate(3268%) hue-rotate(342deg) brightness(104%) contrast(106%);
     padding: 0 10px;
 }
+
+.errors {
+    border: red solid 2px;
+}
