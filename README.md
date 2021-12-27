@@ -214,9 +214,19 @@ For our first project, we overestimated the number of features that we could imp
 
 As the sprint progressed, we began favoring the development of fewer features that work well 99% of the time over many features that work well 70% of the time.
 
-#### Duplicate Code
+#### DRYing Up Code
 Very similar code was written by multiple users as we worked on similar features independently and simultaneously. As a result, refactoring to add modularity would greatly improve readability and maintainability of the site.
 
+#### Quantity-Measurement-Ingredient Manipulation
+The most challenging back-end task was managing the Quantity, Measurement, and Ingredient (QMI) bundles for entries on a recipe. (i.e. 2 cups flour). For the frontend *Create Recipe and Edit Recipe* forms, each QMI has an id in numeric order. If a user were to delete any QMI from a recipe, all ids must be reset to maintain the order.
+
+For the backend, we need to pass the QMI list data to the route, loop through each QMI and save it in the database. Since our QMI data is not stored directly in the Recipe Table, it must be recreated after the recipe has been added in the database.
+
+#### Programmatically Assigning Button IDs
+In order for a user to edit, delete, and view their collections, buttons added via DOM manipulation must be logically linked to the correct collection.  The pug template only showed the collection name but we needed the actual `collectionId` to edit, delete or view it. To resolve this issue, we assigned a `collectionId` as an attribute on the button so that it could be retrieved and parsed when defining event targets.
+
+    const idArr = target.id.split("-");
+    const recipeId = idArr[2];
 
 
 ## Future Development
@@ -286,3 +296,9 @@ As we further develop our programming skills, we will continue to improve the ma
    aggregates the ingredients from all recipes and combines them into an
    organized list. Normalization of Ingredient Names must be completed
    before implementation of this feature.
+
+## Contributors
+**Aletheia Kim** | <a href='https://github.com/akim38'>Github</a>
+**Denise Li** | <a href='https://github.com/cat-friend'>Github</a> | <a href='https://www.linkedin.com/in/denise-li-45350320/'>LinkedIn</a>
+**Mei Shih** | <a href='https://github.com/MeiMeiYS'>Github</a> | <a href='https://www.linkedin.com/in/meiyinshih/'>LinkedIn</a>
+**Cameron Whiteside** | <a href='https://github.com/CameronWhiteside'>Github</a> | <a href='https://www.linkedin.com/in/cameronwhiteside/'>LinkedIn</a>
