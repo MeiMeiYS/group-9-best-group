@@ -16,7 +16,7 @@ window.addEventListener("load", (event) => {
 
             const loginButtons = document.querySelector('.log-in-buttons');
             loginButtons.appendChild(statusContainer);
-            addStatusBtn.innerHTML = 'Close👇🏻';
+            addStatusBtn.innerHTML = 'Close <i class="fas fa-hand-point-down" style="color:#fff6f4;"></i>';
             addStatusBtn.classList.add('.darkenBtn')
 
             const recipe = document.querySelector('h1.recipe-name');
@@ -47,6 +47,18 @@ window.addEventListener("load", (event) => {
                             "Content-Type": "application/json",
                         }
                     }).then(res => willCookBtn.classList.remove('statusOn'))
+                } else if (cookedBtn.classList.contains('statusOn')) {
+
+                    fetch(`/api/recipes/${recipe.id}/will-cook`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        }
+                    }).then(res => {
+                        willCookBtn.classList.add('statusOn')
+                        cookedBtn.classList.remove('statusOn')
+                    })
+
                 } else {
                     fetch(`/api/recipes/${recipe.id}/will-cook`, {
                         method: "POST",
@@ -60,12 +72,26 @@ window.addEventListener("load", (event) => {
             cookedBtn.addEventListener('click', event => {
 
                 if (cookedBtn.classList.contains('statusOn')){
+
                     fetch(`/api/recipes/${recipe.id}/cooked`, {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",
                         }
-                    }).then(res => cookedBtn.classList.remove('statusOn'))
+                    }).then(res => cookedBtn.classList.remove('statusOn'));
+
+                } else if (willCookBtn.classList.contains('statusOn')) {
+
+                    fetch(`/api/recipes/${recipe.id}/cooked`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        }
+                    }).then(res => {
+                        cookedBtn.classList.add('statusOn')
+                        willCookBtn.classList.remove('statusOn')
+                    })
+
                 } else {
                     fetch(`/api/recipes/${recipe.id}/cooked`, {
                         method: "POST",

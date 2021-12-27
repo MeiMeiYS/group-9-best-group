@@ -1185,18 +1185,14 @@ padding-bottom: 8px;
 }
 
 
-
-
-
-
-
-          .footer-bottom p {
+.footer-bottom p {
             color: var(--neutral-300);
             max-width: 1600px;
             width: 100%;
             font-family: var(--body-font);
             padding-left: 10px;
           }
+
 
 /* error-404 page */
 
