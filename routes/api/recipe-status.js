@@ -21,49 +21,46 @@ router.get('/cooked', restoreUser, async (req, res) => {
     //find all matched user
     const userId = res.locals.user.id;
     const statusId = 1;
-    // const data = await RecipeStatus.findAll({ where: { userId, statusId }, include: [
-    //     {
-    //         model: db.Recipe,
-    //         include: [
-    //             {
-    //                 model: db.Image
-    //             }
+    const data = await RecipeStatus.findAll({ where: { userId, statusId }});
 
-    //         ]
-    //     }
-    // ] });
-    // const data = await Recipe.findAll({
-    //     include: [
-    //         {
-    //             model: StatusType,
-    //             where: {
-    //                 userId,
-    //                 statusId
-    //             }
-    //         }
-    //     ]
-    // })
-    const data = await Recipe.findAll({
-        include: [{
-          model: StatusType,
-          through: {
-            attributes: [''],
-            where: {type: 'Cooked'}
-          }
-        }]
-      });
+    //console.log(data);
+    let array = [];
+    for (let i = 0; i < data.length; i++) {
+        let recipeId = data[i].recipeId;
+        const recipe = await Recipe.findByPk(recipeId, {
+            include: {
+                model: Image
+            }
+        });
+        let obj = { recipeId, recipeName: recipe.name, recipeImg: recipe.Image.url};
 
+        array.push(obj);
+    }
 
-    res.json(data);
+    res.json(array);
 });
 
 router.get('/will-cook', restoreUser, async (req, res) => {
     //find all matched user
     const userId = res.locals.user.id;
     const statusId = 2;
-    const data = await RecipeStatus.findAll({ where: { userId, statusId }, include: [Recipe, Image] });
-    res.json(data);
-})
+    const data = await RecipeStatus.findAll({ where: { userId, statusId }});
+
+    let array = [];
+    for (let i = 0; i < data.length; i++) {
+        let recipeId = data[i].recipeId;
+        const recipe = await Recipe.findByPk(recipeId, {
+            include: {
+                model: Image
+            }
+        });
+        let obj = { recipeId, recipeName: recipe.name, recipeImg: recipe.Image.url};
+
+        array.push(obj);
+    }
+
+    res.json(array);
+});
 
 
 // POST /api/recipes/:id/cooked
