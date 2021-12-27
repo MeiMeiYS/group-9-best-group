@@ -148,7 +148,7 @@ const deleteCollection = async (target) => {
             return res.json()
         })
         .then(data => {
-            collectionContainer.innerHTML = data.message;
+            collectionContainer.innerHTML = `<p class='temp'>${data.message}</p>`;
 
             setTimeout(function () {
                 collectionContainer.remove();
@@ -243,7 +243,7 @@ const removeFromCollection = async (target) => {
     // const alertArea = document.querySelector('#show-alert');
 
     // alertArea.style.display = 'block';
-    recipeCard.innerHTML = `${data.message}`
+    recipeCard.innerHTML = `<p class='temp'>${data.message}</p>`
 
     setTimeout(function () {
         recipeCard.remove();
@@ -251,4 +251,3 @@ const removeFromCollection = async (target) => {
     }, 1850)
 
 }
-

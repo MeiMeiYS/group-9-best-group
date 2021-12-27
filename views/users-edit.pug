@@ -2,9 +2,31 @@ extends layout.pug
 include utils.pug
 
 block content
-    +validationErrorSummary(errors)
-    form(action=`/users/${user.id}/image/new` method='post')
-        input(type='hidden', name='_csrf', value=csrfToken)
-        label(for="url") Enter an https:// URL:
-        input(type="url" name="url" id="url"  value=user.Image.url)
-        button(type='submit') Submit
+    .profile-image-selection
+        h2 SELECT A PROFILE IMAGE
+
+        div
+            div(class="image-option img-01" data-color="#A33C2E" data-url='https://i.ibb.co/SByphfy/default-01.jpg')
+            div(class="image-option img-02" data-color="#769B46" data-url='https://i.ibb.co/pdmX5HY/default-02.jpg')
+            div(class="image-option img-03" data-color="#605F47" data-url='https://i.ibb.co/WBQHs9z/default-03.jpg')
+        div
+            div(class="image-option img-04" data-color="#D74433" data-url='https://i.ibb.co/jJ7dKN8/default-04.jpg')
+            div(class="image-option img-05" data-color="#B1D483" data-url='https://i.ibb.co/F5Vz20r/default-05.jpg')
+            div(class="image-option img-06" data-color="#D69223" data-url='https://i.ibb.co/x1QRnVw/default-06.jpg')
+        div
+            div(class="image-option img-07" data-color="#ED773B" data-url='https://i.ibb.co/xhCQPdW/default-07.jpg')
+            div(class="image-option img-08" data-color="#FFC439" data-url='https://i.ibb.co/hs889VJ/default-08.jpg')
+            div(class="image-option img-09" data-color="#FC9C97" data-url='https://i.ibb.co/K0gMGCP/default-09.jpg')
+
+        .highlight
+        +validationErrorSummary(errors)
+        form(action=`/users/${user.id}/image/new` method='post' class='image-form')
+            h2.fade or enter a custom image URL
+            input(type='hidden', name='_csrf', value=csrfToken)
+            label(for="url")
+            input(type="url" class='form-control fade' name="url" id="url"  value=user.Image.url)
+            button(type='submit' class='update-image-button submit') Update Image
+
+
+
+    script(src='/javascripts/user-edit.js')
