@@ -1252,7 +1252,7 @@ textarea#review{
     color: var(--neutral-700);
 }
 
-.status-container{
+.log-in-buttons .status-container{
     display: flex;
     justify-content: center;
 }
