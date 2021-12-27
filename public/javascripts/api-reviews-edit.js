@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", event => {
         event.preventDefault();
         event.stopPropagation();
         const review = document.getElementById("review").value;
-        const ratingValue = document.querySelector(".rating-form:checked").value;
+        const ratingValue = document.querySelector(".rating-form:checked");
         const imageURL = document.getElementById("imageURL").value;
         const userId = parseInt(document.getElementById("userinfo").dataset.userid, 10);
         const csrfToken = document.querySelector("input[name='_csrf']").value;
@@ -82,10 +82,10 @@ document.addEventListener("DOMContentLoaded", event => {
             _csrf: csrfToken
         }
         if (hasRating(ratingValue) && hasReview(review)) {
-            body.rating = parseInt(ratingValue, 10);
+            body.rating = parseInt(ratingValue.value, 10);
             if (imageURL) {
                 if (isUrl(imageURL)) {
-                    body.imageURL = imageURL
+                    body.review.Image.url = imageURL
                 }
                 else { return };
             }

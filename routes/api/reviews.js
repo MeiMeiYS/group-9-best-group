@@ -104,17 +104,21 @@ router.put('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     const imageURL = review.Image.url;
     const reviewId = req.params.id;
     const currReview = await Review.findByPk(reviewId);
-    const currImage = currReview.imageId;
+    const currImageId = currReview.imageId;
     if (validatorErrors.isEmpty()) {
         const image = await Image.findByPk(imageId);
+        console.log("image", image);
         if (imageURL && imageURL !== image.url) {
-            if (imageId > 27) {
+            if (currImageId > 27) {
                 image.url = imageURL;
-                await Image.save();
+                console.log("image.url", image.url);
+                await image.save();
+                console.log("saved");
             }
             else {
                 const newImage = await Image.create({url: imageURL});
                 currReview.imageId = newImage.id;
+                console.log("currReview.imageId", currReview.imageId);
             }
         }
         currReview.review = newReview;
