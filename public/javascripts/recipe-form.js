@@ -170,7 +170,7 @@ window.addEventListener("load", (event) => {
           //updating measurement input id and name
           qmiRowClone.childNodes[1].childNodes[1].id = `measurement-${childElementCount}`;
           qmiRowClone.childNodes[1].childNodes[1].setAttribute('name', `measurement-${childElementCount}`);
-          qmiRowClone.childNodes[1].childNodes[1].value = null
+          qmiRowClone.childNodes[1].childNodes[1].value = 1
           //updating ingredients label for attribute
           qmiRowClone.childNodes[2].childNodes[0].setAttribute('for', `ingredient-${childElementCount}`);
           //updating ingredients input id and name
