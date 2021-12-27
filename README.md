@@ -210,7 +210,6 @@ All frontend routes are covered in detail on the [API Routes section of our proj
    </br>
 
 ### Developmental Challenges
-</br>
 
 #### **Considering Volume vs. Maintainability**
 For our first project, we overestimated the number of features that we could implement  within a five-day sprint. A fully interactive front-end reflecting the database schema that we designed on the first day could not be fully implemented within the time constraints, so there were many conversations where we decided what must be prioritized and what level of completeness is satisfactory for an MVP.
@@ -228,7 +227,7 @@ The most challenging back-end task was managing the Quantity, Measurement, and I
 For the backend, we need to pass the QMI list data to the route, loop through each QMI and save it in the database. Since our QMI data is not stored directly in the Recipe Table, it must be recreated after the recipe has been added in the database.
    </br>
 
-#### Programmatically Assigning Button IDs
+#### **Programmatically Assigning Button IDs**
 In order for a user to edit, delete, and view their collections, buttons added via DOM manipulation must be logically linked to the correct collection.  The pug template only showed the collection name but we needed the actual `collectionId` to edit, delete or view it. To resolve this issue, we assigned a `collectionId` as an attribute on the button so that it could be retrieved and parsed when defining event targets.
 
     const idArr = target.id.split("-");
@@ -240,9 +239,8 @@ As we further develop our programming skills, we will continue to improve the ma
 </br>
 
 ### Improved User Experience
-</br>
 
-#### Recipe Reviews and Recipe Status CRUD from Badge View
+#### **Recipe Reviews and Recipe Status CRUD from Badge View**
 
  - Recipe badges are visible on many parts of the website, including the
    Homepage, the Recipe page, and User pages. However, these badges
@@ -252,7 +250,7 @@ As we further develop our programming skills, we will continue to improve the ma
    re-designed to allow users more functionality without requiring an
    additional click to the Recipe Detail page.
    </br>
-#### Sitewide Responsiveness
+#### **Sitewide Responsiveness**
 
  - The website is currently functional on all screen sizes, but is
    styled for screens greater than 900 px in width. New smaller-scale
@@ -260,9 +258,8 @@ As we further develop our programming skills, we will continue to improve the ma
    tablet devices is comparable to the desktop user experience.
    </br>
 ### Improved Maintainability
-</br>
 
-#### Administrator Interface
+#### **Administrator Interface**
 
  - In order for an site administrator to moderate content on the
    website, all modifications must be done via SQL queries to a
@@ -270,7 +267,7 @@ As we further develop our programming skills, we will continue to improve the ma
    will be added that will enable that user to edit or delete any recipe
    or review posted on the website.
    </br>
-#### Normalization of Ingredient Names
+#### **Normalization of Ingredient Names**
 
  - Currently, all ingredients are stored as rows on a database. If a
    user types in a new ingredient for a recipe that is not already in
@@ -284,9 +281,8 @@ As we further develop our programming skills, we will continue to improve the ma
    </br>
 
 ### New Features
-   </br>
 
-#### Detailed Recipe Features
+#### **Detailed Recipe Features**
 
  - Currently, the description and instructions for each ingredient are
    stored as strings. Adding additional fields such as serving size,
@@ -294,7 +290,7 @@ As we further develop our programming skills, we will continue to improve the ma
    compartmentalize information for users, and allow for improved search
    functionality.
    </br>
-#### Implementation of Recipe Tags
+#### **Implementation of Recipe Tags**
 
  - The database is already configured to support the addition of "Tags"
    for each recipe. A user will be able to add, view, edit, and delete
@@ -303,7 +299,7 @@ As we further develop our programming skills, we will continue to improve the ma
    implemented, an admin will be able to add, edit and delete tags.
    </br>
 
-#### Shopping Lists
+#### **Shopping Lists**
 
  - Users will be able to generate a shopping list from a collection that
    aggregates the ingredients from all recipes and combines them into an
