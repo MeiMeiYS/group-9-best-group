@@ -107,11 +107,44 @@ When modifying a recipe, an "Edit" form will populate with the recipe's current 
 
 ### Creating and Modifying A Collection
 
+
+
+
+
+
+
 Users can create personalized collections in order to organize groups of curated recipes.
+<div align="center">
+<br/>
+<img src="https://i.ibb.co/3FCj0Vv/Create-Collection.gif" alt="Add Collection" height="100" align="center"/>
+<br/>
+<br/>
+</div>
 
 Users can add and remove recipes from their collections.
+<div align="center">
+<br/>
+<img src="https://i.ibb.co/QQCwYL7/good-add-to-collection.gif" alt="Add To Collection" height="450" align="center"/>
+<br/>
+<br/>
+</div>
 
 Users can edit and delete their collections.
+<div align="center">
+<br/>
+<img src="https://i.ibb.co/HVJm24v/Remove-From-Collection.gif" alt="Delete Collection" width="550" align="center"/>
+<br/>
+<br/>
+</div>
+
+<div align="center">
+<br/>
+<img src="https://i.ibb.co/LnRJcsg/chrome-capture.giff" alt="Delete Collection" width="550" align="center"/>
+<br/>
+<br/>
+</div>
+
+
 
 ### Creating and Modifying A Review
 
@@ -120,15 +153,27 @@ Users can add a rating, an image, and a public review on any recipes, and view t
 
 Users can modify and delete their reviews.
 
-
 A recipe's average rating is visible on the Homepage, the Recipes page, and each recipe's detail page as indicated by a scale ranging from 1 to 5 whisks.
 
-Users can edit and delete their collections.
 
 ### Assigning A Recipe Status
 A user can create, view, update, and remove a personalized status on any recipe in to indicating whether they "Will Cook" the recipe in the future, or whether they already "Cooked" the recipe.
-
+<div align="center">
+<br/>
+<img src="https://i.ibb.co/09Syxcf/Add-Status.gif" alt="Add A Status" height="450" align="center"/>
+<br/>
+<br/>
+</div>
 After assigning a status to a recipe, the user can view the recipe on the Status section of their user page.
+
+<div align="center">
+<br/>
+<img src="https://i.ibb.co/CPnMyg9/view-status.gif" alt="View Status" height="200" align="center"/>
+<br/>
+<br/>
+</div>
+
+
 
 ### Search For Recipes
 The most recent publicly-visible recipes are visible both on the site Homepage and the Recipes page.
@@ -164,7 +209,14 @@ All frontend routes are covered in detail on the [Fronted Routes section of our 
 All frontend routes are covered in detail on the [API Routes section of our project wiki](https://github.com/MeiMeiYS/group-9-best-group/wiki/Frontend-Routes). API routes were designed for users to interact with a page without being redirected.
 
 ### Developmental Challenges
-#### Considering Sitewide
+#### Considering Volume vs. Maintainability
+For our first project, we overestimated the number of features that we could implement  within a five-day sprint. A fully interactive front-end reflecting the database schema that we designed on the first day could not be fully implemented within the time constraints, so there were many conversations where we decided what must be prioritized and what level of completeness is satisfactory for an MVP.
+
+As the sprint progressed, we began favoring the development of fewer features that work well 99% of the time over many features that work well 70% of the time.
+
+#### Duplicate Code
+Very similar code was written by multiple users as we worked on similar features independently and simultaneously. As a result, refactoring to add modularity would greatly improve readability and maintainability of the site.
+
 
 
 ## Future Development
