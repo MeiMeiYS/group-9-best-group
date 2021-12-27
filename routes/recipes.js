@@ -341,7 +341,7 @@ router.post(`/:id(\\d+)/delete`, requireAuth, csrfProtection, asyncHandler(async
         //delete RecipeIngredients
         await RecipeIngredient.destroy({ where: { recipeId } })
         //delete RecipeStatus
-        await RecipeStatus.destroy({ where: { recipeId, userId } })
+        await RecipeStatus.destroy({ where: { recipeId } })
         //delete RecipeCollections
         await RecipeCollection.destroy({ where: { recipeId } })
         //delete RecipeTags
