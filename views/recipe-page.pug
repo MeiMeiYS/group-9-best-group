@@ -31,18 +31,18 @@ block content
                         input(type="radio" name=`${recipe.name}-rating` id=`${recipe.name}-rating-1` class="rating-1"  disabled="true" checked=(recipe.averageRating == '1'))
                         label(for=`${recipe.name}-rating-1`)
                 p.description #{recipe.description}
-                p(id='show-alert')
                 script(src='/javascripts/recipeCollections.js')
                 if locals.authenticated
                     .log-in-buttons
                         button.add-review Add Review
                         button.add-collection(onclick='getCollectionForm()') Add To Collection
+                        button.add-status Add Status
                         div#collection-choices(style="display: none")
                             select(name='collections' id='collection-select')
                                 for collection in collections
                                     option(value=collection.id)=collection.name
                             button.adding-to-collection(type='submit' onclick='addToCollection()') +
-                        button.add-status Add Status
+                            p(id='show-alert')
                     if user.id === recipe.User.id
                         .recipe-owner-buttons
                             div.submit

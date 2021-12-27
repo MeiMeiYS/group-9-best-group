@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../../db/models');
-const { RecipeStatus } = db;
+const { RecipeStatus, Recipe, Image, StatusType } = db
 const { asyncHandler } = require('../utils');
 const { restoreUser } = require('../../auth');
 
@@ -13,6 +13,52 @@ router.get('/:id(\\d+)', restoreUser, async (req, res) => {
     const data = await RecipeStatus.findAll({ where: { userId, recipeId }});
     res.json(data);
 })
+
+
+router.get('/cooked', restoreUser, async (req, res) => {
+    //find all matched user
+    const userId = res.locals.user.id;
+    const statusId = 1;
+    const data = await RecipeStatus.findAll({ where: { userId, statusId }});
+
+    //console.log(data);
+    let array = [];
+    for (let i = 0; i < data.length; i++) {
+        let recipeId = data[i].recipeId;
+        const recipe = await Recipe.findByPk(recipeId, {
+            include: {
+                model: Image
+            }
+        });
+        let obj = { recipeId, recipeName: recipe.name, recipeImg: recipe.Image.url};
+
+        array.push(obj);
+    }
+
+    res.json(array);
+});
+
+router.get('/will-cook', restoreUser, async (req, res) => {
+    //find all matched user
+    const userId = res.locals.user.id;
+    const statusId = 2;
+    const data = await RecipeStatus.findAll({ where: { userId, statusId }});
+
+    let array = [];
+    for (let i = 0; i < data.length; i++) {
+        let recipeId = data[i].recipeId;
+        const recipe = await Recipe.findByPk(recipeId, {
+            include: {
+                model: Image
+            }
+        });
+        let obj = { recipeId, recipeName: recipe.name, recipeImg: recipe.Image.url};
+
+        array.push(obj);
+    }
+
+    res.json(array);
+});
 
 
 // POST /api/recipes/:id/cooked

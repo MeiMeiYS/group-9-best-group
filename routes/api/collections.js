@@ -27,7 +27,10 @@ router.get("/", asyncHandler(async (req, res) => {
     const collections = await Collection.findAll({
         where: {
             userId: res.locals.user.id
-        }
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ]
     });
 
     res.json(collections);
@@ -36,9 +39,9 @@ router.get("/", asyncHandler(async (req, res) => {
 
 //getting or viewing indvidual collection
 router.get("/:id", asyncHandler(async (req, res) => {
-    console.log('MAKING IT TO ROUTTTTTTTTTTTTEEEEEEEE?????????')
+
     const collectionId = parseInt(req.params.id)
-    console.log(collectionId);
+
 
     const collection = await Collection.findByPk(collectionId, {
         include: [
@@ -60,12 +63,11 @@ router.get("/:id", asyncHandler(async (req, res) => {
         ]
     });
 
-    //console.log(collection);
+
 
     checkPermissionsRecipesRoute(collection, res.locals.user);
 
     const recipes = collection.Recipes
-    console.log(recipes)
 
     if(collection) {
         res.json({collection, recipes});
