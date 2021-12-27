@@ -923,6 +923,29 @@ button.button{
     color: var(--green-hover-500)
 }
 
+
+#ratingDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+}
+
+/* #ratingDiv *{
+    width: fit-content;
+} */
+
+#ratingLabel p{
+    font-family: var(--heading-font);
+    text-transform: uppercase;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+#ratingWhisks{
+    width: 300px;
+}
+
 /* for all the buttons in collection area */
 .collection-button, .status-button {
     background-color: var(--neutral-700);
@@ -1129,6 +1152,8 @@ margin: 10px;
     border-top: var(--boxy-border);
     border-color: var(--primary-500);
     width: 100%;
+    max-width: 600px;
+    margin: 10px auto;
 }
 
 .reviews {
@@ -1193,6 +1218,31 @@ margin: 10px;
     transition: color 0.15s, background-color 0.15s;
 }
 
+.review-area,
+textarea#review{
+    width: 100%;
+    height: fit-content;
+    height: 200px;
+    padding: 10px;
+    font-family: var(--body-font);
+    font-size: 16px;
+    border: var(--boxy-border)
+}
+
+#reviewFormDiv #imageURL{
+    width: 100%;
+    height: fit-content;
+    min-height: 25px;
+    padding: 10px;
+    font-family: var(--body-font);
+    font-size: 16px;
+    border: var(--boxy-border)
+}
+
+#reviewButtonsDiv{
+    display: flex;
+    justify-content: center;
+}
 
 .recipe_details button:hover,
 .recipe_details a:hover,
@@ -1202,8 +1252,24 @@ margin: 10px;
     color: var(--neutral-700);
 }
 
+.status-container{
+    display: flex;
+    justify-content: center;
+}
+
+#addAReview{
+    display: flex;
+    justify-content: center;
+}
+
+#addAReview .button{
+    width: fit-content
+}
+
+
+
 button.status-btn {
-    border-radius: 30px;
+    border-radius: 0px;
     font-size: 20px;
     height: 30px;
     padding: 0 5px;
@@ -1212,6 +1278,8 @@ button.status-btn {
     border: 2px solid var(--primary-500);
     transition: 0.25s;
 }
+
+
 
 button.status-btn:hover {
     color: var(--neutral-100);
