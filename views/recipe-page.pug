@@ -80,7 +80,7 @@ block content
                                 button(id= "review-submit") SUBMIT
                                 button(id= "review-cancel") CANCEL
                 #allReviews
-                    if reviews.length
+                    if reviews.length > 0
                         p.review-header Reviews
                         for review in reviews
                             .review-box(id=`review-${review.id}`)
