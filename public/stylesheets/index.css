@@ -53,6 +53,10 @@ html{
     scroll-behavior: smooth;
 }
 
+button:hover{
+    cursor: pointer;
+}
+
 /* PROFILE IMAGES */
 .profile-image-selection{
     position: relative;
@@ -194,7 +198,8 @@ p.temp{
 }
 /* UNIVERSAL BUTTON STYLES */
 
-  a.button {
+  a.button,
+  .nav-item button.button{
     color: var(--neutral-700);
     font-family: var(--heading-font);
     text-transform: uppercase;
@@ -206,8 +211,13 @@ p.temp{
     overflow: hidden;
   }
 
+  .nav-item button.button{
+      color: white;
+  }
+
   /* Fade in */
-  a.button::after {
+  a.button::after,
+  .nav-item button.button::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -221,7 +231,10 @@ p.temp{
 
 
  a.button:hover::after,
- a.button:focus::after{
+ a.button:focus::after,
+ .nav-item button.button:hover::after,
+ .nav-item button.button:focus::after
+ {
     transform: translate3d(0, 0, 0);
   }
 
@@ -439,6 +452,7 @@ button.button{
         font-size: 2.25vw;
         color:var(--primary-700);
         margin: 20px;
+        text-align: center;
 
     }
 
@@ -863,6 +877,11 @@ button.button{
     text-transform: uppercase;
 }
 
+.recipes-header{
+    display: flex;
+    justify-content: space-between;
+}
+
 .recipes-data{
     background-color: var(--neutral-300);
     width: 100%;
@@ -872,6 +891,7 @@ button.button{
 
 .recipes-data .recipes-container{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .recipes-data h2{
@@ -913,7 +933,13 @@ button.button{
     font-size: 24px;
     padding: 4px 6px;
     margin: 5px;
+    height: fit-content;
     transition: color 0.15s, background-color 0.15s;
+}
+
+.status-button:hover,
+.collection-button:hover {
+    background-color: var(--neutral-500);
 }
 
 /* for input new collection name and edited name*/
