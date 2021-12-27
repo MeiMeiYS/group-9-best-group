@@ -16,7 +16,7 @@
     --title-font: tomarik-display, sans-serif;
     --heading-font: tomarik-poster, sans-serif;
 
-    --heading-size: 2.5em;
+    --heading-size: 2.5rem;
     --button-size: 1.5em;
 
     --big-desktop-min-width: 1200px;
@@ -719,6 +719,7 @@ button.button{
 
 .recipes-data i{
     margin-right: 5px;
+    font-family: var(--heading-font);
 }
 
 .recipes-data a *{
@@ -728,6 +729,102 @@ button.button{
 .recipes-data a:hover *{
     color: var(--green-hover-500)
 }
+
+/* for all the buttons in collection area */
+.collection-button, .status-button {
+    background-color: var(--neutral-700);
+    border: var(--boxy-border);
+    font-family: var(--heading-font);
+    text-transform: uppercase;
+    color: var(--primary-300);
+    font-size: 24px;
+    padding: 4px 6px;
+    margin: 5px;
+    transition: color 0.15s, background-color 0.15s;
+}
+
+/* for input new collection name and edited name*/
+#newCollection, #updateCollection {
+    height: 40px;
+    width: 300px;
+    outline: 1px solid;
+    outline-color: var(--boxy-border);
+    font-family: var(--heading-font);
+    font-size: 24px;
+    padding: 0 5px;
+}
+
+/* for the + button to add collection */
+#add-collection, #edit-collection {
+    height: 40px;
+    width: 60px;
+    background-color: var(--neutral-700);
+    border: var(--boxy-border);
+    font-family: var(--heading-font);
+    color: white;
+    font-size: 24px;
+    border-radius: 15px;
+    margin: 0 5px;
+}
+
+#cancel-collection, #cancel-collection-edit, .delete-recipe-from-collection {
+    height: 40px;
+    width: 80px;
+    background-color: var(--neutral-700);
+    border: var(--boxy-border);
+    font-family: var(--heading-font);
+    color: white;
+    font-size: 24px;
+    border-radius: 15px;
+    margin: 0 5px;
+}
+
+#add-collection:hover, #edit-collection:hover {
+    background-color: var(--green-success-300);
+    color: var(--neutral-100)
+}
+
+#cancel-collection:hover, #cancel-collection-edit:hover, .delete-recipe-from-collection:hover {
+    background-color: var(--red-error-500);
+    color: var(--neutral-100)
+}
+
+.collection-header, .my-collection-header, .header-row {
+    display: flex;
+    flex-direction: row;
+    font-family: var(--heading-font);
+    font-size: 24px;
+    text-transform: uppercase;
+    align-items: center;
+}
+
+.collectionContainer, .all-status {
+    font-family: var(--heading-font);
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.editCollection, .my-collection-header .new-collection-form, .status-button {
+    margin-left: auto;
+}
+
+.my-collection-header .new-collection-form {
+    align-self: flex-end;
+}
+
+.my-collection-header, .my-status-header {
+    margin-bottom: 20px;
+}
+
+.recipe-card-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
 
 
 /* RECIPE PAGE */
@@ -921,6 +1018,23 @@ button.status-btn:hover {
     border: 2px solid var(--green-success-300) !important;
 }
 
+/* Collection input area on recipe page */
+#collection-select {
+    height: 40px;
+    width: 350px;
+    outline: 1px solid;
+    outline-color: var(--boxy-border);
+    font-family: var(--heading-font);
+    font-size: 24px;
+    padding: 0 5px;
+    text-transform: uppercase;
+}
+
+#show-alert {
+    font-family: var(--heading-font);
+    font-size: 20px;
+}
+
 /* USER LOGIN */
 .form-wrapper{
     width: 100%;
@@ -1070,13 +1184,15 @@ padding-top: 8px;
 padding-bottom: 8px;
 }
 
+
 .footer-bottom p {
-color: var(--neutral-300);
-max-width: 1600px;
-width: 100%;
-font-family: var(--body-font);
-padding-left: 10px;
-}
+            color: var(--neutral-300);
+            max-width: 1600px;
+            width: 100%;
+            font-family: var(--body-font);
+            padding-left: 10px;
+          }
+
 
 /* error-404 page */
 

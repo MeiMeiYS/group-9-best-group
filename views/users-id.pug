@@ -26,11 +26,12 @@ block content
                     each recipe in recipes
                         +recipeBadgeArea(recipe)
                 div(class="collections-container")
-                    h2 My Collections
-                    script(src='/javascripts/collections.js')
-                    //- p(id='show-alert')
-                    div.new-collection-form
-                        button(class='button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add New Collection
+                    div.my-collection-header
+                        h2 My Collections
+                        script(src='/javascripts/collections.js')
+                        //- p(id='show-alert')
+                        div.new-collection-form
+                            button(class='collection-button' id='newCollectionBtn' type='submit' onclick='addNewCollection()') Add New Collection
                     div.all-collections
                         each collection in collections
                             div.collectionContainer
@@ -38,9 +39,21 @@ block content
                                     h3=collection.name
                                     h3(hidden)=collection.id
                                     div.editCollection
-                                        button(class='button' id='editCollection' type='submit' onclick='editCollectionName(this)') Edit Name
+                                        button(class='collection-button' id='editCollection' type='submit' onclick='editCollectionName(this)') Edit Name
                                     div.deleteCollection
-                                        button(class='button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
+                                        button(class='collection-button' id=`deleteCollection` type='submit' onclick='deleteCollection(this)') Delete Collection
                                     div(class='recipe-list' id=collection.id)
-                                        button(class='button' id=`viewCollection-${collection.id}` type='submit' onclick='viewCollection(this)') View Recipes
-                                        div(id=`recipe-view-${collection.id}` style="display: none")
+                                        button(class='collection-button' id=`viewCollection-${collection.id}` type='submit' onclick='viewCollection(this)') View Recipes
+                div(class="status-container")
+                    div.my-status-header
+                        h2 Status
+                        script(src='/javascripts/show-status.js')
+                    div.all-status
+                        .cooked-container
+                            .header-row
+                                h3 Cooked
+                                button(class='status-button' id='show-cooked-btn') View Recipes
+                        .will-cook-container
+                            .header-row
+                                h3 Will Cook
+                                button(class='status-button' id='show-will-cook-btn') View Recipes
