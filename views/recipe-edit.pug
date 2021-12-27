@@ -5,19 +5,17 @@ include utils.pug
 block content
     main.form-area
         h1 Edit A Recipe
+        #errorsDiv
         .new-recipe-form
             +validationErrorSummary(errors)
             form(action=`/recipes/${recipe.id}`, method='post')
                 input(id='csurf' type='hidden', name='_csrf', value=csrfToken)
                 input(type='hidden', id='qmiCount', name='qmiCount', value=qmiCount)
-
-
                 div
                     label(for='name') Recipe Name
                     if nameErrMsg
                         span.nameValidationMsg(style={color: 'darkred'})= nameErrMsg
                     input(type='text' id='name' name='name' value=recipe.name class='form-control')
-
                 +field('Description', 'description', recipe.description, 'textarea')
                 +field('Image URL', 'imageURL', imageURL, 'url', 'URL')
                 div(id='qmi-list')

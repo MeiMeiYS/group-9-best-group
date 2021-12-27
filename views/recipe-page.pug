@@ -34,7 +34,6 @@ block content
                 script(src='/javascripts/recipeCollections.js')
                 if locals.authenticated
                     .log-in-buttons
-                        //- button.add-review Add Review
                         button.add-collection(onclick='getCollectionForm()') Add To Collection
                         button.add-status View Status
                         div#collection-choices(style="display: none")

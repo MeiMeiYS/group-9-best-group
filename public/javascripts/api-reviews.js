@@ -36,7 +36,7 @@ function hasReview() {
     const reviewText = document.getElementById("review")
     if (reviewText.value) {
         if (!noReview.hasAttribute("hidden")) {
-            noRating.setAttribute("hidden", "");
+            noReview.setAttribute("hidden", "");
             return true;
         }
         return true;
@@ -114,6 +114,7 @@ const reviewsHTML = async (reviewsArray) => {
     allReviewsHTML.unshift(`<p class="review-header">Reviews</p>`);
     allReviewsDiv.innerHTML = allReviewsHTML.join("");
     deleteButtonsEventListeners();
+    editButtonsEventListeners();
     return;
 };
 
@@ -164,11 +165,8 @@ document.addEventListener("DOMContentLoaded", event => {
         const ratingValue = document.querySelector(".rating-form:checked").value;
         const imageURL = document.getElementById("imageURL");
         const reviewText = document.getElementById("review")
-        console.log("hasRating", hasRating(ratingValue));
         if (hasRating(ratingValue) && hasReview(reviewText.value)) {
-            console.log("passed conditional");
             const rating = parseInt(ratingValue, 10);
-            console.log("rating", rating);
             const body = {
                 userId,
                 review: reviewText.value,
@@ -187,6 +185,10 @@ document.addEventListener("DOMContentLoaded", event => {
                 else { return }
             }
             else {
+                const badURL = document.getElementById("urlBad");
+                if (!badURL.hasAttribute("hidden")) {
+                    badURL.setAttribute("hidden", "");
+                }
                 const reviewsArray = await newReview(body);
                 await reviewsHTML(reviewsArray);
                 deleteButtonsEventListeners();

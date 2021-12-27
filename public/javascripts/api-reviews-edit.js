@@ -1,6 +1,56 @@
-import { ratingFeature } from './element-generator.js'
+import { ratingFeature, getPErrors } from './element-generator.js'
+
+// error checkers
+function isUrl(string) {
+    const badURL = document.getElementById("urlBad");
+    try {
+        (Boolean(new URL(string)))
+        if (!badURL.hasAttribute("hidden")) {
+            badURL.setAttribute("hidden", "");
+            return true
+        }
+        return true
+    }
+    catch (e) {
+        badURL.removeAttribute("hidden");
+        return false;
+    }
+}
+
+function hasRating(rating) {
+    const noRating = document.getElementById("ratingBad");
+    if (rating) {
+        if (!noRating.hasAttribute("hidden")) {
+            noRating.setAttribute("hidden", "");
+            return true;
+        }
+        return true;
+    }
+    else {
+        noRating.removeAttribute("hidden");
+        return false;
+    }
+}
+
+function hasReview() {
+    const noReview = document.getElementById("reviewBad");
+    const reviewText = document.getElementById("review")
+    if (reviewText.value) {
+        if (!noReview.hasAttribute("hidden")) {
+            noReview.setAttribute("hidden", "");
+            return true;
+        }
+        return true;
+    }
+    else {
+        noReview.removeAttribute("hidden");
+        return false;
+    }
+}
+
 
 document.addEventListener("DOMContentLoaded", event => {
+    getPErrors();
     const recipe = document.querySelector("h1.recipe-name");
     const reviewId = parseInt(document.getElementById("reviewId").dataset.reviewid, 10);
     const recipeName = recipe.innerText;
@@ -11,9 +61,9 @@ document.addEventListener("DOMContentLoaded", event => {
         event.preventDefault();
         event.stopPropagation();
         const review = document.getElementById("review").value;
-        const ratingValue = parseInt(document.querySelector(".rating-form:checked").value, 10);
-        const userId = parseInt(document.getElementById("userinfo").dataset.userid, 10);
+        const ratingValue = document.querySelector(".rating-form:checked");
         const imageURL = document.getElementById("imageURL").value;
+        const userId = parseInt(document.getElementById("userinfo").dataset.userid, 10);
         const csrfToken = document.querySelector("input[name='_csrf']").value;
         const imageId = parseInt(document.getElementById("imageId").dataset.imageid, 10);
         const body = {
@@ -31,12 +81,29 @@ document.addEventListener("DOMContentLoaded", event => {
             rating: ratingValue,
             _csrf: csrfToken
         }
-        await editReview(body);
+        if (hasRating(ratingValue) && hasReview(review)) {
+            body.rating = parseInt(ratingValue.value, 10);
+            if (imageURL) {
+                if (isUrl(imageURL)) {
+                    body.review.Image.url = imageURL
+                }
+                else { return };
+            }
+            console.log("body.rating", typeof body.rating, body.rating);
+            const res = await editReview(body);
+            if (res.status === 200) {
+                window.location.assign(`/recipes/${recipeId}`);
+            }
+            return;
+        }
+        else { return };
     });
 
     const cancelButton = document.getElementById("review-cancel")
     cancelButton.addEventListener("click", event => {
-        window.location.href = `/recipes/${recipeId}`;
+        event.preventDefault();
+        event.stopPropagation();
+        window.location.assign(`/recipes/${recipeId}`);
     });
 
 });
@@ -51,8 +118,6 @@ async function editReview(bodyJS) {
         },
         body: body
     });
-    const data = await res.json();
-    if (data === "SUCCESS") {
-        window.location.href = `/recipes/${recipeId}`
-    }
+    console.log("res)", res);
+    return res;
 };
