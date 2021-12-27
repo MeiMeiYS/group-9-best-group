@@ -108,18 +108,14 @@ router.put('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
         if (imageURL && imageURL !== image.url) {
             if (currImageId > 27) {
                 image.url = imageURL;
-                console.log("image.url", image.url);
                 await image.save();
-                console.log("saved");
             }
             else {
                 const newImage = await Image.create({url: imageURL});
                 currReview.imageId = newImage.id;
-                console.log("currReview.imageId", currReview.imageId);
             }
         }
         currReview.review = newReview;
-        console.log(currReview);
         currReview.rating = rating;
         const savedReview = await currReview.save();
         res.send({savedReview});
