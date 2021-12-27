@@ -83,7 +83,6 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
             ingredient
         });
     }
-    console.log("review", review);
     res.render('review-edit', { title: `Edit Your Review`, review, recipe, imageURL, csrfToken: req.csrfToken(), qmiList })
 }));
 
@@ -96,7 +95,6 @@ router.get('/:id(\\d+)/edit', requireAuth, csrfProtection, asyncHandler(async (r
 //  --> also needs csrf, validators
 router.put('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     const { review, rating } = req.body;
-    console.log("rating", rating, typeof rating);
     const validatorErrors = validationResult(req.body);
     checkPermissionsRoute(review, res.locals.user);
     const newReview = review.review;
@@ -107,7 +105,6 @@ router.put('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     const currImageId = currReview.imageId;
     if (validatorErrors.isEmpty()) {
         const image = await Image.findByPk(imageId);
-        console.log("image", image);
         if (imageURL && imageURL !== image.url) {
             if (currImageId > 27) {
                 image.url = imageURL;
@@ -125,12 +122,10 @@ router.put('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
         console.log(currReview);
         currReview.rating = rating;
         const savedReview = await currReview.save();
-        console.log("currReview saved");
         res.send({savedReview});
         return;
     }
     else {
-        console.log("oops didn't pass);")
         const errors = validatorErrors.array().map(error => error.msg);
         res.render('reviews-edit', { title: 'Edit Your Review', errors, csrfToken: req.csrfToken(), recipe, qmiList })
     }
@@ -143,7 +138,6 @@ router.put('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
 router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
     const { imageId, reviewId } = req.body;
     const review = await Review.findByPk(reviewId);
-    // console.log("req.locals.user", req.locals.user);
     // checkPermissionsRoute(review, req.locals.user);
     await review.destroy();
     if (imageId > 27) {

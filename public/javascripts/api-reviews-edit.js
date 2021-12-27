@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", event => {
         event.preventDefault();
         event.stopPropagation();
         const review = document.getElementById("review").value;
-        const ratingValue = document.querySelector(".rating-form:checked");
+        const ratingValue = document.querySelector(".rating-form:checked").value;
         const imageURL = document.getElementById("imageURL").value;
         const userId = parseInt(document.getElementById("userinfo").dataset.userid, 10);
         const csrfToken = document.querySelector("input[name='_csrf']").value;
@@ -82,14 +82,13 @@ document.addEventListener("DOMContentLoaded", event => {
             _csrf: csrfToken
         }
         if (hasRating(ratingValue) && hasReview(review)) {
-            body.rating = parseInt(ratingValue.value, 10);
+            body.rating = parseInt(ratingValue, 10);
             if (imageURL) {
                 if (isUrl(imageURL)) {
-                    body.review.Image.url = imageURL
+                    body.imageURL = imageURL
                 }
                 else { return };
             }
-            console.log("body.rating", typeof body.rating, body.rating);
             const res = await editReview(body);
             if (res.status === 200) {
                 window.location.assign(`/recipes/${recipeId}`);
@@ -118,6 +117,5 @@ async function editReview(bodyJS) {
         },
         body: body
     });
-    console.log("res)", res);
     return res;
 };
