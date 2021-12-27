@@ -34,22 +34,7 @@ export function editButtonsEventListeners() {
 
 }
 
-export function deleteButtonsEventListeners(reviewId) {
-    const allDeleteButtons = document.querySelectorAll(".delete");
-    for (let i = 0; i < allDeleteButtons.length; i++) {
-        allDeleteButtons[i].addEventListener("click", (event) => {
-            event.stopPropagation();
-            const reviewId = parseInt(allDeleteButtons[i].id.split("-")[1], 10);
-            const res = await fetch(`/api/reviews/${reviewId}`, {
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                method: "DELETE"
-            });
-            const data = await res.json()
-        })
-    }
-}
+
 
 const reviewbox = document.getElementById("review-1");
 

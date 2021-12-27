@@ -85,7 +85,7 @@ block content
                         for review in reviews
                             .review-box(id=`review-${review.id}`)
                                 .review-image-container
-                                    img.review-image(src=`${review.Image.url}`)
+                                    img.review-image(src=`${review.Image.url}`, id=`${review.Image.id}`)
                                 .review-data
                                     p.review-rating= review.rating
                                         span out of 5
@@ -94,7 +94,6 @@ block content
                                         .editButtons
                                             button(class= 'edit' id=`editreview-${review.id}`) Edit Review
                                             button(class='delete' id=`deletereview-${review.id}`) Delete Review
-                                        h1 HELLO
                                     .date-metadata
                                         p.author= review.User.userName
                                         p.review-date= review.updatedAt.toDateString().slice(3)

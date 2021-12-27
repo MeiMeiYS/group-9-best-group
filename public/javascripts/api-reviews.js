@@ -1,4 +1,4 @@
-import { ratingFeature, getPErrors, editButtonsEventListeners, deleteButtonsEventListeners } from './element-generator.js';
+import { ratingFeature, getPErrors, editButtonsEventListeners } from './element-generator.js';
 // error checker
 function isUrl(string) {
     const badURL = document.getElementById("urlBad");
@@ -64,8 +64,35 @@ const fetchReviews = async (recipeId) => {
 
 // mapping all reviews
 const reviewsHTML = async (reviewsArray) => {
+    const user = document.getElementById("userinfo");
+    console.log("user", user);
+    if (user) {
+        user.id = parseInt(user.dataset.userid, 10);
+    }
     const allReviewsDiv = document.getElementById("allReviews");
-    const allReviewsHTML = reviewsArray.map(({ User, review, Image, userId, recipeId, id, rating, updatedAt }) => `
+    const allReviewsHTML = reviewsArray.map(({ User, review, Image, userId, recipeId, id, rating, updatedAt }) => {
+        if (userId === user.id) {
+            return `
+        <div class="review-box">
+            <div class="review-image-container">
+                <img src="${Image.url}" class="review-image">
+                    </div>
+                    <div class="review-data">
+                        <p class="review-rating">${rating}<span> out of 5</span></p>
+                        <p class="review-text" id="review-${id}">${review}</p>
+                        <div class="editButtons">
+                            <button class="edit" id="editreview-${review.id}">Edit Review</button>
+                            <button class="delete" id="deletereview-${review.id}">Delete Review</button>
+                        </div>
+                        <div class="date-metadata">
+                            <p class="author" id="${userId}">${User.userName}</p>
+                            <p class="review-date">${new Date(updatedAt).toDateString().slice(3)}</p>
+                        </div>
+                    </div>
+                </div>`
+        }
+        else {
+            `
         <div class="review-box">
             <div class="review-image-container">
                 <img src="${Image.url}" class="review-image">
@@ -79,7 +106,8 @@ const reviewsHTML = async (reviewsArray) => {
                         </div>
                     </div>
                 </div>`
-    );
+        }
+    });
     allReviewsHTML.unshift(`<p class="review-header">Reviews</p>`);
     allReviewsDiv.innerHTML = allReviewsHTML.join("");
     return;
@@ -98,17 +126,39 @@ document.addEventListener("DOMContentLoaded", event => {
     const recipeName = recipe.innerText;
 
     // adding event listeners to edit buttons
-    editButtonsEventListeners()
+    editButtonsEventListeners();
+
+    // adding event listeners to delete buttons
+    function deleteButtonsEventListeners() {
+        const allDeleteButtons = document.querySelectorAll(".delete");
+        for (let i = 0; i < allDeleteButtons.length; i++) {
+            allDeleteButtons[i].addEventListener("click", async (event) => {
+                event.stopPropagation();
+                event.preventDefault();
+                const reviewId = parseInt(allDeleteButtons[i].id.split("-")[1], 10);
+                const imageId = parseInt(document.querySelector(`div#review-${reviewId} > div.review-image-container > img.review-image`).id, 10);
+                const body = {
+                    reviewId,
+                    userId: user.id,
+                    imageId,
+                    recipeId: recipe.id
+                }
+                const reviewsArray = await deleteReview(body);
+                console.log("REVIEWS ARRAY?????");
+                reviewsHTML(reviewsArray);
+                return;
+            });
+        }
+    }
+    deleteButtonsEventListeners();
 
     // adding rating feature (whisks)
     const ratings = ratingFeature(recipeName);
     const user = document.getElementById("userinfo");
     if (user) {
         user.id = parseInt(user.dataset.userid, 10);
-        console.log("userId", user.id);
     }
     recipe.id = parseInt(recipe.dataset.recipeid, 10);
-    console.log("recipeId", recipe.id);
 
     // `Add a New Review` button
     const addAReview = document.getElementById('addAReview');
@@ -173,7 +223,6 @@ async function newReview(bodyJS) {
         },
         body: body
     });
-    console.log("res.status", res.status);
     if (res.status === 200) {
         const reviewFormDiv = document.getElementById("reviewFormDiv");
         reviewFormDiv.setAttribute("hidden", "");
@@ -184,16 +233,21 @@ async function newReview(bodyJS) {
     }
 };
 
-async function deleteReview(reviewId) {
+async function deleteReview(bodyJS) {
+    const { reviewId, recipeId } = bodyJS;
+    const body = JSON.stringify(bodyJS);
     const res = await fetch(`/api/reviews/${reviewId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
         },
-        body: {
-            reviewId,
-            
-        }
+        body
     });
-
+    console.log(res.status);
+    if (res.status === 200) {
+        return fetchReviews(recipeId);
+    }
+    else {
+        throw Error;
+    }
 }

@@ -130,11 +130,18 @@ router.put('/:id', requireAuth, imageValidators, reviewFormValidators, asyncHand
 //  --> need to be authorized (userId on review must match current user's Id)
 //      --> DOM stuff, add csrfProtection in DOM manipulation file that has the delete button
 router.delete('/:id', requireAuth, asyncHandler(async (req, res) => {
-    const { recipeId, reviewId, imageURL, userId } = req.body;
-    const review = Review.findByPk(reviewId);
-    checkPermissionsRoute(review, req.locals.user);
-    const data = await Review.findByPk(reviewId);
-    await data.destroy();
+    const { imageId, reviewId } = req.body;
+    console.log(reviewId);
+    const review = await Review.findByPk(reviewId);
+    console.log("delReview", review);
+    // console.log("req.locals.user", req.locals.user);
+    // checkPermissionsRoute(review, req.locals.user);
+    console.log("permissions checked");
+    await review.destroy();
+    if (imageId > 27) {
+        const image = await Image.findByPk(imageId);
+        await image.destroy();
+    }
     res.send('you have DELETED /reviews/:id')
 }));
 
