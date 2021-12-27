@@ -228,12 +228,17 @@ router.get('/:id(\\d+)', requireAuth, asyncHandler(async (req, res) => {
     ]
   })
 
+  const reviews = await Review.findAll({
+    where: {
+      userId
+    }
+  })
+
   const collections = user.Collections
   let memberSince = " " + user.createdAt.toDateString().slice(4)
   let recipesAdded = 0
     if(recipes.length) recipesAdded = recipes.length;
-  let reviewsAdded = 0
-  if (user.Reviews) reviewsAdded = user.Reviews.length;
+  let reviewsAdded = reviews.length;
 
   let addAverageRatingProperty = (recipes) => {
     recipes.forEach(recipe => {
