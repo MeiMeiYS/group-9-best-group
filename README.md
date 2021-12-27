@@ -207,32 +207,41 @@ All frontend routes are covered in detail on the [Fronted Routes section of our 
 
 ### API Routes
 All frontend routes are covered in detail on the [API Routes section of our project wiki](https://github.com/MeiMeiYS/group-9-best-group/wiki/Frontend-Routes). API routes were designed for users to interact with a page without being redirected.
+   </br>
 
 ### Developmental Challenges
-#### Considering Volume vs. Maintainability
+</br>
+
+#### **Considering Volume vs. Maintainability**
 For our first project, we overestimated the number of features that we could implement  within a five-day sprint. A fully interactive front-end reflecting the database schema that we designed on the first day could not be fully implemented within the time constraints, so there were many conversations where we decided what must be prioritized and what level of completeness is satisfactory for an MVP.
 
 As the sprint progressed, we began favoring the development of fewer features that work well 99% of the time over many features that work well 70% of the time.
+   </br>
 
-#### DRYing Up Code
+#### **DRYing Up Code**
 Very similar code was written by multiple users as we worked on similar features independently and simultaneously. As a result, refactoring to add modularity would greatly improve readability and maintainability of the site.
+   </br>
 
-#### Quantity-Measurement-Ingredient Manipulation
+#### **Quantity-Measurement-Ingredient Manipulation**
 The most challenging back-end task was managing the Quantity, Measurement, and Ingredient (QMI) bundles for entries on a recipe. (i.e. 2 cups flour). For the frontend *Create Recipe and Edit Recipe* forms, each QMI has an id in numeric order. If a user were to delete any QMI from a recipe, all ids must be reset to maintain the order.
 
 For the backend, we need to pass the QMI list data to the route, loop through each QMI and save it in the database. Since our QMI data is not stored directly in the Recipe Table, it must be recreated after the recipe has been added in the database.
+   </br>
 
 #### Programmatically Assigning Button IDs
 In order for a user to edit, delete, and view their collections, buttons added via DOM manipulation must be logically linked to the correct collection.  The pug template only showed the collection name but we needed the actual `collectionId` to edit, delete or view it. To resolve this issue, we assigned a `collectionId` as an attribute on the button so that it could be retrieved and parsed when defining event targets.
 
     const idArr = target.id.split("-");
     const recipeId = idArr[2];
-
+   </br>
 
 ## Future Development
 As we further develop our programming skills, we will continue to improve the maintainability and user experience of Recipeople.
+</br>
 
 ### Improved User Experience
+</br>
+
 #### Recipe Reviews and Recipe Status CRUD from Badge View
 
  - Recipe badges are visible on many parts of the website, including the
@@ -242,15 +251,16 @@ As we further develop our programming skills, we will continue to improve the ma
    status, or add a review. In the future, the recipe badges will be
    re-designed to allow users more functionality without requiring an
    additional click to the Recipe Detail page.
-
+   </br>
 #### Sitewide Responsiveness
 
  - The website is currently functional on all screen sizes, but is
    styled for screens greater than 900 px in width. New smaller-scale
    layouts will be implemented so that the user experience on mobile or
    tablet devices is comparable to the desktop user experience.
-
+   </br>
 ### Improved Maintainability
+</br>
 
 #### Administrator Interface
 
@@ -259,7 +269,7 @@ As we further develop our programming skills, we will continue to improve the ma
    centralized database. To mitigate this, a new *administrator* role
    will be added that will enable that user to edit or delete any recipe
    or review posted on the website.
-
+   </br>
 #### Normalization of Ingredient Names
 
  - Currently, all ingredients are stored as rows on a database. If a
@@ -271,8 +281,10 @@ As we further develop our programming skills, we will continue to improve the ma
    to support future functionality, ingredient names may undergo a
    pattern-matching normalization process or third-party food-name API
    validation to prevent duplicate entries within our database.
+   </br>
 
 ### New Features
+   </br>
 
 #### Detailed Recipe Features
 
@@ -281,7 +293,7 @@ As we further develop our programming skills, we will continue to improve the ma
    cook time, cook temperature, and individual recipe steps can
    compartmentalize information for users, and allow for improved search
    functionality.
-
+   </br>
 #### Implementation of Recipe Tags
 
  - The database is already configured to support the addition of "Tags"
@@ -289,6 +301,7 @@ As we further develop our programming skills, we will continue to improve the ma
    tags from recipes that they have submitted, and a user can use tags
    as search criteria to find new recipes. Once an admin role is
    implemented, an admin will be able to add, edit and delete tags.
+   </br>
 
 #### Shopping Lists
 
@@ -296,9 +309,9 @@ As we further develop our programming skills, we will continue to improve the ma
    aggregates the ingredients from all recipes and combines them into an
    organized list. Normalization of Ingredient Names must be completed
    before implementation of this feature.
-
+   </br>
 ## Contributors
-**Aletheia Kim** | <a href='https://github.com/akim38'>Github</a>
-**Denise Li** | <a href='https://github.com/cat-friend'>Github</a> | <a href='https://www.linkedin.com/in/denise-li-45350320/'>LinkedIn</a>
-**Mei Shih** | <a href='https://github.com/MeiMeiYS'>Github</a> | <a href='https://www.linkedin.com/in/meiyinshih/'>LinkedIn</a>
+**Aletheia Kim** | <a href='https://github.com/akim38'>Github</a></br>
+**Denise Li** | <a href='https://github.com/cat-friend'>Github</a> | <a href='https://www.linkedin.com/in/denise-li-45350320/'>LinkedIn</a></br>
+**Mei Shih** | <a href='https://github.com/MeiMeiYS'>Github</a> | <a href='https://www.linkedin.com/in/meiyinshih/'>LinkedIn</a></br>
 **Cameron Whiteside** | <a href='https://github.com/CameronWhiteside'>Github</a> | <a href='https://www.linkedin.com/in/cameronwhiteside/'>LinkedIn</a>
