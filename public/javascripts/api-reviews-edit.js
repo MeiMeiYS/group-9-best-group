@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", event => {
                 }
                 else { return };
             }
-            console.log("body.rating", typeof body.rating, body.rating);
             const res = await editReview(body);
             if (res.status === 200) {
                 window.location.assign(`/recipes/${recipeId}`);
@@ -118,6 +117,5 @@ async function editReview(bodyJS) {
         },
         body: body
     });
-    console.log("res)", res);
     return res;
 };

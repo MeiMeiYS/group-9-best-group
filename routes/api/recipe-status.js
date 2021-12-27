@@ -20,8 +20,6 @@ router.get('/cooked', restoreUser, async (req, res) => {
     const userId = res.locals.user.id;
     const statusId = 1;
     const data = await RecipeStatus.findAll({ where: { userId, statusId }});
-
-    //console.log(data);
     let array = [];
     for (let i = 0; i < data.length; i++) {
         let recipeId = data[i].recipeId;
