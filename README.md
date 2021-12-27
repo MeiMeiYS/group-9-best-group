@@ -224,7 +224,75 @@ Very similar code was written by multiple users as we worked on similar features
 #### **Quantity-Measurement-Ingredient Manipulation**
 The most challenging back-end task was managing the Quantity, Measurement, and Ingredient (QMI) bundles for entries on a recipe. (i.e. 2 cups flour). For the frontend *Create Recipe and Edit Recipe* forms, each QMI has an id in numeric order. If a user were to delete any QMI from a recipe, all ids must be reset to maintain the order.
 
+````
+    if (validatorErrors.isEmpty()) {
+                let imageId
+                if (imageURL) {
+                    const newImage = await Image.create({ url: imageURL })
+                    imageId = newImage.dataValues.id ;
+                } else {
+                    const randomRecipeImage = () => {
+                        return (Math.floor(Math.random()*9) + 1).toString()
+                    }
+                    imageId = randomRecipeImage();
+                }
+
+                const recipe = Recipe.build({ name, description, steps, userId, imageId });
+
+                await recipe.save();
+
+                //checking each ingredients
+                for (let i = 0; i < qmiCount; i++){
+                    const ingredientName = req.body[`ingredient-${i+1}`];
+                    const ingredient = await Ingredient.findOne({ where: { name: ingredientName } })
+
+                    if (!ingredient){
+                        //if ingredient does not exit
+                        const currentIngredient = await Ingredient.create({ name: ingredientName });
+                        req.body.ingredientId = currentIngredient.id;
+
+                    } else {
+                        //else find ingredient id
+                        req.body.ingredientId = ingredient.id;
+                    }
+
+
+                    //build recipeIngredient join table
+                    const recipeId = recipe.dataValues.id;
+                    await RecipeIngredient.create({
+                        recipeId,
+                        ingredientId: req.body.ingredientId,
+                        quantity: req.body[`quantity-${i+1}`],
+                        measurementId: req.body[`measurement-${i+1}`]
+                    })
+````
+
 For the backend, we need to pass the QMI list data to the route, loop through each QMI and save it in the database. Since our QMI data is not stored directly in the Recipe Table, it must be recreated after the recipe has been added in the database.
+
+````
+ function resetId () {
+        const qmiCount = qmiList.childElementCount
+        qmiCountInput.setAttribute('value', qmiList.childElementCount )
+        for (let i = 0; i < qmiCount; i++ ){
+            //updating quantity label for attribute
+            qmiList.childNodes[i].childNodes[0].childNodes[0].setAttribute('for', `quantity-${i + 1}`);
+            //updating quantity label input id and name
+            qmiList.childNodes[i].childNodes[0].childNodes[1].id = `quantity-${i + 1}`;
+            qmiList.childNodes[i].childNodes[0].childNodes[1].setAttribute('name', `quantity-${i + 1}`);
+            //updating measurement label for attribute
+            qmiList.childNodes[i].childNodes[1].childNodes[0].setAttribute('for', `measurement-${i + 1}`);
+            //updating measurement label input id and name
+            qmiList.childNodes[i].childNodes[1].childNodes[1].id = `measurement-${i + 1}`;
+            qmiList.childNodes[i].childNodes[1].childNodes[1].setAttribute('name', `measurement-${i + 1}`);
+            //updating ingredients label for attribute
+            qmiList.childNodes[i].childNodes[2].childNodes[0].setAttribute('for', `ingredient-${i + 1}`);
+            //updating ingredients label input id and name
+            qmiList.childNodes[i].childNodes[2].childNodes[1].id = `ingredient-${i + 1}`;
+            qmiList.childNodes[i].childNodes[2].childNodes[1].setAttribute('name', `ingredient-${i + 1}`);
+        }
+        return;
+    }
+````
    </br>
 
 #### **Programmatically Assigning Button IDs**
