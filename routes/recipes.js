@@ -93,7 +93,8 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
 
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
-    const reviews = recipe.Reviews
+    const reviews = recipe.Reviews;
+    console.log("recipes", recipe);
 
     let averageReview = `No Reviews Posted`
     if (recipe.Reviews) {
@@ -341,7 +342,7 @@ router.post(`/:id(\\d+)/delete`, requireAuth, csrfProtection, asyncHandler(async
         //delete RecipeIngredients
         await RecipeIngredient.destroy({ where: { recipeId } })
         //delete RecipeStatus
-        await RecipeStatus.destroy({ where: { recipeId, userId } })
+        await RecipeStatus.destroy({ where: { recipeId } })
         //delete RecipeCollections
         await RecipeCollection.destroy({ where: { recipeId } })
         //delete RecipeTags

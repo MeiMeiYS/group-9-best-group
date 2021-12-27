@@ -41,12 +41,10 @@ const addToCollection = async () => {
             const alertArea = document.querySelector('#show-alert');
 
             alertArea.style.display = 'block';
-            alertArea.innerHTML = `${data.message}`
+            alertArea.innerHTML = `<p class='temp'>${data.message}</p>`
 
             setTimeout(function() {
                 alertArea.style = "display:none"
             }, 1800)
         // }
 }
-
-

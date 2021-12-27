@@ -11,6 +11,15 @@
     --green-hover-500: #1c1c15;
     --red-error-500: #a33c2e;
 
+    --profile-pink: #FC9C97;
+    --profile-yellow: #FFC439;
+    --profile-orange: #ED773B;
+    --profile-gold: #D69223;
+    --profile-red: #D74433;
+    --profile-mint: #B1D483;
+    --profile-burgundy: #A33C2E;
+    --profile-green: #769B46;
+    --profile-moss: #605F47;
 
     --body-font: effra, sans-serif;
     --title-font: tomarik-display, sans-serif;
@@ -40,14 +49,157 @@
     color: var(--neutral-700);
 }
 
+html{
+    scroll-behavior: smooth;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+/* PROFILE IMAGES */
+.profile-image-selection{
+    position: relative;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--neutral-300);
+    margin: 50px auto;
+    padding: 50px;
+    width: fit-content;
+    border: var(--boxy-border);
+}
+
+.profile-image-selection h2{
+    font-family: var(--heading-font);
+    font-size: 36px;
+    color: var(--neutral-700);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.profile-image-selection div{
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;;
+}
+
+.profile-image-selection input{
+   border: 0px;
+   font-family: var(--body-font);
+   font-size: 18px;
+   height: 45px;
+   padding-left: 10px;
+   margin-bottom: 15px;
+   width: 100%;
+}
+
+.image-option{
+    cursor: pointer;
+    width: 135px;
+    height: 135px;
+    border-radius: 50%;
+    margin: 40px 20px;
+    background-position: center;
+    background-size: contain;
+}
+
+
+    .img-01{
+        background-image: url('https://i.ibb.co/SByphfy/default-01.jpg')
+    }
+    .img-09{
+        background-image: url('https://i.ibb.co/K0gMGCP/default-09.jpg')
+    }
+    .img-08{
+        background-image: url('https://i.ibb.co/hs889VJ/default-08.jpg')
+    }
+   .img-07{
+        background-image: url('https://i.ibb.co/xhCQPdW/default-07.jpg')
+    }
+    .img-06{
+        background-image: url('https://i.ibb.co/x1QRnVw/default-06.jpg')
+    }
+    .img-05{
+        background-image: url('https://i.ibb.co/F5Vz20r/default-05.jpg')
+    }
+    .img-04{
+        background-image: url('https://i.ibb.co/jJ7dKN8/default-04.jpg')
+    }
+    .img-03{
+        background-image: url('https://i.ibb.co/WBQHs9z/default-03.jpg')
+    }
+    .img-02{
+        background-image: url('https://i.ibb.co/pdmX5HY/default-02.jpg')
+    }
+
+.highlight {
+    position: relative;
+    top: var(--y);
+    left: var(--x);
+    width: 165px;
+    height: 165px;
+    border-radius: 50%;
+    border: 10px solid var(--border);
+    transition: 0.2s ease-in-out;
+    display: hidden;
+}
+
+.image-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -150px;
+}
+
+.fade{
+    opacity: 100%;
+    transition: opacity 0.1s ease-in-out
+}
+
+h3.subtitle{
+    font-family: var(--heading-font);
+    font-size: 24px;
+}
+
+.update-image-button{
+    background-color: var(--neutral-300);
+    border: var(--boxy-border);
+    padding: 5px 10px 5px;
+    font-size: 30px;
+    transition: color 0.2s, border-color 0.2s;
+    font-family: var(--heading-font);
+    text-transform: uppercase;
+}
+
+.update-image-button:hover{
+    cursor: pointer;
+    color: var(--primary-700);
+    border-color: var(--primary-700);
+}
+
+
+/* PROFILE */
+
 body{
     max-width: 100%;
     overflow-x: hidden;
 }
 
+h3{
+    text-transform: uppercase;
+}
+
+p.temp{
+    text-transform: lowercase;
+    padding: 5px;
+    font-family: var(--body-font);
+}
 /* UNIVERSAL BUTTON STYLES */
 
-  a.button {
+  a.button,
+  .nav-item button.button{
     color: var(--neutral-700);
     font-family: var(--heading-font);
     text-transform: uppercase;
@@ -59,8 +211,13 @@ body{
     overflow: hidden;
   }
 
+  .nav-item button.button{
+      color: white;
+  }
+
   /* Fade in */
-  a.button::after {
+  a.button::after,
+  .nav-item button.button::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -74,7 +231,10 @@ body{
 
 
  a.button:hover::after,
- a.button:focus::after{
+ a.button:focus::after,
+ .nav-item button.button:hover::after,
+ .nav-item button.button:focus::after
+ {
     transform: translate3d(0, 0, 0);
   }
 
@@ -139,6 +299,10 @@ button.button{
     margin: 0 auto;
 }
 
+.recipe-card-div .card{
+    min-height: 100px;
+}
+
 .card{
     border: var(--boxy-border);
     background-color: var(--primary-300);
@@ -148,6 +312,7 @@ button.button{
     width: 300px;
     min-height: 480px;
     margin: 40px;
+    padding: 5px;
 }
 
 .card > img{
@@ -218,8 +383,8 @@ button.button{
 
   .view-button{
     border: var(--boxy-border);
-    padding: 10px;
-    margin: 10px 0px 20px;
+    padding: 4px 6px;
+    margin: 5px;
     }
 
     /* SPLASH PAGE */
@@ -287,6 +452,7 @@ button.button{
         font-size: 2.25vw;
         color:var(--primary-700);
         margin: 20px;
+        text-align: center;
 
     }
 
@@ -307,16 +473,37 @@ button.button{
         padding: 10px 15px 5px;
         margin-top: 40px;
         width: fit-content;
+        overflow: hidden;
     }
 
     .cta-main{
         font-family: var(--heading-font);
         text-transform: uppercase;
+        text-decoration: none;
         background-color: transparent;
+        position: relative;
         font-size: 2.25vw;
         width: auto;
         color:var(--neutral-100);
     }
+
+    a.cta-main::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background-color: var(--primary-700);
+        transition: transform .15s;
+        transform: translate3d(-120%, 0, 0);
+      }
+
+
+     a.cta-main:hover::after,
+     a.cta-main:focus::after{
+        transform: translate3d(0, 0, 0);
+      }
 
     /* RECIPE PAGE */
 
@@ -630,7 +817,7 @@ button.button{
 .profile-pic{
     width: 250px;
     height: 250px;
-    border: var(--boxy-border);
+    border: 8px solid var(--neutral-700);
     overflow: hidden;
     border-radius: 50%
 }
@@ -690,6 +877,11 @@ button.button{
     text-transform: uppercase;
 }
 
+.recipes-header{
+    display: flex;
+    justify-content: space-between;
+}
+
 .recipes-data{
     background-color: var(--neutral-300);
     width: 100%;
@@ -699,6 +891,7 @@ button.button{
 
 .recipes-data .recipes-container{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .recipes-data h2{
@@ -730,6 +923,29 @@ button.button{
     color: var(--green-hover-500)
 }
 
+
+#ratingDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+}
+
+/* #ratingDiv *{
+    width: fit-content;
+} */
+
+#ratingLabel p{
+    font-family: var(--heading-font);
+    text-transform: uppercase;
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+#ratingWhisks{
+    width: 300px;
+}
+
 /* for all the buttons in collection area */
 .collection-button, .status-button {
     background-color: var(--neutral-700);
@@ -740,7 +956,13 @@ button.button{
     font-size: 24px;
     padding: 4px 6px;
     margin: 5px;
+    height: fit-content;
     transition: color 0.15s, background-color 0.15s;
+}
+
+.status-button:hover,
+.collection-button:hover {
+    background-color: var(--neutral-500);
 }
 
 /* for input new collection name and edited name*/
@@ -749,34 +971,37 @@ button.button{
     width: 300px;
     outline: 1px solid;
     outline-color: var(--boxy-border);
-    font-family: var(--heading-font);
-    font-size: 24px;
+    font-family: var(--body-font);
+    font-size: 18px;
     padding: 0 5px;
 }
 
 /* for the + button to add collection */
 #add-collection, #edit-collection {
-    height: 40px;
-    width: 60px;
+    /* height: 40px;
+    width: 60px; */
     background-color: var(--neutral-700);
     border: var(--boxy-border);
     font-family: var(--heading-font);
     color: white;
     font-size: 24px;
-    border-radius: 15px;
-    margin: 0 5px;
+    /* margin: 0 5px; */
+    text-transform: uppercase;
+    padding: 4px 6px;
+    margin: 5px;
 }
 
 #cancel-collection, #cancel-collection-edit, .delete-recipe-from-collection {
-    height: 40px;
-    width: 80px;
+    /* height: 40px;
+    width: 80px; */
     background-color: var(--neutral-700);
     border: var(--boxy-border);
     font-family: var(--heading-font);
     color: white;
-    font-size: 24px;
-    border-radius: 15px;
-    margin: 0 5px;
+    font-size: 22px;
+    text-transform: uppercase;
+    padding: 4px 6px;
+    margin: 5px;
 }
 
 #add-collection:hover, #edit-collection:hover {
@@ -804,6 +1029,12 @@ button.button{
     display: flex;
     flex-direction: column;
     text-align: center;
+}
+
+.collectionContainer p{
+    font-family: var(--body-font);
+    font-size: 16px;
+    margin: 10px 0px;
 }
 
 .editCollection, .my-collection-header .new-collection-form, .status-button {
@@ -921,6 +1152,8 @@ margin: 10px;
     border-top: var(--boxy-border);
     border-color: var(--primary-500);
     width: 100%;
+    max-width: 600px;
+    margin: 10px auto;
 }
 
 .reviews {
@@ -985,6 +1218,31 @@ margin: 10px;
     transition: color 0.15s, background-color 0.15s;
 }
 
+.review-area,
+textarea#review{
+    width: 100%;
+    height: fit-content;
+    height: 200px;
+    padding: 10px;
+    font-family: var(--body-font);
+    font-size: 16px;
+    border: var(--boxy-border)
+}
+
+#reviewFormDiv #imageURL{
+    width: 100%;
+    height: fit-content;
+    min-height: 25px;
+    padding: 10px;
+    font-family: var(--body-font);
+    font-size: 16px;
+    border: var(--boxy-border)
+}
+
+#reviewButtonsDiv{
+    display: flex;
+    justify-content: center;
+}
 
 .recipe_details button:hover,
 .recipe_details a:hover,
@@ -994,8 +1252,24 @@ margin: 10px;
     color: var(--neutral-700);
 }
 
+.status-container{
+    display: flex;
+    justify-content: center;
+}
+
+#addAReview{
+    display: flex;
+    justify-content: center;
+}
+
+#addAReview .button{
+    width: fit-content
+}
+
+
+
 button.status-btn {
-    border-radius: 30px;
+    border-radius: 0px;
     font-size: 20px;
     height: 30px;
     padding: 0 5px;
@@ -1004,6 +1278,8 @@ button.status-btn {
     border: 2px solid var(--primary-500);
     transition: 0.25s;
 }
+
+
 
 button.status-btn:hover {
     color: var(--neutral-100);
@@ -1152,6 +1428,7 @@ footer h3 {
     font-weight: 500;
     font-size: 24px;
     margin-bottom: 5px;
+    text-transform: unset;
 }
 
 footer h3.about-blurb {

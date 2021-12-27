@@ -35,7 +35,7 @@ block content
                 if locals.authenticated
                     .log-in-buttons
                         button.add-collection(onclick='getCollectionForm()') Add To Collection
-                        button.add-status Add Status
+                        button.add-status View Status
                         div#collection-choices(style="display: none")
                             select(name='collections' id='collection-select')
                                 for collection in collections
@@ -72,15 +72,15 @@ block content
                                 p.recipe RATE THIS RECIPE
                             #ratingWhisks
                         form(action="/")
-                            textarea(name="review" style= "width: 100%; height: 40em" placeholder="Type your review here!" id="review")
-                            label(for="imageURL") URL for an Image (Optional):
-                            input(type="text" id="imageURL" name="imageURL")
+                            textarea(name="review" class='review-area' placeholder="Type your review here!" id="review")
+                            //- label(for="imageURL") URL for an Image (Optional):
+                            input(type="text" id="imageURL" name="imageURL" placeholder="Image URL (Optional)")
                             #reviewButtonsDiv
                                 button(id= "review-submit") SUBMIT
                                 button(id= "review-cancel") CANCEL
+                    .line-divider
                 #allReviews
-                    if reviews.length
-                        p.review-header Reviews
+                    if reviews.length > 0
                         for review in reviews
                             .review-box(id=`review-${review.id}`)
                                 .review-image-container
@@ -89,7 +89,7 @@ block content
                                     p.review-rating= review.rating
                                         span out of 5
                                     p.review-text(class=`review-${review.id}`)= review.review
-                                    if user.id === review.userId
+                                    if locals.authenticated && user.id === review.userId
                                         .editButtons
                                             button(class= 'edit' id=`editreview-${review.id}`) Edit Review
                                             button(class='delete' id=`deletereview-${review.id}`) Delete Review

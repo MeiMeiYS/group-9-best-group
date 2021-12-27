@@ -18,10 +18,9 @@ block content
             span= reviewsAdded
 
         .recipes-data
-                h2 My Recipes
-                a(href='/recipes/new'  class='new-recipe add-button' role='button')
-                    i(class="fas fa-plus-circle")
-                    span Add New Recipe
+                .recipes-header
+                    h2 My Recipes
+                    a.new-recipe(href='/recipes/new'  class='status-button' role='button') Add New Recipe
                 div(class="recipes-container")
                     each recipe in recipes
                         +recipeBadgeArea(recipe)

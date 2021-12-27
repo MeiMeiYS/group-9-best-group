@@ -36,7 +36,7 @@ block content
                             #ratingWhisks
                         form(action="/")
                             input(type='hidden', name='_csrf', value=csrfToken)
-                            textarea(name="review" style= "width: 100%; height: 40em" id="review")= review.review
+                            textarea(name="review" id="review")= review.review
                             label(for="imageURL" id="imageId" data-imageId=`${review.Image.id}`) URL for an Image (Optional):
                             if review.Image.id >= 10 && review.Image.id <= 18
                                 input(type="text" id="imageURL" name="imageURL" value="")
