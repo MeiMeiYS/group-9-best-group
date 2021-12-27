@@ -6,7 +6,7 @@ const getCollectionForm = () => {
     const collectionChoices = document.getElementById('collection-choices');
     if (collectionChoices.style.display === 'none') {
         collectionChoices.style.display = 'block';
-        button.innerHTML = 'Cancel Adding'
+        button.innerHTML = 'Done Adding'
     } else {
         collectionChoices.style.display = 'none';
         button.innerHTML = 'Add To Collection'
