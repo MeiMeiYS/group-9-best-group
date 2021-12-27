@@ -62,20 +62,41 @@ block content
                 .line-divider
 
 
-            #reviews
-                include reviews.pug
-                if reviews.length
-                    p.review-header Reviews
-                    for review in reviews
-                        .review-box
-                            .review-image-container
-                                img.review-image(src=`${review.Image.url}`)
-                            .review-data
-                                p.review-rating= review.rating
-                                    span out of 5
-                                p.review-text= review.review
-                                .date-metadata
-                                    p.author= review.User.userName
-                                    p.review-date= review.createdAt.toDateString().slice(3)
+            #reviews(style= "font-family: var(--body-font);")
+                if locals.authenticated
+                    #errorsDiv
+                    #addAReview
+                        a(class='button', href='#reviews') Add a New Review
+                    #reviewFormDiv(hidden)
+                        #ratingDiv
+                            #ratingLabel
+                                p.recipe RATE THIS RECIPE
+                            #ratingWhisks
+                        form(action="/")
+                            textarea(name="review" style= "width: 100%; height: 40em" placeholder="Type your review here!" id="review")
+                            label(for="imageURL") URL for an Image (Optional):
+                            input(type="text" id="imageURL" name="imageURL")
+                            #reviewButtonsDiv
+                                button(id= "review-submit") SUBMIT
+                                button(id= "review-cancel") CANCEL
+                #allReviews
+                    if reviews.length
+                        p.review-header Reviews
+                        for review in reviews
+                            .review-box(id=`review-${review.id}`)
+                                .review-image-container
+                                    img.review-image(src=`${review.Image.url}`, id=`${review.Image.id}`)
+                                .review-data
+                                    p.review-rating= review.rating
+                                        span out of 5
+                                    p.review-text(class=`review-${review.id}`)= review.review
+                                    if user.id === review.userId
+                                        .editButtons
+                                            button(class= 'edit' id=`editreview-${review.id}`) Edit Review
+                                            button(class='delete' id=`deletereview-${review.id}`) Delete Review
+                                    .date-metadata
+                                        p.author= review.User.userName
+                                        p.review-date= review.updatedAt.toDateString().slice(3)
     script(src='/javascripts/recipe-status.js')
     script(src='/javascripts/delete-recipe.js')
+    script(src="/javascripts/api-reviews.js", type="module")
