@@ -67,6 +67,16 @@ Existing users can log in to their account by submitting their credentials via t
 <br/>
 </div>
 
+
+Logged in users can select a profile picture, or link a custom image via url
+
+<div align="center">
+<br/>
+<img src="https://i.ibb.co/dc4Pv24/profile-picture-selection.gif" alt="Select Profile Image" height="450" align="center"/>
+<br/>
+<br/>
+</div>
+
 Users may log out of their account by clicking the **LOGOUT** button on the sitewide header.
 
 <div align="center">
