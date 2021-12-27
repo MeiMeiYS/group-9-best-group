@@ -176,12 +176,21 @@ document.addEventListener("DOMContentLoaded", event => {
                 recipeId: recipe.id,
                 rating
             }
-            if (isUrl(imageURL.value)) {
-                body.imageURL = imageURL.value;
+            if (imageURL.value) {
+                if (isUrl(imageURL.value)) {
+                    body.imageURL = imageURL.value;
+                    const reviewsArray = await newReview(body);
+                    await reviewsHTML(reviewsArray);
+                    deleteButtonsEventListeners();
+                    return;
+                }
+                else { return }
             }
-            const reviewsArray = await newReview(body);
-            await reviewsHTML(reviewsArray);
-            deleteButtonsEventListeners();
+            else {
+                const reviewsArray = await newReview(body);
+                await reviewsHTML(reviewsArray);
+                deleteButtonsEventListeners();
+            }
         }
     });
 

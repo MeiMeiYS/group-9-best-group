@@ -93,7 +93,8 @@ router.get('/:id(\\d+)', csrfProtection, asyncHandler(async (req, res) => {
 
     const { name, steps, description, imageId } = recipe;
     const recipeIngredients = await RecipeIngredient.findAll({ where: { recipeId } });
-    const reviews = recipe.Reviews
+    const reviews = recipe.Reviews;
+    console.log("reviewsUSER", reviews[0].User.dataValues.userName);
 
     let averageReview = `No Reviews Posted`
     if (recipe.Reviews) {
