@@ -90,7 +90,7 @@ block content
                                     p.review-rating= review.rating
                                         span out of 5
                                     p.review-text(class=`review-${review.id}`)= review.review
-                                    if user.id === review.userId
+                                    if locals.authenticated && user.id === review.userId
                                         .editButtons
                                             button(class= 'edit' id=`editreview-${review.id}`) Edit Review
                                             button(class='delete' id=`deletereview-${review.id}`) Delete Review
