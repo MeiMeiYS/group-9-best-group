@@ -699,6 +699,7 @@ button.button{
 
 .recipes-data .recipes-container{
     display: flex;
+    flex-wrap: wrap;
 }
 
 .recipes-data h2{
