@@ -158,20 +158,79 @@ The full database schema is available to view as a [linked chart on dbdiagram.io
 Some tables, such as Roles are reserved for such as creation of an Administrator frontend, where certain users can have access to edit and delete content posted by other users. The Tags table is reserved for creation of recipe tags that a recipe creator can assign to their recipes, or for other users to include in search criteria. Tag categories are intended for the future development of tag grouping, such a *Cuisine* tag category that may have tags such as *Japanese*, *French*, or *Mediterranean*, which can useful to organize tags as the number and diversity of recipes continues to grow.
 
 ### Frontend Routes
+All frontend routes are covered in detail on the [Fronted Routes section of our project wiki](https://github.com/MeiMeiYS/group-9-best-group/wiki/Frontend-Routes). Frontend routes were designed to enable users access to basic functionality such as registration, authentication, viewing groups of recipes, accessing recipe details, and viewing profile page where users can manage their personal collections.
 
 ### API Routes
+All frontend routes are covered in detail on the [API Routes section of our project wiki](https://github.com/MeiMeiYS/group-9-best-group/wiki/Frontend-Routes). API routes were designed for users to interact with a page without being redirected.
 
 ### Developmental Challenges
+#### Considering Sitewide
 
 
 ## Future Development
+As we further develop our programming skills, we will continue to improve the maintainability and user experience of Recipeople.
+
 ### Improved User Experience
 #### Recipe Reviews and Recipe Status CRUD from Badge View
-#### Implementation of Recipe Tags
-#### Search With Filters
+
+ - Recipe badges are visible on many parts of the website, including the
+   Homepage, the Recipe page, and User pages. However, these badges
+   contain limited information, and users must click to navigate to the
+   Recipe Detail page in order to add it to a collection, change its
+   status, or add a review. In the future, the recipe badges will be
+   re-designed to allow users more functionality without requiring an
+   additional click to the Recipe Detail page.
+
+#### Sitewide Responsiveness
+
+ - The website is currently functional on all screen sizes, but is
+   styled for screens greater than 900 px in width. New smaller-scale
+   layouts will be implemented so that the user experience on mobile or
+   tablet devices is comparable to the desktop user experience.
+
 ### Improved Maintainability
+
 #### Administrator Interface
+
+ - In order for an site administrator to moderate content on the
+   website, all modifications must be done via SQL queries to a
+   centralized database. To mitigate this, a new *administrator* role
+   will be added that will enable that user to edit or delete any recipe
+   or review posted on the website.
+
 #### Normalization of Ingredient Names
+
+ - Currently, all ingredients are stored as rows on a database. If a
+   user types in a new ingredient for a recipe that is not already in
+   the database, a new ingredient is created. However, the addition of
+   new ingredients does not currently account for spelling or
+   capitalization variations. For example, Tomato, tomatoes, and tomato
+   would all be stored in the database as separate ingredients. In order
+   to support future functionality, ingredient names may undergo a
+   pattern-matching normalization process or third-party food-name API
+   validation to prevent duplicate entries within our database.
+
 ### New Features
+
+#### Detailed Recipe Features
+
+ - Currently, the description and instructions for each ingredient are
+   stored as strings. Adding additional fields such as serving size,
+   cook time, cook temperature, and individual recipe steps can
+   compartmentalize information for users, and allow for improved search
+   functionality.
+
+#### Implementation of Recipe Tags
+
+ - The database is already configured to support the addition of "Tags"
+   for each recipe. A user will be able to add, view, edit, and delete
+   tags from recipes that they have submitted, and a user can use tags
+   as search criteria to find new recipes. Once an admin role is
+   implemented, an admin will be able to add, edit and delete tags.
+
 #### Shopping Lists
-#### User-to-User Interaction
+
+ - Users will be able to generate a shopping list from a collection that
+   aggregates the ingredients from all recipes and combines them into an
+   organized list. Normalization of Ingredient Names must be completed
+   before implementation of this feature.
