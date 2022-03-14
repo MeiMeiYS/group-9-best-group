@@ -1151,8 +1151,7 @@ margin: 10px;
 .line-divider{
     border-top: var(--boxy-border);
     border-color: var(--primary-500);
-    width: 100%;
-    max-width: 600px;
+    width: 600px;
     margin: 10px auto;
 }
 
@@ -1252,7 +1251,7 @@ textarea#review{
     color: var(--neutral-700);
 }
 
-.status-container{
+.log-in-buttons .status-container{
     display: flex;
     justify-content: center;
 }

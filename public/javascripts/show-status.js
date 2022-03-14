@@ -23,7 +23,6 @@ window.addEventListener("load", (event) => {
                 .then(res => {
                     if (res.length > 0) {
                         for (let i = 0; i < res.length; i++) {
-                            console.log(res[i])
                             let recipe = res[i];
                             cookedRecipes.innerHTML += `
                             <div class="card" id="card-${recipe.recipeId}">
@@ -71,7 +70,6 @@ window.addEventListener("load", (event) => {
                 .then(res => {
                     if (res.length > 0) {
                         for (let i = 0; i < res.length; i++) {
-                            console.log(res[i])
                             let recipe = res[i];
                             willCookRecipes.innerHTML += `
                             <div class="card" id="card-${recipe.recipeId}">

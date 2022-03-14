@@ -113,18 +113,12 @@ const changeCollectionName = (target) => {
             body: JSON.stringify({ name })
         })
             .then(res => {
-                //console.log({res})
                 return res.json()
             })
             .then(data => {
-                //console.log(data)
                 let updatedCollection = data.collection;
-                console.log(updatedCollection)
-
                 if (updatedCollection) {
                     collectionArea.innerHTML = `<button class='collection-button' type='submit' onclick='editCollectionName(this)'>Edit Name</button>`;
-                    console.log(collectionArea.previousElementSibling.previousElementSibling)
-
                     collectionArea.previousElementSibling.previousElementSibling.textContent = updatedCollection.name;
                 }
             })

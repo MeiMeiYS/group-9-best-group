@@ -10,14 +10,12 @@ const fetchReviews = async (recipeId) => {
     });
     const data = await res.json()
     const reviews = data.reviews // data.reviews = array of reviews
-    console.log("reviews", reviews);
     return reviews;
 };
 
 // mapping all reviews
 const reviewsHTML = async (reviewsArray) => {
     const user = document.getElementById("userinfo");
-    console.log("user", user);
     let currUserId
     if (user) {
         currUserId = parseInt(user.dataset.userid, 10);
@@ -91,7 +89,6 @@ document.addEventListener("DOMContentLoaded", event => {
     // adding rating feature (whisks)
     const ratings = ratingFeature(recipeName);
     const user = document.getElementById("userinfo");
-    console.log("user", user);
     let userId
     if (user) {
         userId = parseInt(user.dataset.userid, 10);
@@ -191,7 +188,6 @@ async function deleteReview(bodyJS) {
         },
         body
     });
-    console.log(res.status);
     if (res.status === 200) {
         return fetchReviews(recipeId);
     }
@@ -205,7 +201,6 @@ function deleteButtonsEventListeners() {
     const user = document.getElementById("userinfo");
     const userId = parseInt(user.dataset.userid, 10);
     const recipeId = parseInt(document.querySelector("h1.recipe-name").dataset.recipeid, 10);
-    console.log("allDeleteButtons", allDeleteButtons);
     for (let i = 0; i < allDeleteButtons.length; i++) {
         allDeleteButtons[i].addEventListener("click", async (event) => {
             event.stopPropagation();

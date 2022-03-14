@@ -37,11 +37,10 @@ document.addEventListener("DOMContentLoaded", event => {
             body.rating = parseInt(document.querySelector(".rating-form:checked").value, 10);
             if (imageURL) {
                 if (isUrl(imageURL)) {
-                    body.review.Image.url = imageURL
+                    body.imageURL = imageURL
                 }
                 else { return };
             }
-            console.log("body.rating", typeof body.rating, body.rating);
             const res = await editReview(body);
             if (res.status === 200) {
                 window.location.assign(`/recipes/${recipeId}`);
@@ -74,6 +73,5 @@ async function editReview(bodyJS) {
         },
         body: body
     });
-    console.log("res)", res);
     return res;
 };
