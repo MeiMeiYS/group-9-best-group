@@ -1,52 +1,5 @@
 import { ratingFeature, getPErrors } from './element-generator.js'
-
-// error checkers
-function isUrl(string) {
-    const badURL = document.getElementById("urlBad");
-    try {
-        (Boolean(new URL(string)))
-        if (!badURL.hasAttribute("hidden")) {
-            badURL.setAttribute("hidden", "");
-            return true
-        }
-        return true
-    }
-    catch (e) {
-        badURL.removeAttribute("hidden");
-        return false;
-    }
-}
-
-function hasRating(rating) {
-    const noRating = document.getElementById("ratingBad");
-    if (rating) {
-        if (!noRating.hasAttribute("hidden")) {
-            noRating.setAttribute("hidden", "");
-            return true;
-        }
-        return true;
-    }
-    else {
-        noRating.removeAttribute("hidden");
-        return false;
-    }
-}
-
-function hasReview() {
-    const noReview = document.getElementById("reviewBad");
-    const reviewText = document.getElementById("review")
-    if (reviewText.value) {
-        if (!noReview.hasAttribute("hidden")) {
-            noReview.setAttribute("hidden", "");
-            return true;
-        }
-        return true;
-    }
-    else {
-        noReview.removeAttribute("hidden");
-        return false;
-    }
-}
+import { hasRating, isUrl, hasReview } from './review-validators.js'
 
 
 document.addEventListener("DOMContentLoaded", event => {
@@ -61,7 +14,6 @@ document.addEventListener("DOMContentLoaded", event => {
         event.preventDefault();
         event.stopPropagation();
         const review = document.getElementById("review").value;
-        const ratingValue = document.querySelector(".rating-form:checked").value;
         const imageURL = document.getElementById("imageURL").value;
         const userId = parseInt(document.getElementById("userinfo").dataset.userid, 10);
         const csrfToken = document.querySelector("input[name='_csrf']").value;
@@ -78,11 +30,11 @@ document.addEventListener("DOMContentLoaded", event => {
                 userId
             },
             recipeId,
-            rating: ratingValue,
+            rating: undefined,
             _csrf: csrfToken
         }
-        if (hasRating(ratingValue) && hasReview(review)) {
-            body.rating = parseInt(ratingValue, 10);
+        if (hasRating() && hasReview(review)) {
+            body.rating = parseInt(document.querySelector(".rating-form:checked").value, 10);
             if (imageURL) {
                 if (isUrl(imageURL)) {
                     body.imageURL = imageURL
@@ -103,6 +55,10 @@ document.addEventListener("DOMContentLoaded", event => {
         event.preventDefault();
         event.stopPropagation();
         window.location.assign(`/recipes/${recipeId}`);
+        document.getElementById("reviewBad").setAttribute("hidden", "");
+        document.getElementById("ratingBad").setAttribute("hidden", "");
+        document.getElementById("urlBad").setAttribute("hidden", "");
+
     });
 
 });

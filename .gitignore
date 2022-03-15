@@ -2,3 +2,4 @@
 .env
 node_modules
 pw-generator.js
+dpl-code-snippets.js

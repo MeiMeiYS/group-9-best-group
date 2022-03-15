@@ -1,54 +1,6 @@
 import { ratingFeature, getPErrors, editButtonsEventListeners } from './element-generator.js';
-// error checker
-function isUrl(string) {
-    const badURL = document.getElementById("urlBad");
-    try {
-        (Boolean(new URL(string)))
-        if (!badURL.hasAttribute("hidden")) {
-            badURL.setAttribute("hidden", "");
-            return true
-        }
-        return true
-    }
-    catch (e) {
-        badURL.removeAttribute("hidden");
-        return false;
-    }
-}
 
-function hasRating(rating) {
-    const noRating = document.getElementById("ratingBad");
-    if (rating) {
-        if (!noRating.hasAttribute("hidden")) {
-            noRating.setAttribute("hidden", "");
-            return true;
-        }
-        return true;
-    }
-    else {
-        noRating.removeAttribute("hidden");
-        return false;
-    }
-}
-
-function hasReview() {
-    const noReview = document.getElementById("reviewBad");
-    const reviewText = document.getElementById("review")
-    if (reviewText.value) {
-        if (!noReview.hasAttribute("hidden")) {
-            noReview.setAttribute("hidden", "");
-            return true;
-        }
-        return true;
-    }
-    else {
-        noReview.removeAttribute("hidden");
-        return false;
-    }
-}
-
-
-// getting all reviews -- need recipe Id, need userName // THIS WORKS
+// getting all reviews -- need recipe Id, need userName
 const fetchReviews = async (recipeId) => {
     const res = await fetch(`/api/reviews/recipe/${recipeId}`, {
         headers: {
@@ -159,11 +111,10 @@ document.addEventListener("DOMContentLoaded", event => {
         event.stopPropagation();
         event.preventDefault();
         //grabbing data from review form
-        const ratingValue = document.querySelector(".rating-form:checked").value;
         const imageURL = document.getElementById("imageURL");
         const reviewText = document.getElementById("review")
-        if (hasRating(ratingValue) && hasReview(reviewText.value)) {
-            const rating = parseInt(ratingValue, 10);
+        if (hasRating() && hasReview(reviewText.value)) {
+            const rating = parseInt(document.querySelector(".rating-form:checked").value, 10);
             const body = {
                 userId,
                 review: reviewText.value,
