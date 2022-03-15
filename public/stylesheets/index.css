@@ -296,7 +296,8 @@ button.button{
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    width: 1200px;
+    max-width: 1200px;
+    width: 90%;
     margin: 0 auto;
 }
 
@@ -1531,6 +1532,14 @@ h1.error-header {
 @media (max-width: 992px) {
     navbar {
         padding: 0 50px;
+    }
+
+    .cta-container{
+       display: none;
+    }
+
+    h2.hero-tagline{
+        font-size: 3vw;
     }
 
     .footer-cols{
