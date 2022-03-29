@@ -1,4 +1,5 @@
 import { ratingFeature, getPErrors, editButtonsEventListeners } from './element-generator.js';
+import { hasRating, isUrl, hasReview } from './review-validators.js'
 
 // getting all reviews -- need recipe Id, need userName
 const fetchReviews = async (recipeId) => {
